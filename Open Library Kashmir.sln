@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Open Library Kashmir", "Open Library Kashmir\Open Library Kashmir.csproj", "{867EB4CA-8DB4-43E4-81C4-DB2F883043FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{867EB4CA-8DB4-43E4-81C4-DB2F883043FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867EB4CA-8DB4-43E4-81C4-DB2F883043FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867EB4CA-8DB4-43E4-81C4-DB2F883043FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867EB4CA-8DB4-43E4-81C4-DB2F883043FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04F75AE3-D4B9-4C70-8375-F751532C315A}
+	EndGlobalSection
+EndGlobal
