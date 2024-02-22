@@ -13,9 +13,28 @@ namespace Open_Library_Kashmir
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //Enabling attribute routing 
+            routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "ImportCSV",
+                url: "Books/Import",
+                defaults: new { controller = "Books", action = "Import" }
+            );
+
+
+            //route for Account pages register and login
+            routes.MapRoute(
+                name: "Account",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { controller = "Account" }
+            );
+
+            //route for all pages
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                url: "{action}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }

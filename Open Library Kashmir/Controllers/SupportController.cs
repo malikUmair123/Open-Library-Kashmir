@@ -6,9 +6,13 @@ using System.Web.Mvc;
 
 namespace Open_Library_Kashmir.Controllers
 {
-    public class HomeController : Controller
+    public class SupportController : Controller
     {
-        public ActionResult Index()
+        // GET: Support
+
+        [Route("Support")]
+
+        public ActionResult Support()
         {
             return View();
         }
