@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Import Books from CSV";
+}
+<script>
+    const form = document.querySelector("form");
+    const fileInput = document.getElementById("csvFile");
+
+    form.addEventListener("submit", function(event) {
+        if (fileInput.files.length === 0) {
+            alert("Please select a CSV file to import.");
+            event.preventDefault(); // Prevent empty form submission
+        }
+    });
+</script>
+
+<h2>Import Books</h2>
+
+@using (Html.BeginForm("Import", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="csvFile" id="csvFile" />
+    <button type="submit">Import</button>
+}

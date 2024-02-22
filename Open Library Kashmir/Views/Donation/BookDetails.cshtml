@@ -1,0 +1,38 @@
+﻿@model Open_Library_Kashmir.Models.Book
+
+@{
+    ViewBag.Title = "Book Details";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="http://lgimages.s3.amazonaws.com/gc-md.gif" class="img-thumbnail" alt="Book Image">
+            </div>
+            <div class="col-md-8">
+                <h2>@Model.title</h2>
+                <p>@Html.DisplayNameFor(model => model.author): @Html.DisplayFor(model => model.author, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.isbn): @Html.DisplayFor(model => model.isbn, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.genre): @Html.DisplayFor(model => model.genre, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.condition): @Html.DisplayFor(model => model.condition, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.publication_year): @Html.DisplayFor(model => model.publication_year, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.publisher): @Html.DisplayFor(model => model.publisher, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.@class): @Html.DisplayFor(model => model.@class, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.subject): @Html.DisplayFor(model => model.subject, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.status): @Html.DisplayFor(model => model.status, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.available_at): @Html.DisplayFor(model => model.available_at, new { @class = "text-muted" })</p>
+                <p>@Html.DisplayNameFor(model => model.short_description): @Html.DisplayFor(model => model.short_description, new { @class = "text-muted" })</p>
+                <hr>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        @Html.ActionLink("« Back to Book List", "Donation", null, new { style = "color: white;" })
+                    </button>
+                    <button type="submit" class="btn btn-primary">Add to Wishlist &raquo</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
