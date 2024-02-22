@@ -21,20 +21,20 @@ namespace Open_Library_Kashmir.Models
             this.Donations = new HashSet<Donation>();
         }
     
-        public int book_id { get; set; }
-        public string title { get; set; }
-        public string author { get; set; }
-        public string isbn { get; set; }
-        public string genre { get; set; }
-        public string condition { get; set; }
-        public Nullable<int> publication_year { get; set; }
-        public string short_description { get; set; }
-        public string @class { get; set; }
-        public string subject { get; set; }
-        public string publisher { get; set; }
-        public byte[] book_image { get; set; }
-        public string status { get; set; }
-        public string available_at { get; set; }
+        public int Book_ID { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Publisher { get; set; }
+        public Nullable<int> Publication_Year { get; set; }
+        public string Condition { get; set; }
+        public string Class { get; set; }
+        public string Genre { get; set; }
+        public string Subject { get; set; }
+        public string ISBN { get; set; }
+        public string Image_Path { get; set; }
+        public string Short_Description { get; set; }
+        public string Status { get; set; }
+        public string Available_At { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Distribution> Distributions { get; set; }

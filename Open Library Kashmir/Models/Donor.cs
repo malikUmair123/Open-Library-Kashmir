@@ -20,14 +20,14 @@ namespace Open_Library_Kashmir.Models
             this.Donations = new HashSet<Donation>();
         }
     
-        public int donor_id { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string contact_email { get; set; }
-        public string contact_phone { get; set; }
-        public string address { get; set; }
-        public byte[] aadhar_card { get; set; }
-        public string remarks { get; set; }
+        public int Donor_ID { get; set; }
+        public string First_Name { get; set; }
+        public string Last_Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string Aadhar_Card_Path { get; set; }
+        public string Remarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Donation> Donations { get; set; }

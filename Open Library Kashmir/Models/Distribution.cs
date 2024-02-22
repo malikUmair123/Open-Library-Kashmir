@@ -14,10 +14,10 @@ namespace Open_Library_Kashmir.Models
     
     public partial class Distribution
     {
-        public int distribution_id { get; set; }
-        public int book_id { get; set; }
-        public int recipient_id { get; set; }
-        public System.DateTime date_distributed { get; set; }
+        public int Distribution_ID { get; set; }
+        public int Book_ID { get; set; }
+        public int Recipient_ID { get; set; }
+        public System.DateTime Date_Distributed { get; set; }
     
         public virtual Book Book { get; set; }
         public virtual Recipient Recipient { get; set; }
