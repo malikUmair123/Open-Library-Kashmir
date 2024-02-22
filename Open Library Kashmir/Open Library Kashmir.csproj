@@ -233,36 +233,36 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs">
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BookDonationDataModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookDonationDataModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BookDonationDataModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BookDonationDataModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Distribution.cs">
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Donation.cs">
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DonationDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DonationDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DonationDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DonationDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DonationDataModel.edmx</DependentUpon>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Donor.cs">
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Recipient.cs">
-      <DependentUpon>DonationDataModel.tt</DependentUpon>
+      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -287,15 +287,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\DonationDataModel.Context.tt">
+    <Content Include="Models\BookDonationDataModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DonationDataModel.edmx</DependentUpon>
-      <LastGenOutput>DonationDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
+      <LastGenOutput>BookDonationDataModels.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\DonationDataModel.tt">
+    <Content Include="Models\BookDonationDataModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DonationDataModel.edmx</DependentUpon>
-      <LastGenOutput>DonationDataModel.cs</LastGenOutput>
+      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
+      <LastGenOutput>BookDonationDataModels.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -303,12 +303,12 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\DonationDataModel.edmx">
+    <EntityDeploy Include="Models\BookDonationDataModels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DonationDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookDonationDataModels.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\DonationDataModel.edmx.diagram">
-      <DependentUpon>DonationDataModel.edmx</DependentUpon>
+    <Content Include="Models\BookDonationDataModels.edmx.diagram">
+      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

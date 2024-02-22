@@ -2,6 +2,69 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    .book {
+        width: 250px;
+        height: 350px;
+        perspective: 800px;
+    }
+
+.cover {
+        background - color: #964B00;
+        background - image: linear - gradient(to right, rgba(0, 0, 0, 0.2) 0 %, rgba(0, 0, 0, 0) 100 %);
+        width: 220px;
+        height: 350px;
+        position: absolute;
+        transform - style: preserve - 3d;
+        transition: transform 0.8s;
+    }
+
+.cover:hover {
+        transform: rotateY(15deg);
+    }
+
+.title {
+        font - size: 26px;
+        text - align: center;
+        margin - top: 100px;
+        color: #fff;
+        text - shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    }
+
+.author {
+        font - size: 18px;
+        text - align: center;
+        margin - top: 20px;
+        color: #fff;
+    }
+
+.spine {
+        background - color: #733400;
+        width: 30px;
+        height: 350px;
+        position: absolute;
+        left: 220px;
+    }
+
+.pages {
+        background - color: #f0f0f0;
+        width: 220px;
+        height: 350px;
+        position: absolute;
+        left: 30px;
+        transform: translateZ(-1px);
+    }
+</style>
+
+    <figure class="book">
+        <figcaption class="cover">
+            <h1 class="title">The Wonderful Adventure</h1>
+            <p class="author">By Emily Parker</p>
+        </figcaption>
+        <div class="spine"></div>
+        <div class="pages"></div>
+    </figure>
+
 <main>
     <section class="row" aria-labelledby="aspnetTitle">
         <h1 id="title">ASP.NET</h1>

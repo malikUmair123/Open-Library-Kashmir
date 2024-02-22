@@ -29,7 +29,7 @@ namespace Open_Library_Kashmir.Controllers
         [Route("BookDetails/{id}")]
         public ActionResult BookDetails(int id)
         {
-            Book book = _context.Books.FirstOrDefault(x => x.book_id == id);
+            Book book = _context.Books.FirstOrDefault(x => x.Book_ID == id);
             return View(book);
         }
     }

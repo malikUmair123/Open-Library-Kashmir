@@ -20,19 +20,19 @@
 <table class="table">
     <tr>
         <th class="title-col">
-            @Html.DisplayNameFor(model => model.title)
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th class="author-col">
-            @Html.DisplayNameFor(model => model.author)
+            @Html.DisplayNameFor(model => model.Author)
         </th>
         <th class="class-col">
-            @Html.DisplayNameFor(model => model.@class)
+            @Html.DisplayNameFor(model => model.@Class)
         </th>
         <th class="subject-col">
-            @Html.DisplayNameFor(model => model.subject)
+            @Html.DisplayNameFor(model => model.Subject)
         </th>
         <th class="status-col">
-            @Html.DisplayNameFor(model => model.status)
+            @Html.DisplayNameFor(model => model.Status)
         </th>
     </tr>
 
@@ -40,19 +40,19 @@
     {
         <tr>
             <td class="title-col">
-                @Html.ActionLink(item.title, "BookDetails", new { id = item.book_id })
+                @Html.ActionLink(item.Title, "BookDetails", new { id = item.Book_ID })
             </td>
             <td class="author-col">
-                @Html.DisplayFor(modelItem => item.author)
+                @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td class="class-col">
-                @Html.DisplayFor(modelItem => item.@class)
+                @Html.DisplayFor(modelItem => item.@Class)
             </td>
             <td class="subject-col">
-                @Html.DisplayFor(modelItem => item.subject)
+                @Html.DisplayFor(modelItem => item.Subject)
             </td>
-            <td class="status-col" style="color: @(item.status == "available" ? "green" : item.status == "donated" ? "red" : "inherit")">
-                @Html.DisplayFor(modelItem => item.status)
+            <td class="status-col" style="color: @(item.Status == "available" ? "green" : item.Status == "donated" ? "red" : "inherit")">
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
         </tr>
     }
