@@ -11,7 +11,8 @@ namespace Open_Library_Kashmir.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Donor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,13 +20,20 @@ namespace Open_Library_Kashmir.Models
         {
             this.Donations = new HashSet<Donation>();
         }
-    
+
+        [Display(Name = "Donor ID")]
         public int Donor_ID { get; set; }
+
+        [Display(Name = "First Name")]
         public string First_Name { get; set; }
+
+        [Display(Name = "Last Name")]
         public string Last_Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+
+        [Display(Name = "Aadhar Card Path")]
         public string Aadhar_Card_Path { get; set; }
         public string Remarks { get; set; }
     

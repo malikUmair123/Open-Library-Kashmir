@@ -11,12 +11,20 @@ namespace Open_Library_Kashmir.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Donation
     {
+        [Display(Name = "Donation ID")]
         public int Donation_ID { get; set; }
+
+        [Display(Name = "Book ID")]
         public int Book_ID { get; set; }
+
+        [Display(Name = "Donor ID")]
         public int Donor_ID { get; set; }
+
+        [Display(Name = "Date Donated")]
         public System.DateTime Date_Donated { get; set; }
     
         public virtual Book Book { get; set; }
