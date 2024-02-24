@@ -31,7 +31,8 @@ namespace Open_Library_Kashmir.Models
 
         [Display(Name = "Publication Year")]
 
-        [Range(1000, 9999, ErrorMessage = "Please enter a valid year between 1000 and 9999.")]
+        [UIHint("yyyy")]
+        [Range(minimum: 1000, maximum: 2100, ErrorMessage = "Please enter a valid year between 1000 and 9999.")]
         public Nullable<int> Publication_Year { get; set; }
         public string Condition { get; set; }
         public string Class { get; set; }
