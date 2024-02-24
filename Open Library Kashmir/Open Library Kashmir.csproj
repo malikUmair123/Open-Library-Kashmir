@@ -225,6 +225,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DonationController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
@@ -261,6 +262,7 @@
       <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LogCustomExceptionFilter.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Recipient.cs">
       <DependentUpon>BookDonationDataModels.tt</DependentUpon>
@@ -288,6 +290,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Log\Log.txt" />
     <Content Include="Models\BookDonationDataModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
@@ -361,6 +364,11 @@
     <Content Include="Views\Books\Import.cshtml" />
     <Content Include="Views\Donation\BookDetails.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\OpenInNewWindow.cshtml" />
+    <Content Include="Views\Shared\NullReference.cshtml" />
+    <Content Include="Views\Error\PageNotFoundError.cshtml" />
+    <Content Include="Views\Error\UnauthorizedError.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Error\GenericError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
