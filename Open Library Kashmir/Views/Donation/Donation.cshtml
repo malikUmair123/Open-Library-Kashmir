@@ -51,7 +51,7 @@
             <td class="subject-col">
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
-            <td class="status-col" style="color: @(item.Status == "available" ? "green" : item.Status == "donated" ? "red" : "inherit")">
+            <td class="status-col" style="color: @(item.Status == "Available" ? "green" : item.Status == "Donated" ? "red" : "inherit")">
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
         </tr>

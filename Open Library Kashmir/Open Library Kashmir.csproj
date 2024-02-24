@@ -228,6 +228,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
+    <Compile Include="CustomHelpers\CustomHelpers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -359,9 +360,11 @@
     <Content Include="Views\Support\Support.cshtml" />
     <Content Include="Views\Books\Import.cshtml" />
     <Content Include="Views\Donation\BookDetails.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\OpenInNewWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

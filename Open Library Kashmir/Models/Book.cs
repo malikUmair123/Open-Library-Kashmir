@@ -23,11 +23,15 @@ namespace Open_Library_Kashmir.Models
         }
     
         public int Book_ID { get; set; }
+
+        [UIHint("OpenInNewWindow")]
         public string Title { get; set; }
         public string Author { get; set; }
         public string Publisher { get; set; }
 
         [Display(Name = "Publication Year")]
+
+        [Range(1000, 9999, ErrorMessage = "Please enter a valid year between 1000 and 9999.")]
         public Nullable<int> Publication_Year { get; set; }
         public string Condition { get; set; }
         public string Class { get; set; }
