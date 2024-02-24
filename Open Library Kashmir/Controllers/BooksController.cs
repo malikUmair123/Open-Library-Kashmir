@@ -58,6 +58,7 @@ namespace Open_Library_Kashmir.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [NonAction]
         private Book CreateBookFromCsvLine(string[] values)
         {
             return new Book
