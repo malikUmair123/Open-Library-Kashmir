@@ -262,6 +262,7 @@
       <DependentUpon>BookDonationDataModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LogCustomActionFilter.cs" />
     <Compile Include="Models\LogCustomExceptionFilter.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Recipient.cs">
@@ -287,10 +288,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Images\book_cover_na.jpeg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Log\Log.txt" />
+    <Content Include="Log\LogActions.txt" />
+    <Content Include="Log\LogExceptions.txt" />
     <Content Include="Models\BookDonationDataModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookDonationDataModels.edmx</DependentUpon>

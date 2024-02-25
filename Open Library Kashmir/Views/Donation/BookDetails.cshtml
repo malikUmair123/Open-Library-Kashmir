@@ -1,5 +1,7 @@
 ﻿@model Open_Library_Kashmir.Models.Book
 
+@using Open_Library_Kashmir.CustomHelpers
+
 @{
     ViewBag.Title = "Book Details";
 }
@@ -9,7 +11,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <img src="http://lgimages.s3.amazonaws.com/gc-md.gif" class="img-thumbnail" alt="Book Image">
+                @Html.Image(Model.Image_Path, "Book Image Not Available")
+                @*<img src="@Url.Content(@Model.Image_Path)" alt="Book Image Not Available" />*@
+                @*<img src="http://lgimages.s3.amazonaws.com/gc-md.gif" class="img-thumbnail" alt="Book Image Not Available">*@
             </div>
             <div class="col-md-8">
                 <h2>@Model.Title</h2>
