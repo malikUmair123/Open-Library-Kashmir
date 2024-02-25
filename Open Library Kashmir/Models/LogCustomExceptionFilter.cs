@@ -24,7 +24,7 @@ namespace Open_Library_Kashmir.Models
 
                 //saving the data in a text file called Log.txt
 
-                File.AppendAllText(HttpContext.Current.Server.MapPath("~/Log/Log.txt"), Message);
+                File.AppendAllText(HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt"), Message);
 
                 filterContext.ExceptionHandled = true;
                 filterContext.Result = new ViewResult()

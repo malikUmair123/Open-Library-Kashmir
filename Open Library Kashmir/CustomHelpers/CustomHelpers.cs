@@ -11,9 +11,16 @@ namespace Open_Library_Kashmir.CustomHelpers
         public static IHtmlString Image(this HtmlHelper htmlHelper, string src, string alt)
         {
             TagBuilder imgTag = new TagBuilder("img");
-            imgTag.Attributes.Add("src", VirtualPathUtility.ToAbsolute(src));
-            imgTag.Attributes.Add("alt", alt);
+            if (!string.IsNullOrEmpty(src))
+            {
+                imgTag.Attributes.Add("src", VirtualPathUtility.ToAbsolute(src));
 
+            } else
+            {
+                imgTag.Attributes.Add("src", VirtualPathUtility.ToAbsolute("~/Content/Images/book_cover_na.jpeg"));
+
+            }
+            imgTag.Attributes.Add("alt", alt);
             return new MvcHtmlString(imgTag.ToString(TagRenderMode.SelfClosing));
 
         }
