@@ -230,9 +230,16 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
     <Compile Include="CustomHelpers\CustomHelpers.cs" />
+    <Compile Include="Filters\CustomAuthenticationFilter.cs" />
+    <Compile Include="Filters\CustomAuthorizationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202402251238476_202402251807_RemoveTestColumnsFromAspNetUsersTable.cs" />
+    <Compile Include="Migrations\202402251238476_202402251807_RemoveTestColumnsFromAspNetUsersTable.designer.cs">
+      <DependentUpon>202402251238476_202402251807_RemoveTestColumnsFromAspNetUsersTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs">
       <DependentUpon>BookDonationDataModels.tt</DependentUpon>
@@ -406,6 +413,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202402251238476_202402251807_RemoveTestColumnsFromAspNetUsersTable.resx">
+      <DependentUpon>202402251238476_202402251807_RemoveTestColumnsFromAspNetUsersTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
