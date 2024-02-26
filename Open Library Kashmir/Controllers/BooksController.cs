@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using Microsoft.AspNetCore.Http;
+using Open_Library_Kashmir.Filters;
 using Open_Library_Kashmir.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ using System.Web.Mvc;
 
 namespace Open_Library_Kashmir.Controllers
 {
+    //[CustomAuthenticationFilter]
+    //[CustomAuthorizationFilter]
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly BookDonationDBContext _context;
@@ -22,9 +26,13 @@ namespace Open_Library_Kashmir.Controllers
             _context = new BookDonationDBContext();
         }
 
-        // GET: Books/Import
+        
+        
         [HttpGet]
         [Route("Books/Import")]
+        //[OverrideAuthentication]
+        //[OverrideAuthorization]
+        [AllowAnonymous]
         public ActionResult Import()
         {
             return View();
