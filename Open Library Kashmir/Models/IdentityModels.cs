@@ -29,6 +29,28 @@ namespace Open_Library_Kashmir.Models
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //Instead of Writing the Schema in Each ToTable Method we can configure the same
+            //Configure default schema as dbo
+            modelBuilder.HasDefaultSchema("dbo");
+
+            //Now Comment the below Statements
+            //modelBuilder.Entity<ApplicationUser>().ToTable("User", "dbo");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Role", "dbo");
+            //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "dbo");
+            //modelBuilder.Entity<IdentityUserClaim>().ToTable("Claim", "dbo");
+            //modelBuilder.Entity<IdentityUserLogin>().ToTable("Login", "dbo");
+
+            //Use the below Statements
+            modelBuilder.Entity<ApplicationUser>().ToTable("User");
+            modelBuilder.Entity<IdentityRole>().ToTable("Role");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("Claim");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("Login");
+        }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
