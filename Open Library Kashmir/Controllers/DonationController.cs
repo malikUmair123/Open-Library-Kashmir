@@ -8,6 +8,7 @@ using System.Web.Routing;
 
 namespace Open_Library_Kashmir.Controllers
 {
+    [RequireHttps]
     [LogCustomActionFilter]
     [HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReference")]
     public class DonationController : Controller

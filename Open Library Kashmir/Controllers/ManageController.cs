@@ -11,6 +11,7 @@ using Open_Library_Kashmir.Models;
 namespace Open_Library_Kashmir.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
