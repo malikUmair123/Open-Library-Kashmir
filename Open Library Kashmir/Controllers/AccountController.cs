@@ -13,6 +13,7 @@ using Open_Library_Kashmir.Models;
 namespace Open_Library_Kashmir.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -135,6 +136,14 @@ namespace Open_Library_Kashmir.Controllers
         }
 
         //
+        // GET: /Account/UserDetails...Probably have to move to manage controller
+        [AllowAnonymous]
+        public ActionResult UserDetails()
+        {
+            return View();
+        }
+
+        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -170,6 +179,99 @@ namespace Open_Library_Kashmir.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        // GET: /Home/UpdateUser
+        [HttpGet]
+        public ActionResult UpdateUser(string UserId)
+        {
+            //Creating an Instance of EditUserViewModel
+            EditUserViewModel model = new EditUserViewModel();
+
+            //Create an instance of ApplicationUserManager class as we want to fetch the user details
+            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            //Fetch the User Details by UserId using the FindById method
+            ApplicationUser UserToEdit = UserManager.FindById(UserId);
+
+            //If the user exists then map the data to EditUserViewModel properties
+            if (UserToEdit != null)
+            {
+                model.UserId = UserToEdit.Id;
+                model.FirstName = UserToEdit.FirstName;
+                model.LastName = UserToEdit.LastName;
+                model.Email = UserToEdit.Email;
+                model.PhoneNumber = UserToEdit.PhoneNumber;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Create an instance of ApplicationUserManager class as we want to fetch the user details
+                //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                //Fetch the User Details by UserId using the FindById method
+                ApplicationUser UserToEdit = UserManager.FindById(model.UserId);
+
+                if (UserToEdit.UserName != model.Email)
+                    UserToEdit.UserName = model.Email;
+
+                if (UserToEdit.FirstName != model.FirstName)
+                    UserToEdit.FirstName = model.FirstName;
+
+                if (UserToEdit.LastName != model.LastName)
+                    UserToEdit.LastName = model.LastName;
+
+                if (UserToEdit.Email != model.Email)
+                    UserToEdit.Email = model.Email;
+
+                if (UserToEdit.PhoneNumber != model.PhoneNumber)
+                    UserToEdit.PhoneNumber = model.PhoneNumber;
+
+                //Call the Update method to Update the User data
+                IdentityResult result = UserManager.Update(UserToEdit);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (string error in result.Errors)
+                    ModelState.AddModelError("", error);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(string UserId)
+        {
+            //Create an Instance of ApplicationUserManager who is responsible for doing user-related operations
+            //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            //Find the user to Delete by using FindById Method
+            ApplicationUser UserToDelete = UserManager.FindById(UserId);
+
+            //If the User Exists Then Delete the User
+            if (UserToDelete != null)
+            {
+                //Delete the User by using Delete method of ApplicationUserManager Insance
+                IdentityResult result = UserManager.Delete(UserToDelete);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (string error in result.Errors)
+                    ModelState.AddModelError("", error);
+
+                return View(UserId);
+            }
+
+            return HttpNotFound();
         }
 
         //

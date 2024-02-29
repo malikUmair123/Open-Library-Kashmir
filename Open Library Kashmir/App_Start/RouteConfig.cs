@@ -31,6 +31,14 @@ namespace Open_Library_Kashmir
                 constraints: new { controller = "Account" }
             );
 
+            //route for Manage pages
+            routes.MapRoute(
+                name: "Manage",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { controller = "Manage" }
+            );
+
             //route for all pages
             routes.MapRoute(
                 name: "Default",

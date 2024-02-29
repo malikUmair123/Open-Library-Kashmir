@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Open_Library_Kashmir.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
