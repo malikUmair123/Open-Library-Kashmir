@@ -137,4 +137,25 @@ namespace Open_Library_Kashmir.Models
         public string PhoneNumber { get; set; }
     }
 
+    public class RegisterRoleViewModel
+    {
+        [Display(Name = "Role Name")]
+        [Required]
+        public string RoleName { get; set; }
+    }
+
+    public class EditRoleViewModel
+    {
+        [Required]
+        public string RoleId { get; set; }
+        [Display(Name = "Role name")]
+        [Required]
+        public string RoleName { get; set; }
+    }
+
+    public class DeleteRoleViewModel
+    {
+        [Required]
+        public string RoleId { get; set; }
+    }
 }

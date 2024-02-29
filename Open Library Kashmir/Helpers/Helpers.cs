@@ -7,9 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Open_Library_Kashmir.CustomHelpers
+namespace Open_Library_Kashmir.Helpers
 {
-    public static class CustomHelpers
+    public static class Helpers
     {
         public static IHtmlString Image(this HtmlHelper htmlHelper, string src, string alt)
         {
@@ -62,11 +62,18 @@ namespace Open_Library_Kashmir.CustomHelpers
                 status = true;
                 return status;
             }
-            catch (Exception e)
+            catch
             {
                 return status;
             }
         }
 
+    }
+
+    public enum Role
+    {
+        SUPERADMIN = 1,
+        ADMIN = 2,
+        USER = 3,
     }
 }

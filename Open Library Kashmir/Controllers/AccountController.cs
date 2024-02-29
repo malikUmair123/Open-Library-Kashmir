@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
-using Open_Library_Kashmir.CustomHelpers;
+using Open_Library_Kashmir.Helpers;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -179,7 +179,7 @@ namespace Open_Library_Kashmir.Controllers
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                    
                     //Smtp...gmail implementation
-                    bool IsSendEmail = CustomHelpers.CustomHelpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
+                    bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
                     
                     if (IsSendEmail)
                     {
@@ -340,7 +340,7 @@ namespace Open_Library_Kashmir.Controllers
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
                 //Send email in a seperate function
-                bool IsSendEmail = CustomHelpers.CustomHelpers.EmailSend(model.Email, "Reset Your Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
+                bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Reset Your Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
                
                 if (IsSendEmail)
                 {
