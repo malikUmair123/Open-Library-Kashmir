@@ -23,8 +23,25 @@ namespace Open_Library_Kashmir.Models
                                 + Environment.NewLine + "Stack Trace : " + stackTrace;
 
                 //saving the data in a text file called Log.txt
+                // Path to the log file
+                string logFilePath = HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt");
 
-                File.AppendAllText(HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt"), Message);
+                // Check if the file exists
+                if (!File.Exists(logFilePath))
+                {
+                    // If the file doesn't exist, create it
+                    using (FileStream fs = File.Create(logFilePath))
+                    {
+                        // File created, close the stream
+                        fs.Close();
+                    }
+                }
+
+                // Append text to the log file
+                File.AppendAllText(logFilePath, Message);
+
+               //this doesn't check if the file exists
+               //File.AppendAllText(HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt"), Message);
 
                 filterContext.ExceptionHandled = true;
                 filterContext.Result = new ViewResult()

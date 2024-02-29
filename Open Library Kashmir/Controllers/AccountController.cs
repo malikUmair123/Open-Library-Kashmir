@@ -171,8 +171,14 @@ namespace Open_Library_Kashmir.Controllers
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //sms test
+                    //await UserManager.SendSmsAsync(user.PhoneNumber, callbackUrl);
+
+                    //SendGrid impplementation...see Identityconfig Emailservice
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                    
+                    //Smtp...gmail implementation
                     bool IsSendEmail = CustomHelpers.CustomHelpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
                     
                     if (IsSendEmail)
