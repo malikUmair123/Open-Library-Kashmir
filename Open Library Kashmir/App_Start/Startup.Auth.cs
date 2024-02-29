@@ -33,7 +33,10 @@ namespace Open_Library_Kashmir
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+                },
+
+                //setting lifespan of authentication cookie to 30 days
+                ExpireTimeSpan = TimeSpan.FromDays(30)
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

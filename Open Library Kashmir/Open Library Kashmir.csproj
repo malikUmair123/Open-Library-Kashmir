@@ -382,6 +382,7 @@
     <Content Include="Views\Error\UnauthorizedError.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\GenericError.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
