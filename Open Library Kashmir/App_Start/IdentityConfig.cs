@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,24 +13,57 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace Open_Library_Kashmir
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        //public Task SendAsync(IdentityMessage message)
+        //{
+
+        //    // Plug in your email service here to send an email.
+        //    return Task.FromResult(0);
+        //}
+
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var apiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(ConfigurationManager.AppSettings["MailFrom"], "Open Library Kashmir");
+            var to = new EmailAddress(message.Destination);
+            var subject = message.Subject;
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body; // If you have HTML content
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            await client.SendEmailAsync(msg);
         }
     }
 
     public class SmsService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        //public Task SendAsync(IdentityMessage message)
+        //{
+        //    // Plug in your SMS service here to send a text message.
+        //    return Task.FromResult(0);
+        //}
+
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
+            var accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
+            var authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
+            var fromNumber = ConfigurationManager.AppSettings["TwilioPhoneNumber"]; // Your Twilio number
+
+            TwilioClient.Init(accountSid, authToken);
+
+            await MessageResource.CreateAsync(
+                body: message.Body,
+                from: new Twilio.Types.PhoneNumber(fromNumber),
+                to: new Twilio.Types.PhoneNumber(message.Destination)
+            );
         }
     }
 
