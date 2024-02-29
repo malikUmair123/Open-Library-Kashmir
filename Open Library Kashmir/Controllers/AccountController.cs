@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
+using Open_Library_Kashmir.CustomHelpers;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -168,10 +169,16 @@ namespace Open_Library_Kashmir.Controllers
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                   
+                    bool IsSendEmail = CustomHelpers.CustomHelpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
+                    
+                    if (IsSendEmail)
+                    {
+                        return RedirectToAction("ConfirmEmailConfirmation");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -262,7 +269,7 @@ namespace Open_Library_Kashmir.Controllers
                 IdentityResult result = UserManager.Delete(UserToDelete);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return LogOff();
                 }
 
                 foreach (string error in result.Errors)
@@ -285,6 +292,14 @@ namespace Open_Library_Kashmir.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        //
+        // GET: /Account/ConfirmEmailConfirmation
+        [AllowAnonymous]
+        public ActionResult ConfirmEmailConfirmation()
+        {
+            return View();
         }
 
         //
@@ -313,10 +328,18 @@ namespace Open_Library_Kashmir.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                //Send email in a seperate function
+                bool IsSendEmail = CustomHelpers.CustomHelpers.EmailSend(model.Email, "Reset Your Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
+               
+                if (IsSendEmail)
+                {
+                    return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                }
             }
 
             // If we got this far, something failed, redisplay form
