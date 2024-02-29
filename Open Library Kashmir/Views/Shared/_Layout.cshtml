@@ -28,7 +28,10 @@
                     <li>@Html.ActionLink("Books", "Import", "Books", new { area = "" }, new { @class = "nav-link" })</li>
 
                 </ul>
-                 @Html.Partial("_LoginPartial")
+                @*@Html.Partial("_LoginPartial")*@
+                <a href="@Url.Action("UserDetails", "Account")" class="navbar-brand">
+                    <img src="~/Content/Images/user_simple_color.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
+                </a>
             </div>
         </div>
     </nav>
