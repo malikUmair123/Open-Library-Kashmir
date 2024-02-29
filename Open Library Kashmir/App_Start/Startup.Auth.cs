@@ -58,11 +58,11 @@ namespace Open_Library_Kashmir
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1050014707727-1ut89l2kqdu73sdf3gi4vhjvuupqiq3u.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
         }
     }
 }
