@@ -1,0 +1,33 @@
+﻿﻿@model IEnumerable<Open_Library_Kashmir.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Name")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "UsersAdmin", routeValues: new { id = item.Id }, htmlAttributes: new { title = "Edit" }) |
+                @Html.ActionLink("Details", "Details", "UsersAdmin", routeValues: new { id = item.Id }, htmlAttributes: new { title = "Detals" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

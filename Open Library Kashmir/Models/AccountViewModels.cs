@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Open_Library_Kashmir.Models
@@ -71,10 +72,22 @@ namespace Open_Library_Kashmir.Models
 
     public class RegisterViewModel
     {
+        public string UserId { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Email")]
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "Phone Number")]
+        [Phone]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -137,6 +150,26 @@ namespace Open_Library_Kashmir.Models
         public string PhoneNumber { get; set; }
     }
 
+    public class UserDetailsViewModel
+    {
+        public ApplicationUser User { get; set; }
+        public IEnumerable<string> Roles { get; set; }
+    }
+
+    public class RoleDetailsViewModel
+    {
+        public IdentityRole Role { get; set; }
+        public IEnumerable<ApplicationUser> Users { get; set; }
+
+    }
+
+    public class RoleViewModel
+    {
+        public string Id { get; set; }
+        [Required]
+        [Display(Name = "RoleName")]
+        public string Name { get; set; }
+    }
     public class RegisterRoleViewModel
     {
         [Display(Name = "Role Name")]
@@ -144,18 +177,4 @@ namespace Open_Library_Kashmir.Models
         public string RoleName { get; set; }
     }
 
-    public class EditRoleViewModel
-    {
-        [Required]
-        public string RoleId { get; set; }
-        [Display(Name = "Role name")]
-        [Required]
-        public string RoleName { get; set; }
-    }
-
-    public class DeleteRoleViewModel
-    {
-        [Required]
-        public string RoleId { get; set; }
-    }
 }

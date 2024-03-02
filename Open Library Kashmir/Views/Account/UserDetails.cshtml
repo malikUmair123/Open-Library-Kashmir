@@ -6,62 +6,68 @@
 
 <!DOCTYPE html>
 
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>UserDetails</title>
-    </head>
-    <body>
-        <main>
-            <section class="row" aria-labelledby="aspnetTitle">
-                <h1 id="title">User Info...</h1>
-            </section>
-            <hr>
-            <section>
-                @if (Request.IsAuthenticated)
-                {
-                    <section class="row" aria-labelledby="aspnetTitle">
-                        <h1 id="title">Hello  @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "btn btn-outline-dark" })! </h1>
-                    </section>
-
-                    <ul>
-                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <li>
-                                <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-                            </li>
-                        }
-                        <li>
-                            @Html.ActionLink("Update User", "UpdateUser", "Account", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-                        </li>
-                        @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post, new { id = "deleteUser" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("UserId", User.Identity.GetUserId())
-                            <li>
-                                <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Delete User</a>
-                            </li>
-                        }
-                        <li>
-                            @Html.ActionLink("Manage Other Settings", "Index", "Manage")
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <ul>
-                        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })</li>
-                        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", title = "Login", @class = "btn btn-outline-dark" })</li>
-                    </ul>
-                }
-            </section>
-        </main>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserDetails</title>
+</head>
+<body>
+    <main>
+        <section class="row" aria-labelledby="aspnetTitle">
+            <h1 id="title">User Info...</h1>
+        </section>
         <hr>
-        <footer>
-            <div>
-                @Html.ActionLink("Go to Home", "Index", "Home")
-            </div>
-        </footer>
-    </body>
-    </html>
+        <section>
+            @if (Request.IsAuthenticated)
+            {
+                <section class="row" aria-labelledby="aspnetTitle">
+                    <h1 id="title">Hello  @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "btn btn-outline-dark" })! </h1>
+                </section>
+
+                <ul>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <li>
+                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        </li>
+                    }
+                    <li>
+                        @Html.ActionLink("Update User", "UpdateUser", "Account", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
+                    </li>
+                    @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post, new { id = "deleteUser" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("UserId", User.Identity.GetUserId())
+                        <li>
+                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Delete User</a>
+                        </li>
+                    }
+                    <li>
+                        @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Manage Users", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Manage Other Settings", "Index", "Manage", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul>
+                    <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })</li>
+                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", title = "Login", @class = "btn btn-outline-dark" })</li>
+                </ul>
+            }
+        </section>
+    </main>
+    <hr>
+    <footer>
+        <div>
+            @Html.ActionLink("Go to Home", "Index", "Home")
+        </div>
+    </footer>
+</body>
+</html>

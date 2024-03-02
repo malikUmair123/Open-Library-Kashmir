@@ -1,0 +1,69 @@
+﻿﻿@model Open_Library_Kashmir.Models.UserDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+<h4>List Of Roles</h4>
+<table class="table table-striped">
+
+    @foreach (var rolename in Model.Roles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => rolename)
+            </td>
+        </tr>
+    }
+</table>
+
+<h4>List Of Logins</h4>
+<table class="table table-striped">
+
+    @foreach (var item in Model.User.Logins)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoginProvider)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.User.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
