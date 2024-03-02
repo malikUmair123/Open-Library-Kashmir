@@ -201,9 +201,6 @@ namespace Open_Library_Kashmir.Controllers
             //Creating an Instance of EditUserViewModel
             EditUserViewModel model = new EditUserViewModel();
 
-            //Create an instance of ApplicationUserManager class as we want to fetch the user details
-            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
             //Fetch the User Details by UserId using the FindById method
             ApplicationUser UserToEdit = UserManager.FindById(UserId);
 

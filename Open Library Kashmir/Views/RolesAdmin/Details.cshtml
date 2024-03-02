@@ -1,0 +1,39 @@
+﻿﻿@model Open_Library_Kashmir.Models.RoleDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Roles</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Role.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Role.Name)
+        </dd>
+    </dl>
+</div>
+
+<h4>List Of Users in Role</h4>
+
+<table class="table table-striped">
+
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Role.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
