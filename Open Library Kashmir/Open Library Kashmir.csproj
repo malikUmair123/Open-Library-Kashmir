@@ -286,40 +286,17 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Book.cs">
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookDonationDataModels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookDonationDataModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookDonationDataModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookDonationDataModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Distribution.cs">
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Donation.cs">
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Donor.cs">
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookDonationDataModels.cs" />
+    <Compile Include="Models\Distribution.cs" />
+    <Compile Include="Models\Donation.cs" />
+    <Compile Include="Models\Donor.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Filters\LogCustomActionFilter.cs" />
     <Compile Include="Filters\LogCustomExceptionFilter.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Recipient.cs">
-      <DependentUpon>BookDonationDataModels.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Recipient.cs" />
+    <Compile Include="Models\Wishlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -350,23 +327,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Log\LogActions.txt" />
     <Content Include="Log\LogExceptions.txt" />
-    <Content Include="Models\BookDonationDataModels.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
-      <LastGenOutput>BookDonationDataModels.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\BookDonationDataModels.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
-      <LastGenOutput>BookDonationDataModels.cs</LastGenOutput>
-    </Content>
-    <EntityDeploy Include="Models\BookDonationDataModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookDonationDataModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookDonationDataModels.edmx.diagram">
-      <DependentUpon>BookDonationDataModels.edmx</DependentUpon>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
