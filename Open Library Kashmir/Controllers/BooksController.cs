@@ -16,7 +16,7 @@ namespace Open_Library_Kashmir.Controllers
 {
     //[CustomAuthenticationFilter]
     //[CustomAuthorizationFilter]
-    [Authorize]
+
     [Authorize(Roles = "Admin, SuperAdmin")]
     public class BooksController : Controller
     {

@@ -21,21 +21,16 @@
     }*@
 
 
-@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
-</head>
-<body>
+@if (Request.IsAuthenticated)
+{
     <a href="@Url.Action("UserDetails", "Account")" class="navbar-brand">
-        <img src="~/Content/Images/user_simple_color.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
+        <img src="~/Content/Images/profile-user-color.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
+    </a>
+}
+else
+{
+    <a href="@Url.Action("Login", "Account")" class="navbar-brand">
+        <img src="~/Content/Images/profile-user.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
     </a>
 
-</body>
-</html>*@
-
+}

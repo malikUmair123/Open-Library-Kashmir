@@ -75,6 +75,7 @@ namespace Open_Library_Kashmir.Models
         public string UserId { get; set; }
 
         [Display(Name = "First Name")]
+        [Required]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
@@ -135,6 +136,7 @@ namespace Open_Library_Kashmir.Models
         public string UserId { get; set; }
 
         [Display(Name = "First Name")]
+        [Required]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]

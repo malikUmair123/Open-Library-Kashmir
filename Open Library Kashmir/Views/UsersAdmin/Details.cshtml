@@ -37,8 +37,16 @@
     </dl>
 </div>
 <h4>List Of Roles</h4>
-<table class="table table-striped">
+<table class="table">
+    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+    {
+        <tr>
+            <td>
+                You have Admin priveleges!
+            </td>
+        </tr>
 
+    }
     @foreach (var rolename in Model.Roles)
     {
         <tr>

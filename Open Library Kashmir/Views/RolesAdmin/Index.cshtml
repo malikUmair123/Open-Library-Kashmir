@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Manage Roles</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Role", "Create")
 </p>
 <table class="table">
     <tr>
@@ -31,3 +31,7 @@
     }
 
 </table>
+
+<p>
+    @Html.ActionLink("Back to Account Settings", "UserDetails", "Account", routeValues: new { }, htmlAttributes: new { title = "User Details" })
+</p>

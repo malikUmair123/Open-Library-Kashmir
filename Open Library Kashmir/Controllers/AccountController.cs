@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
 using Open_Library_Kashmir.Helpers;
+using System.Web.Http.Results;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -139,9 +140,15 @@ namespace Open_Library_Kashmir.Controllers
         //
         // GET: /Account/UserDetails...Probably have to move to manage controller
         [AllowAnonymous]
-        public ActionResult UserDetails()
+        public async Task<ActionResult> UserDetails()
         {
-            return View();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null) 
+            {
+                return View(user);
+            }
+            return RedirectToAction("Index", "Home");
+
         }
 
         //
@@ -194,8 +201,8 @@ namespace Open_Library_Kashmir.Controllers
             return View(model);
         }
 
-        // GET: /Home/UpdateUser
-        [HttpGet]
+            // GET: /Home/UpdateUser
+            [HttpGet]
         public ActionResult UpdateUser(string UserId)
         {
             //Creating an Instance of EditUserViewModel
