@@ -8,11 +8,9 @@
 
         /* Hide on smaller screens (Example breakpoint) */
         @@media (max-width: 768px) {
-            .author-col, .class-col, .subject-col
-
-        {
-            display: none;
-        }
+            .author-col, .class-col, .subject-col {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -27,9 +25,6 @@
         </th>
         <th class="class-col">
             @Html.DisplayNameFor(model => model.@Class)
-        </th>
-        <th class="subject-col">
-            @Html.DisplayNameFor(model => model.Subject)
         </th>
         <th class="status-col">
             @Html.DisplayNameFor(model => model.Status)
@@ -48,12 +43,18 @@
             <td class="class-col">
                 @Html.DisplayFor(modelItem => item.@Class)
             </td>
-            <td class="subject-col">
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
             <td class="status-col" style="color: @(item.Status == "Available" ? "green" : item.Status == "Donated" ? "red" : "inherit")">
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Book_ID }) | 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Book_ID })
+                </td>
+            }
+
         </tr>
     }
 </table>

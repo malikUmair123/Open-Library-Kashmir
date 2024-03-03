@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
+using System.Linq.Expressions;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -18,6 +19,7 @@ namespace Open_Library_Kashmir.Controllers
     {
         private ApplicationRoleManager _roleManager;
         private ApplicationUserManager _userManager;
+        //private ApplicationSignInManager _signInManager;
         public ApplicationRoleManager RoleManager
         {
             get
@@ -42,6 +44,18 @@ namespace Open_Library_Kashmir.Controllers
             }
         }
 
+        //public ApplicationSignInManager SignInManager
+        //{
+        //    get
+        //    {
+        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        //    }
+        //    private set
+        //    {
+        //        _signInManager = value;
+        //    }
+        //}
+
         //No need of this, use DI method through following parametrised contructor
         private readonly ApplicationDbContext _context;
 
@@ -50,6 +64,9 @@ namespace Open_Library_Kashmir.Controllers
             _context = new ApplicationDbContext();
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
             RoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(_context));
+            //SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+
         }
 
         public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
@@ -213,6 +230,15 @@ namespace Open_Library_Kashmir.Controllers
                         ModelState.AddModelError("", result.Errors.First().ToString());
                         ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
                         return View();
+                    } else
+                    {
+                        // Save changes to the database...is it needed?
+                        await UserManager.UpdateAsync(user);
+                        // After updating the user's roles: Reissue the user's cookie
+                        //if (User.Identity.GetUserId() == model.UserId)
+                        //{
+                        //    await SignInManager.SignInAsync(user, false, false);
+                        //}
                     }
                 }
                 return RedirectToAction("Index");
