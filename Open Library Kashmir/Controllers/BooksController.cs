@@ -20,11 +20,11 @@ namespace Open_Library_Kashmir.Controllers
     [Authorize(Roles = "Admin, SuperAdmin")]
     public class BooksController : Controller
     {
-        private readonly BookDonationDBContext _context;
+        private readonly BookDonationDataModels _context;
 
         public BooksController()
         {
-            _context = new BookDonationDBContext();
+            _context = new BookDonationDataModels();
         }
 
         

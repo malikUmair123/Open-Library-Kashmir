@@ -12,11 +12,11 @@ namespace Open_Library_Kashmir.Controllers
     [HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReference")]
     public class DonationController : Controller
     {
-        private readonly BookDonationDBContext _context;
+        private readonly BookDonationDataModels _context;
 
         public DonationController()
         {
-            _context = new BookDonationDBContext();
+            _context = new BookDonationDataModels();
         }
 
         // GET: Donation
