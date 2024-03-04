@@ -12,15 +12,8 @@
 
     @*//include jquery from online for wishlist.js*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            console.log("jQuery is working!");
-        });
-    </script>
   
     @*js file for wishlist*@
-
     <script src="~/Scripts/wishlist.js"></script>
 
 </head>
@@ -37,7 +30,7 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Donation", "Donation", "Donation", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Donation", "Index", "Donation", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Support", "Support", "Support", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "About", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Contact", new { area = "" }, new { @class = "nav-link" })</li>
@@ -52,7 +45,7 @@
                     <span id="wishlist-count-badge" class="wishlist-count"></span>
                 </a>
             </div>
-        </div>
+        </div>  
     </nav>
     <div class="container body-content">
         @RenderBody()

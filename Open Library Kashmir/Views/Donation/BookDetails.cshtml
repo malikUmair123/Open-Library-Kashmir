@@ -6,7 +6,7 @@
     ViewBag.Title = "Book Details";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
 {
     <div class="container">
         <div class="row">
@@ -17,81 +17,89 @@
             </div>
             <div class="col-md-8">
                 <h2>@Model.Title</h2>
-                <p>@Html.DisplayNameFor(model => model.Author): @Html.DisplayFor(model => model.Author, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.ISBN): @Html.DisplayFor(model => model.ISBN, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Genre): @Html.DisplayFor(model => model.Genre, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Condition): @Html.DisplayFor(model => model.Condition, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Publication_Year): @Html.DisplayFor(model => model.Publication_Year, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Publisher): @Html.DisplayFor(model => model.Publisher, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.@Class): @Html.DisplayFor(model => model.@Class, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Subject): @Html.DisplayFor(model => model.Subject, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Status): @Html.DisplayFor(model => model.Status, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Available_At): @Html.DisplayFor(model => model.Available_At, new { @class = "text-muted" })</p>
-                <p>@Html.DisplayNameFor(model => model.Short_Description): @Html.DisplayFor(model => model.Short_Description, new { @class = "text-muted" })</p>
+                @if (!string.IsNullOrEmpty(Model.Author))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Author): @Html.DisplayFor(model => model.Author, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Publisher))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Publisher): @Html.DisplayFor(model => model.Publisher, new { @class = "text-muted" })</p>
+                }
+
+                @if (Model.Publication_Year.HasValue)
+                {
+                    <p>@Html.DisplayNameFor(model => model.Publication_Year): @Html.DisplayFor(model => model.Publication_Year, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Class))
+                {
+                    <p>@Html.DisplayNameFor(model => model.@Class): @Html.DisplayFor(model => model.@Class, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Subject))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Subject): @Html.DisplayFor(model => model.Subject, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Short_Description))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Short_Description): @Html.DisplayFor(model => model.Short_Description, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Condition))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Condition): @Html.DisplayFor(model => model.Condition, new { @class = "text-muted" })</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Status))
+                {
+                    <p>@Html.DisplayNameFor(model => model.Status): @Html.DisplayFor(model => model.Status, new { @class = "text-muted" })</p>
+                }
+
                 <hr>
-                <div>
-                    <button type="submit" class="btn btn-primary">
-                        @Html.ActionLink("« Back to Book List", "Donation", null, new { style = "color: white;" })
-                    </button>
 
-                    @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                        {
-                            @Html.AntiForgeryToken()
+                @*Button submission happens through ajax without reloading, used is layout page...wishlist.js*@
 
-                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                @using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
+                {
+                    @Html.Hidden("id", Model.Book_ID)// Pass BookId
+                    <a id="add-to-wishlist-btn" class="btn btn-primary btn-md" href="javascript:document.getElementById('wishlist').submit()">Add to Wishlist</a>
+                }
 
-                        }*@
-                    @*@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "deleteUser" }))
-                        {
-                            @Html.Hidden("id", Model.Book_ID)
-                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Add to Wishlist</a>
-                        }*@
-                </div>
+                @Html.ActionLink("Manage Wishlist »", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
+
             </div>
         </div>
     </div>
 }
 
-@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
-{
-    @Html.Hidden("id", Model.Book_ID)// Pass BookId
-    <a id="add-to-wishlist-btn" class="btn btn-outline-dark" href="javascript:document.getElementById('wishlist').submit()">Add to Wishlist</a>
-}
+<hr>
 
-@*@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
-{
-    @Html.Hidden("id", Model.Book_ID)// Pass BookId
-    <button id="add-to-wishlist-btn" type="button" class="btn btn-outline-dark">Add to Wishlist</button>
-}*@
+<p>« @Html.ActionLink("Back to Book List", "Index", null, htmlAttributes: new { title = "Index" })</p>
 
+@*<script src="~/Scripts/updatewishlistbutton.js"></script>*@
 
-@*<script>
+<script>
         $(document).ready(function () {
-            // Function to update wishlist count
-            function updateWishlistCount() {
-                $.ajax({
-                    url: '/Donation/GetWishlistCount',
-                    type: 'GET',
-                    success: function (data) {
-                        var count = data.Count;
-                        $('#wishlist-count-badge').text(count);
-                        // Show badge
-                        $('#wishlist-count-badge').show();
-                    },
-                    error: function () {
-                        console.log('Error fetching wishlist count.');
-                    }
-                });
-            }
+        // Check TempData["BookInWishlist"] value
+        var bookInWishlist = '@TempData["BookInWishlist"]';
 
-            // Call updateWishlistCount initially and set interval to refresh every x milliseconds
-            updateWishlistCount();
-            setInterval(updateWishlistCount, 1000); // Refresh every 1 seconds (adjust as needed)
+        // Update properties of "Add to Wishlist" button based on TempData value
+        if (bookInWishlist === 'True') {
+            // Book is already in wishlist
+            var bookInWishlist = '@TempData["BookInWishlist"]';
 
-            // Example event handler for adding book to wishlist
-            $('#add-to-wishlist-btn').click(function () {
-                updateWishlistCount();
-            });
-        });
+            $('#add-to-wishlist-btn').prop('disabled', true);
+            $('#add-to-wishlist-btn').text('Added to Wishlist');
+            $('#add-to-wishlist-btn').removeClass('btn-primary').addClass('btn-success');
+        } else {
+            var bookInWishlist = '@TempData["BookInWishlist"]';
 
-    </script>*@
+            // Book is not in wishlist
+            $('#add-to-wishlist-btn').prop('disabled', false);
+            $('#add-to-wishlist-btn').text('Add to Wishlist');
+            $('#add-to-wishlist-btn').removeClass('btn-success').addClass('btn-primary');
+        }
+    });
+</script>

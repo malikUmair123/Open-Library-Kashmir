@@ -23,12 +23,76 @@
             }
         </tbody>
     </table>
-    using (Html.BeginForm("RequestWishlist", "Donation", FormMethod.Post))
+
+    if (Request.IsAuthenticated)
     {
-        <button type="submit" class="btn btn-primary">Request Books</button>
+        <p>You need to fill in additional details to reqeust for books:</p>
+
+        @*using (Html.BeginForm("CreateRecipient", "Donation", FormMethod.Post))
+            {
+                <button type="submit" class="btn btn-primary">Fill Additional Details</button>
+            }*@
+        @Html.ActionLink("Fill Additional Details »", "EditRecipient", "Donation", routeValues: null @*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary btn-md" })
+
+    }
+    else
+    {
+        <p>Register your details to request these books: </p>
+        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
     }
 }
+
 else
 {
     <p>Your wishlist is empty.</p>
 }
+
+@*//model javascript and jquery on this*@
+@*<script>
+        $(document).ready(function () {
+            // Function to update wishlist count badge
+            function updateWishlistCount() {
+                $.ajax({
+                    url: '/Donation/GetWishlistCount',
+                    type: 'GET',
+                    success: function (data) {
+                        var count = data.Count;
+                        $('#wishlist-count-badge').text(count);
+                        // Show badge
+                        $('#wishlist-count-badge').show();
+                    },
+                    error: function () {
+                        console.log('Error fetching wishlist count.');
+                    }
+                });
+            }
+
+            // Call updateWishlistCount initially
+            updateWishlistCount();
+
+            // Event handler for adding book to wishlist
+            $('#add-to-wishlist-btn').click(function (e) {
+                e.preventDefault(); // Prevent default form submission behavior
+                var form = $(this).closest('form');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function () {
+                        updateWishlistCount(); // Update wishlist count after adding book
+                        $('#add-to-wishlist-btn').prop('disabled', true);
+
+                        // Change the button text to "Added to Wishlist"
+                        $('#add-to-wishlist-btn').text('Added to Wishlist');
+
+                        // Change the button color to represent it has been added to wishlist
+                        $('#add-to-wishlist-btn').removeClass('btn-primary').addClass('btn-success');
+                    },
+                    error: function () {
+                        console.log('Error adding book to wishlist.');
+                    }
+                });
+            });
+        });
+
+    </script>*@

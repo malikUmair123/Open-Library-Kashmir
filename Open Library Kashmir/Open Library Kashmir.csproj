@@ -344,6 +344,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\updatewishlistbutton.js" />
     <Content Include="Scripts\wishlist.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -379,7 +380,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\About\About.cshtml" />
     <Content Include="Views\Contact\Contact.cshtml" />
-    <Content Include="Views\Donation\Donation.cshtml" />
+    <Content Include="Views\Donation\Index.cshtml" />
     <Content Include="Views\Support\Support.cshtml" />
     <Content Include="Views\Books\Import.cshtml" />
     <Content Include="Views\Donation\BookDetails.cshtml" />
@@ -403,6 +404,8 @@
     <Content Include="Views\Donation\Wishlist.cshtml" />
     <Content Include="Views\Account\UpdateUser.cshtml" />
     <Content Include="Views\Account\UserDetails.cshtml" />
+    <Content Include="Views\Donation\EditRecipient.cshtml" />
+    <Content Include="Views\Donation\SummaryPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

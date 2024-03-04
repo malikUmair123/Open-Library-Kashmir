@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
 using Open_Library_Kashmir.Helpers;
 using System.Web.Http.Results;
+using System.Collections.Generic;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -20,9 +21,11 @@ namespace Open_Library_Kashmir.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly BookDonationDataModels _context;
 
         public AccountController()
         {
+            _context = new BookDonationDataModels();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -170,6 +173,8 @@ namespace Open_Library_Kashmir.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -184,15 +189,36 @@ namespace Open_Library_Kashmir.Controllers
 
                     //SendGrid impplementation...see Identityconfig Emailservice
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                   
+
                     //Smtp...gmail implementation
                     bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
-                    
+
                     if (IsSendEmail)
                     {
                         return RedirectToAction("ConfirmEmailConfirmation");
                     }
-                    return RedirectToAction("Index", "Home");
+
+                    //bool returnToRequestWishlist = Session["returnToRequestWishlist"] as bool? ?? false;
+                    //if (returnToRequestWishlist)
+                    //{
+                    //    // Additional operations for users originating from RequestWishlist
+                    //    // Example: 
+                    //    var userId = User.Identity.GetUserId();
+                    //    var newRecipient = _context.Recipients.FirstOrDefault(r => r.UserId == User.Identity.GetUserId());
+
+                    //    // Wishlist transfer
+                    //    if (TempData["WishlistData"] != null)
+                    //    {
+                    //        List<int> bookIds = TempData["WishlistData"] as List<int>;
+                    //        newRecipient.Wishlist = new Wishlist { BookIds = bookIds }; // Create or link Wishlist 
+                    //    }
+                    //    _context.SaveChanges();
+                    //}
+
+                    // Save the session flag (if you still want the redirect later)
+                    //Session["returnToRequestWishlist"] = returnToRequestWishlist;
+
+                    return RedirectToAction("Wishlist", "Donation");
                 }
                 AddErrors(result);
             }
