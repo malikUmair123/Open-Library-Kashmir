@@ -33,10 +33,65 @@
                     <button type="submit" class="btn btn-primary">
                         @Html.ActionLink("« Back to Book List", "Donation", null, new { style = "color: white;" })
                     </button>
-                    <button type="submit" class="btn btn-primary">Add to Wishlist &raquo</button>
 
+                    @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+
+                        }*@
+                    @*@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "deleteUser" }))
+                        {
+                            @Html.Hidden("id", Model.Book_ID)
+                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Add to Wishlist</a>
+                        }*@
                 </div>
             </div>
         </div>
     </div>
 }
+
+@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
+{
+    @Html.Hidden("id", Model.Book_ID)// Pass BookId
+    <a id="add-to-wishlist-btn" class="btn btn-outline-dark" href="javascript:document.getElementById('wishlist').submit()">Add to Wishlist</a>
+}
+
+@*@using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
+{
+    @Html.Hidden("id", Model.Book_ID)// Pass BookId
+    <button id="add-to-wishlist-btn" type="button" class="btn btn-outline-dark">Add to Wishlist</button>
+}*@
+
+
+@*<script>
+        $(document).ready(function () {
+            // Function to update wishlist count
+            function updateWishlistCount() {
+                $.ajax({
+                    url: '/Donation/GetWishlistCount',
+                    type: 'GET',
+                    success: function (data) {
+                        var count = data.Count;
+                        $('#wishlist-count-badge').text(count);
+                        // Show badge
+                        $('#wishlist-count-badge').show();
+                    },
+                    error: function () {
+                        console.log('Error fetching wishlist count.');
+                    }
+                });
+            }
+
+            // Call updateWishlistCount initially and set interval to refresh every x milliseconds
+            updateWishlistCount();
+            setInterval(updateWishlistCount, 1000); // Refresh every 1 seconds (adjust as needed)
+
+            // Example event handler for adding book to wishlist
+            $('#add-to-wishlist-btn').click(function () {
+                updateWishlistCount();
+            });
+        });
+
+    </script>*@
