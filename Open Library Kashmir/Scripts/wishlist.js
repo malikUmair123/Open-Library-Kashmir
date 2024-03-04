@@ -29,6 +29,13 @@
             data: form.serialize(),
             success: function () {
                 updateWishlistCount(); // Update wishlist count after adding book
+                $('#add-to-wishlist-btn').prop('disabled', true);
+
+                // Change the button text to "Added to Wishlist"
+                $('#add-to-wishlist-btn').text('Added to Wishlist');
+
+                // Change the button color to represent it has been added to wishlist
+                $('#add-to-wishlist-btn').removeClass('btn-primary').addClass('btn-success');
             },
             error: function () {
                 console.log('Error adding book to wishlist.');
