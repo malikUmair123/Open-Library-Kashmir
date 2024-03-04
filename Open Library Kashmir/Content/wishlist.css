@@ -1,0 +1,23 @@
+﻿#wishlist-icon {
+    position: relative;
+    display: inline-block;
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.heart-icon {
+    max-width: 36px; /* Adjust the width of the heart icon */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.wishlist-count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*background-color: white;*/
+    color: white;
+    /*        border-radius: 50%;
+        padding: 6px 6px;*/
+    font-size: 12px; /* Adjust as needed */
+    font-weight: bolder
+}

@@ -26,4 +26,15 @@ namespace Open_Library_Kashmir.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book> Books { get; set; }
     }
+
+    public class SessionWishlist
+    {
+        public int WishlistId { get; set; }
+        public List<int> BookIds { get; set; }
+
+        public SessionWishlist()
+        {
+            BookIds = new List<int>();
+        }
+    }
 }

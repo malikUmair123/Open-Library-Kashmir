@@ -1,0 +1,34 @@
+﻿
+@model Open_Library_Kashmir.Models.WishlistViewModel
+
+<h2>My Wishlist</h2>
+
+@if (Model.Books?.Any() ?? false)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    using (Html.BeginForm("RequestWishlist", "Donation", FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-primary">Request Books</button>
+    }
+}
+else
+{
+    <p>Your wishlist is empty.</p>
+}
