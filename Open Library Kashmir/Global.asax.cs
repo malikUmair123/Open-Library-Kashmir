@@ -13,6 +13,9 @@ namespace Open_Library_Kashmir
     {
         protected void Application_Start()
         {
+            // Initialize AutoMapper
+            AutoMapperConfig.Initialize();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
