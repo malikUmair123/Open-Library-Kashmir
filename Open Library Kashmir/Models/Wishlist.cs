@@ -18,23 +18,12 @@ namespace Open_Library_Kashmir.Models
         public int WishlistId { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Recipient_ID { get; set; }
+        [StringLength(128)]
+        public string RecipientId { get; set; }
 
         public virtual Recipient Recipient { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book> Books { get; set; }
-    }
-
-    public class SessionWishlist
-    {
-        public int WishlistId { get; set; }
-        public List<int> BookIds { get; set; }
-
-        public SessionWishlist()
-        {
-            BookIds = new List<int>();
-        }
     }
 }

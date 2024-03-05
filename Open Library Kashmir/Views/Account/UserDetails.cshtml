@@ -26,44 +26,44 @@
         @:<p>@claim.Type - @claim.Value</p>
         }
         }*@
-          <ul>
-              @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-              {
-              @Html.AntiForgeryToken()
-              <li>
-                  <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-              </li>
-              }
-              <li>
-                  @Html.ActionLink("Profile Details", "Details", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-              </li>
-              <li>
-                  @Html.ActionLink("Update Your Details", "UpdateUser", "Account", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-              </li>
-              @using (Html.BeginForm("Delete Your Account", "Account", FormMethod.Post, new { id = "deleteUser" }))
-              {
-              @Html.AntiForgeryToken()
-              @Html.Hidden("UserId", Model.Id)
-              <li>
-                  <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Delete Your Account</a>
-              </li>
-              }
-              <li>
-                  @Html.ActionLink("Manage Other Settings", "Index", "Manage", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
-              </li>
-              <li>
-                  @Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
-              </li>
-              @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-              {
-              <li>
-                  @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
-              </li>
-              <li>
-                  @Html.ActionLink("Manage Users", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
-              </li>
-              }
-          </ul>
+    <ul>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <li>
+                <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </li>
+        }
+        <li>
+            @Html.ActionLink("Profile Details", "Details", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Update Your Details", "UpdateUser", "Account", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
+        </li>
+        @using (Html.BeginForm("Delete Your Account", "Account", FormMethod.Post, new { id = "deleteUser" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("UserId", Model.Id)
+            <li>
+                <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Delete Your Account</a>
+            </li>
+        }
+        <li>
+            @Html.ActionLink("Manage Other Settings", "Index", "Manage", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
+        </li>
+        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+        {
+            <li>
+                @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
+            </li>
+            <li>
+                @Html.ActionLink("Manage Users", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
+            </li>
+        }
+    </ul>
         }
         else
         {

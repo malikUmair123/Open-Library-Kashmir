@@ -12,13 +12,13 @@ namespace Open_Library_Kashmir.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Book()
         {
-            Distributions = new HashSet<Distribution>();
-            Donations = new HashSet<Donation>();
+            DonorBooks = new HashSet<DonorBook>();
+            RecipientBooks = new HashSet<RecipientBook>();
             Wishlists = new HashSet<Wishlist>();
         }
 
         [Key]
-        public int Book_ID { get; set; }
+        public int BookId { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -30,7 +30,7 @@ namespace Open_Library_Kashmir.Models
         [StringLength(255)]
         public string Publisher { get; set; }
 
-        public int? Publication_Year { get; set; }
+        public int? PublicationYear { get; set; }
 
         [StringLength(20)]
         public string Condition { get; set; }
@@ -48,22 +48,22 @@ namespace Open_Library_Kashmir.Models
         public string ISBN { get; set; }
 
         [StringLength(100)]
-        public string Image_Path { get; set; }
+        public string ImageUrl { get; set; }
 
         [StringLength(500)]
-        public string Short_Description { get; set; }
+        public string ShortDescription { get; set; }
 
         [StringLength(50)]
         public string Status { get; set; }
 
         [StringLength(255)]
-        public string Available_At { get; set; }
+        public string AvailableAt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual ICollection<DonorBook> DonorBooks { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Donation> Donations { get; set; }
+        public virtual ICollection<RecipientBook> RecipientBooks { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }

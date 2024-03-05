@@ -20,8 +20,7 @@ namespace Open_Library_Kashmir.Controllers
     [HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReference")]
     public class DonationController : Controller
     {
-        private readonly BookDonationDataModels _context;
-        private readonly ApplicationDbContext _contextForIdentity;
+        private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -37,9 +36,8 @@ namespace Open_Library_Kashmir.Controllers
 
         public DonationController()
         {
-            _context = new BookDonationDataModels();
-            _contextForIdentity = new ApplicationDbContext();
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_contextForIdentity));
+            _context = new ApplicationDbContext();
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
 
         }
 
@@ -58,7 +56,7 @@ namespace Open_Library_Kashmir.Controllers
         //[OutputCache(Duration = int.MaxValue, VaryByParam = "id")]
         public ActionResult BookDetails(int id)
         {
-            Book book = _context.Books.FirstOrDefault(x => x.Book_ID == id);
+            Book book = _context.Books.FirstOrDefault(x => x.BookId == id);
             // Retrieve wishlist from the session
             var wishlist = Session["Wishlist"] as SessionWishlist;
             if (wishlist == null)
@@ -141,7 +139,7 @@ namespace Open_Library_Kashmir.Controllers
             // Fetch books from wishlist
             var wishlistViewModel = new WishlistViewModel
             {
-                Books = _context.Books.Where(b => wishlist.BookIds.Contains(b.Book_ID)).ToList()
+                Books = _context.Books.Where(b => wishlist.BookIds.Contains(b.BookId)).ToList()
             };
             if (User.Identity.IsAuthenticated)
             {
@@ -293,119 +291,119 @@ namespace Open_Library_Kashmir.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult EditRecipient(RecipientViewModel recipientViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    string userId = User.Identity.GetUserId();
-                    ApplicationUser user = UserManager.FindById(userId);
+        //[HttpPost]
+        //public ActionResult EditRecipient(RecipientViewModel recipientViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (User.Identity.IsAuthenticated)
+        //        {
+        //            string userId = User.Identity.GetUserId();
+        //            ApplicationUser user = UserManager.FindById(userId);
 
-                    //see if you can use following
-                    var recipient = CreateRecipient(recipientViewModel, userId);
+        //            //see if you can use following
+        //            var recipient = CreateRecipient(recipientViewModel, userId);
 
-                    if (recipient != null)
-                    {
-                        _context.Recipients.AddOrUpdate(recipient);
-                    }
+        //            if (recipient != null)
+        //            {
+        //                _context.Recipients.AddOrUpdate(recipient);
+        //            }
 
-                    var wishlistSesssion = Session["Wishlist"] as SessionWishlist;
+        //            var wishlistSesssion = Session["Wishlist"] as SessionWishlist;
 
-                    if (wishlistSesssion != null)
-                    {
-                        // Fetch books from wishlist
-                        var wishlistViewModel = new WishlistViewModel
-                        {
-                            Books = _context.Books.Where(b => wishlistSesssion.BookIds.Contains(b.Book_ID)).ToList()
-                        };
+        //            if (wishlistSesssion != null)
+        //            {
+        //                // Fetch books from wishlist
+        //                var wishlistViewModel = new WishlistViewModel
+        //                {
+        //                    Books = _context.Books.Where(b => wishlistSesssion.BookIds.Contains(b.Book_ID)).ToList()
+        //                };
 
-                        var wishlistDatabase = _context.Wishlists.FirstOrDefault(w => w.Recipient_ID == userId) ??
-                                       new Wishlist { Recipient_ID = userId };
-                        wishlistDatabase.Books = wishlistViewModel.Books;
-                        wishlistDatabase.Recipient = recipient;
-                        _context.Wishlists.AddOrUpdate(wishlistDatabase);
+        //                var wishlistDatabase = _context.Wishlists.FirstOrDefault(w => w.RecipientId == userId) ??
+        //                               new SessionWishlist { Recipient_ID = userId };
+        //                wishlistDatabase.Books = wishlistViewModel.Books;
+        //                wishlistDatabase.Recipient = recipient;
+        //                _context.Wishlists.AddOrUpdate(wishlistDatabase);
 
 
-                        // ... (Distribution Logic
-                        foreach (var bookId in wishlistSesssion.BookIds)
-                        {
-                            var distribution = new Distribution
-                            {
-                                Book_ID = bookId,
-                                Recipient_ID = recipient.Recipient_ID,
-                                Date_Distributed = DateTime.Now
-                            };
-                            _context.Distributions.Add(distribution);
-                        }
+        //                // ... (Distribution Logic
+        //                foreach (var bookId in wishlistSesssion.BookIds)
+        //                {
+        //                    var distribution = new Distribution
+        //                    {
+        //                        Book_ID = bookId,
+        //                        Recipient_ID = recipient.Recipient_ID,
+        //                        Date_Distributed = DateTime.Now
+        //                    };
+        //                    _context.Distributions.Add(distribution);
+        //                }
 
-                        _context.SaveChanges();
+        //                _context.SaveChanges();
 
-                        //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
-                        return RedirectToAction("SummaryPage", new { Message = DonationMessageId.SuccessMessage });
+        //                //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
+        //                return RedirectToAction("SummaryPage", new { Message = DonationMessageId.SuccessMessage });
 
-                    }
-                    else
-                    {
-                        //TempData["ErrorMessage"] = "Wishlist not found for current user.";
-                        return RedirectToAction("SummaryPage", new { Message = DonationMessageId.ErrorMessage });
+        //            }
+        //            else
+        //            {
+        //                //TempData["ErrorMessage"] = "Wishlist not found for current user.";
+        //                return RedirectToAction("SummaryPage", new { Message = DonationMessageId.ErrorMessage });
 
-                    }
-                }
-                else
-                {
-                    //Implement later
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //Implement later
 
-                    //var wishlist = Session["Wishlist"] as Wishlist;
-                    //if (wishlist != null)
-                    //{
-                    //    TempData["WishlistData"] = wishlist; // Store wishlist for later
-                    //}
-                    //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("SummaryPage", new { Message = DonationMessageId.NotImplemented });
+        //            //var wishlist = Session["Wishlist"] as Wishlist;
+        //            //if (wishlist != null)
+        //            //{
+        //            //    TempData["WishlistData"] = wishlist; // Store wishlist for later
+        //            //}
+        //            //return RedirectToAction("Index", "Home");
+        //            return RedirectToAction("SummaryPage", new { Message = DonationMessageId.NotImplemented });
 
-                }
+        //        }
 
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        //    }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
-        [NonAction]
-        private Recipient CreateRecipient(RecipientViewModel recipientViewModel, string userId)
-        {
-            var recipient = _context.Recipients.FirstOrDefault(r => r.Recipient_ID == userId) ??
-                                         new Recipient { Recipient_ID = userId };
-            if (recipientViewModel != null)
-            {
-                recipient.First_Name = recipientViewModel.First_Name;
-                recipient.Last_Name = recipientViewModel.Last_Name;
-                recipient.Email = recipientViewModel.Email;
-                recipient.Phone = recipientViewModel.Phone;
-                recipient.Address = recipientViewModel.Address;
-                recipient.Aadhar_Card_Path = recipientViewModel.Aadhar_Card_Path;
-                recipient.Remarks = recipientViewModel.Remarks;
-            }
-            return recipient;
-        }
+        //[NonAction]
+        //private Recipient CreateRecipient(RecipientViewModel recipientViewModel, string userId)
+        //{
+        //    var recipient = _context.Recipients.FirstOrDefault(r => r.Recipient_ID == userId) ??
+        //                                 new Recipient { Recipient_ID = userId };
+        //    if (recipientViewModel != null)
+        //    {
+        //        recipient.First_Name = recipientViewModel.First_Name;
+        //        recipient.Last_Name = recipientViewModel.Last_Name;
+        //        recipient.Email = recipientViewModel.Email;
+        //        recipient.Phone = recipientViewModel.Phone;
+        //        recipient.Address = recipientViewModel.Address;
+        //        recipient.Aadhar_Card_Path = recipientViewModel.Aadhar_Card_Path;
+        //        recipient.Remarks = recipientViewModel.Remarks;
+        //    }
+        //    return recipient;
+        //}
 
-        public ActionResult SummaryPage(DonationMessageId message)
-        {
-            ViewBag.StatusMessage =
-                message == DonationMessageId.SuccessMessage ? "Success"
-                : message == DonationMessageId.ErrorMessage ? "Error"
-                : message == DonationMessageId.NotImplemented ? "NotImplemented"
-                : "";
-            return View();
-        }
-        #region Helpers
-        public enum DonationMessageId
-        {
-            SuccessMessage,
-            ErrorMessage,
-            NotImplemented,
-        }
-        #endregion
+        //public ActionResult SummaryPage(DonationMessageId message)
+        //{
+        //    ViewBag.StatusMessage =
+        //        message == DonationMessageId.SuccessMessage ? "Success"
+        //        : message == DonationMessageId.ErrorMessage ? "Error"
+        //        : message == DonationMessageId.NotImplemented ? "NotImplemented"
+        //        : "";
+        //    return View();
+        //}
+        //#region Helpers
+        //public enum DonationMessageId
+        //{
+        //    SuccessMessage,
+        //    ErrorMessage,
+        //    NotImplemented,
+        //}
+        //#endregion
 
     }
 }
