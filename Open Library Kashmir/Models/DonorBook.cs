@@ -6,20 +6,20 @@ namespace Open_Library_Kashmir.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Donation")]
-    public partial class Donation
+    [Table("DonorBook")]
+    public partial class DonorBook
     {
         [Key]
-        public int Donation_ID { get; set; }
+        [Column(Order = 0)]
+        public string DonorId { get; set; }
 
-        public int Book_ID { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string Donor_ID { get; set; }
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int BookId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime Date_Donated { get; set; }
+        public DateTime DateDonated { get; set; }
 
         public virtual Book Book { get; set; }
 

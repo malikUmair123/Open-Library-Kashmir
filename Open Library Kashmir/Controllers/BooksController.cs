@@ -20,11 +20,11 @@ namespace Open_Library_Kashmir.Controllers
     [Authorize(Roles = "Admin, SuperAdmin")]
     public class BooksController : Controller
     {
-        private readonly BookDonationDataModels _context;
+        private readonly ApplicationDbContext _context;
 
         public BooksController()
         {
-            _context = new BookDonationDataModels();
+            _context = new ApplicationDbContext();
         }
 
         
@@ -64,7 +64,7 @@ namespace Open_Library_Kashmir.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Donation");
         }
 
         [NonAction]
@@ -72,7 +72,7 @@ namespace Open_Library_Kashmir.Controllers
         {
             return new Book
             {
-                Book_ID = int.Parse(values[0] != null ? values[0] : "99999"),
+                BookId = int.Parse(values[0] != null ? values[0] : "99999"),
                 Title = values[1] != null ? values[1] : "Deleted",
                 Author = values[2],
                 Publisher = values[3],

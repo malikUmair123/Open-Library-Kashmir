@@ -12,39 +12,17 @@ namespace Open_Library_Kashmir.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Recipient()
         {
-            Distributions = new HashSet<Distribution>();
+            RecipientBooks = new HashSet<RecipientBook>();
             Wishlists = new HashSet<Wishlist>();
         }
 
-        [Key]
-        [StringLength(100)]
-        public string Recipient_ID { get; set; }
+        public string RecipientId { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string First_Name { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Last_Name { get; set; }
-
-        [StringLength(100)]
-        public string Email { get; set; }
-
-        [StringLength(20)]
-        public string Phone { get; set; }
-
-        [StringLength(255)]
-        public string Address { get; set; }
-
-        [StringLength(100)]
-        public string Aadhar_Card_Path { get; set; }
-
-        [StringLength(500)]
-        public string Remarks { get; set; }
+        [StringLength(256)]
+        public string AadharCardUrl { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual ICollection<RecipientBook> RecipientBooks { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }

@@ -21,11 +21,11 @@ namespace Open_Library_Kashmir.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private readonly BookDonationDataModels _context;
+        private readonly ApplicationDbContext _context;
 
         public AccountController()
         {
-            _context = new BookDonationDataModels();
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -171,7 +171,14 @@ namespace Open_Library_Kashmir.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser ()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 
 
@@ -179,19 +186,28 @@ namespace Open_Library_Kashmir.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string emailBody = @"
+                        <p>Dear " + model.FirstName + @",</p>
+                        <p>Thank you for registering with Open Library Kashmir (OLK)!</p>
+                        <p>To complete the registration process and access your account, please confirm your email address by clicking the link below:</p>
+                        <p><a href=""" + callbackUrl + @""">Confirm Email</a></p>
+                        <p>If you did not register with OLK or believe you received this email in error, please disregard it.</p>
+                        <p>Thank you,</p>
+                        <p>Open Library Kashmir (OLK) Team</p>";
 
-                    //sms test
+                    //SMS Test
+
                     //await UserManager.SendSmsAsync(user.PhoneNumber, callbackUrl);
 
-                    //SendGrid impplementation...see Identityconfig Emailservice
+                    //SendGrid Implementation...see IdentityConfig.cs EmailService
+
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    //Smtp...gmail implementation
-                    bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Confirm Email", "Please confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>", true);
+                    //Smtp...Gmail Implementation
+                    bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Confirm Email", emailBody, true);
 
                     if (IsSendEmail)
                     {

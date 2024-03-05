@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                @Html.Image(Model.Image_Path, "Book Image Not Available")
+                @Html.Image(Model.ImageUrl, "Book Image Not Available")
                 @*<img src="@Url.Content(@Model.Image_Path)" alt="Book Image Not Available" />*@
                 @*<img src="http://lgimages.s3.amazonaws.com/gc-md.gif" class="img-thumbnail" alt="Book Image Not Available">*@
             </div>
@@ -27,9 +27,9 @@
                     <p>@Html.DisplayNameFor(model => model.Publisher): @Html.DisplayFor(model => model.Publisher, new { @class = "text-muted" })</p>
                 }
 
-                @if (Model.Publication_Year.HasValue)
+                @if (Model.PublicationYear.HasValue)
                 {
-                    <p>@Html.DisplayNameFor(model => model.Publication_Year): @Html.DisplayFor(model => model.Publication_Year, new { @class = "text-muted" })</p>
+                    <p>@Html.DisplayNameFor(model => model.PublicationYear): @Html.DisplayFor(model => model.PublicationYear, new { @class = "text-muted" })</p>
                 }
 
                 @if (!string.IsNullOrEmpty(Model.Class))
@@ -42,9 +42,9 @@
                     <p>@Html.DisplayNameFor(model => model.Subject): @Html.DisplayFor(model => model.Subject, new { @class = "text-muted" })</p>
                 }
 
-                @if (!string.IsNullOrEmpty(Model.Short_Description))
+                @if (!string.IsNullOrEmpty(Model.ShortDescription))
                 {
-                    <p>@Html.DisplayNameFor(model => model.Short_Description): @Html.DisplayFor(model => model.Short_Description, new { @class = "text-muted" })</p>
+                    <p>@Html.DisplayNameFor(model => model.ShortDescription): @Html.DisplayFor(model => model.ShortDescription, new { @class = "text-muted" })</p>
                 }
 
                 @if (!string.IsNullOrEmpty(Model.Condition))
@@ -63,7 +63,7 @@
 
                 @using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
                 {
-                    @Html.Hidden("id", Model.Book_ID)// Pass BookId
+                    @Html.Hidden("id", Model.BookId)// Pass BookId
                     <a id="add-to-wishlist-btn" class="btn btn-primary btn-md" href="javascript:document.getElementById('wishlist').submit()">Add to Wishlist</a>
                 }
 
