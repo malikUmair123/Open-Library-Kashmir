@@ -1,6 +1,20 @@
 ﻿
 @model Open_Library_Kashmir.Models.WishlistViewModel
+<head>
+    <style>
+        /* Always show these columns */
+        .title-col, .author-col {
+            display: table-cell;
+        }
 
+        /* Hide on smaller screens (Example breakpoint) */
+        @@media (max-width: 768px) {
+            .publisher-col, .class-col, .avail-at-col {
+                display: none;
+            }
+        }
+    </style>
+</head>
 <h2>My Wishlist</h2>
 
 @if (Model.Books?.Any() ?? false)
@@ -8,17 +22,44 @@
     <table>
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th></th>
+                <th class="title-col">
+                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Title)
+                </th>
+                <th class="author-col">
+                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Author)
+                </th>
+                <th class="class-col">
+                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Class)
+                </th>
+                <th class="publisher-col">
+                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Publisher)
+                </th>
+                <th class="avail-at-col">
+                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().AvailableAt)
+                </th>
             </tr>
+
         </thead>
         <tbody>
-            @foreach (var book in Model.Books)
+            @foreach (var item in Model.Books)
             {
                 <tr>
-                    <td>@book.Title</td>
-                    <td>@book.Author</td>
+
+                    <td class="title-col">
+                        @Html.ActionLink(item.Title, "BookDetails", new { id = item.BookId })
+                    </td>
+                    <td class="author-col">
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td class="class-col">
+                        @Html.DisplayFor(modelItem => item.@Class)
+                    </td>
+                    <td class="publisher-col">
+                        @Html.DisplayFor(modelItem => item.Publisher)
+                    </td>
+                    <td class="avail-at-col">
+                        @Html.DisplayFor(modelItem => item.AvailableAt)
+                    </td>
                 </tr>
             }
         </tbody>
@@ -26,13 +67,13 @@
 
     if (Request.IsAuthenticated)
     {
-        <p>You need to fill in additional details to reqeust for books:</p>
+        <h4>You need to fill in additional details to reqeust books:</h4>
 
         @*using (Html.BeginForm("CreateRecipient", "Donation", FormMethod.Post))
             {
                 <button type="submit" class="btn btn-primary">Fill Additional Details</button>
             }*@
-        @Html.ActionLink("Fill Additional Details »", "EditRecipient", "Donation", routeValues: null @*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary btn-md" })
+        @Html.ActionLink("Fill Additional Details »", "EditRecipient", "Donation", routeValues: null@*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary btn-md" })
 
     }
     else
@@ -44,7 +85,7 @@
 
 else
 {
-    <p>Your wishlist is empty.</p>
+    <h4>Your wishlist is empty.</h4>
 }
 
 @*//model javascript and jquery on this*@
