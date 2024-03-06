@@ -6,6 +6,15 @@ namespace Open_Library_Kashmir.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    // Define enum for request status
+    public enum RequestStatus
+    {
+        Pending,
+        Approved,
+        Rejected
+    }
+
+
     [Table("Recipient")]
     public partial class Recipient
     {
@@ -20,6 +29,9 @@ namespace Open_Library_Kashmir.Models
 
         [StringLength(256)]
         public string AadharCardUrl { get; set; }
+
+        // Add property for request status
+        public RequestStatus RequestStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecipientBook> RecipientBooks { get; set; }
