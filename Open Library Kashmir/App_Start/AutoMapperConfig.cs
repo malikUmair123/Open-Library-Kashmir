@@ -10,6 +10,8 @@ public static class AutoMapperConfig
         {
             // Configure mappings here
             cfg.CreateMap<RecipientViewModel, ApplicationUser>();
+            cfg.CreateMap<ApplicationUser, RecipientViewModel>();
+
         });
 
         return config.CreateMapper();

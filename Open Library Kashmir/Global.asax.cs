@@ -1,5 +1,8 @@
+using AutoMapper;
+using Open_Library_Kashmir.App_Start;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -13,8 +16,11 @@ namespace Open_Library_Kashmir
     {
         protected void Application_Start()
         {
-            // Initialize AutoMapper
-            AutoMapperConfig.Initialize();
+            // Register Autofac DI Container
+            //AutofacConfig.RegisterDependencies();
+
+            // Register Autofac DI Container
+            //UnityConfig.RegisterComponents();
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
