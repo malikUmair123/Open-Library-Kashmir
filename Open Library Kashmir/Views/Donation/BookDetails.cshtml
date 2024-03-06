@@ -8,13 +8,30 @@
 
 @using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
 {
+    @Html.HiddenFor(m => m.BookId)
+    @Html.HiddenFor(m => m.Title)
+    @Html.HiddenFor(m => m.Author)
+    @Html.HiddenFor(m => m.Publisher)
+    @Html.HiddenFor(m => m.PublicationYear)
+    @Html.HiddenFor(m => m.Condition)
+    @Html.HiddenFor(m => m.Class)
+    @Html.HiddenFor(m => m.Genre)
+    @Html.HiddenFor(m => m.Subject)
+    @Html.HiddenFor(m => m.ISBN)
+    @Html.HiddenFor(m => m.ImageUrl)
+    @Html.HiddenFor(m => m.ShortDescription)
+    @Html.HiddenFor(m => m.Status)
+    @Html.HiddenFor(m => m.AvailableAt)
+    
+    <!-- Include other hidden or visible input fields for other properties of the Book class -->
+    
     <div class="container">
         <div class="row">
+            <div class="d-md-none mt-2"></div> <!-- Add spacing on smaller screens -->
             <div class="col-md-4">
                 @Html.Image(Model.ImageUrl, "Book Image Not Available")
-                @*<img src="@Url.Content(@Model.Image_Path)" alt="Book Image Not Available" />*@
-                @*<img src="http://lgimages.s3.amazonaws.com/gc-md.gif" class="img-thumbnail" alt="Book Image Not Available">*@
             </div>
+            <div class="d-md-none mt-4"></div> <!-- Add spacing on smaller screens -->
             <div class="col-md-8">
                 <h2>@Model.Title</h2>
                 @if (!string.IsNullOrEmpty(Model.Author))
@@ -56,19 +73,16 @@
                 {
                     <p>@Html.DisplayNameFor(model => model.Status): @Html.DisplayFor(model => model.Status, new { @class = "text-muted" })</p>
                 }
-
                 <hr>
-
-                @*Button submission happens through ajax without reloading, used is layout page...wishlist.js*@
-
-                @using (Html.BeginForm("AddToWishlist", "Donation", FormMethod.Post, new { id = "wishlist" }))
-                {
-                    @Html.Hidden("id", Model.BookId)// Pass BookId
-                    <a id="add-to-wishlist-btn" class="btn btn-primary btn-md" href="javascript:document.getElementById('wishlist').submit()">Add to Wishlist</a>
-                }
-
-                @Html.ActionLink("Manage Wishlist »", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
-
+                <div class="row">
+                    <div class="col-auto">
+                        <button type="submit" id="add-to-wishlist-btn" class="btn btn-primary btn-md">Add to Wishlist</button>
+                    </div>
+                    <div class="d-md-none mt-2"></div> <!-- Add spacing on smaller screens -->
+                    <div class="col-auto">
+                        @Html.ActionLink("Manage Wishlist »", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-outline-dark" })
+                    </div>
+                </div>
             </div>
         </div>
     </div>

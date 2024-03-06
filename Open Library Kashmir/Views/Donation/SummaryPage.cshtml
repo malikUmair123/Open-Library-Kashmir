@@ -6,3 +6,10 @@
 <h2>SummaryPage</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+
+@{ if (ViewBag.StatusMessage == "Success")
+    {
+        <p>Thank you for placing the request for books. We will contact you on your email/phone. Stay connect.</p>
+
+    }
+}

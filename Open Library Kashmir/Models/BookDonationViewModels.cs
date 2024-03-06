@@ -11,34 +11,30 @@ namespace Open_Library_Kashmir.Models
         public List<Book> Books { get; set; }
     }
 
-    public class RecipientViewModel 
+    public class RecipientViewModel
     {
         [Required]
-        [StringLength(50)]
-        public string First_Name { get; set; }
+        [MaxLength]
+        public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Last_Name { get; set; }
+        [MaxLength]
+        public string LastName { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string Phone { get; set; }
+        [MaxLength]
+        public string PhoneNumber { get; set; }
 
         [Required]
-        [StringLength(255)]
-        public string Address { get; set; }
+        public Address Address { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Aadhar_Card_Path { get; set; }
-
-        [StringLength(500)]
+        [MaxLength]
         public string Remarks { get; set; }
     }
+
 
 }
