@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Request Summary";
+}
+
+<h2>Request Summary</h2>
+
+@{ if (ViewBag.StatusMessage == "Success")
+    {
+        <p>Request Registration Status: <span class="text-success"> @ViewBag.StatusMessage</span></p>
+        <p>Thank you for placing the request for books. We will contact you on your email/phone. Check Status of your request on Request Status page</p>
+
+    }
+}

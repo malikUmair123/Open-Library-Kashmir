@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Open_Library_Kashmir.Models.Book>
+<head>
+<style>
+    /* Always show these columns */
+    .title-col, .author-col {
+        display: table-cell;
+    }
+
+    /* Hide on smaller screens (Example breakpoint) */
+    @@media (max-width: 768px) {
+        .publisher-col, .class-col, .avail-at-col {
+            display: none;
+        }
+    }
+</style>
+</head>
+@{
+    ViewBag.Title = "RequestStatus";
+}
+
+<h2>Request Details</h2>
+
+<p>Request Status: <span class="text-success"> @ViewBag.StatusMessage</span></p>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <tr>
+            <tr>
+                <th class="title-col">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th class="author-col">
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th class="class-col">
+                    @Html.DisplayNameFor(model => model.@Class)
+                </th>
+                <th class="publisher-col">
+                    @Html.DisplayNameFor(model => model.Publisher)
+                </th>
+                <th class="avail-at-col">
+                    @Html.DisplayNameFor(model => model.AvailableAt)
+                </th>
+            </tr>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="title-col">
+                    @Html.ActionLink(item.Title, "BookDetails", new { id = item.BookId })
+                </td>
+                <td class="author-col">
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td class="class-col">
+                    @Html.DisplayFor(modelItem => item.@Class)
+                </td>
+                <td class="publisher-col">
+                    @Html.DisplayFor(modelItem => item.Publisher)
+                </td>
+                <td class="avail-at-col">
+                    @Html.DisplayFor(modelItem => item.AvailableAt)
+                </td>
+                @*<td>
+                    @Html.ActionLink("Details", "BookDetails", new { id = item.BookId })
+                </td>*@
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No books found.</p>
+}

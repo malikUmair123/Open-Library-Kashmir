@@ -16,6 +16,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Services.Description;
+using Twilio.TwiML.Messaging;
 using static Open_Library_Kashmir.Controllers.ManageController;
 
 namespace Open_Library_Kashmir.Controllers
@@ -78,8 +79,11 @@ namespace Open_Library_Kashmir.Controllers
                 Session["Wishlist"] = wishlist;
             }
 
-            // Set TempData with the result of your wishlist check tu update properties of Add To Wishlist Button
-            TempData["BookInWishlist"] = wishlist.Books.Any(b => b.BookId == id);
+            // Set TempData with the result of your wishlist session
+            // or if wishlist already exists in database
+            // don't allow the user to add to wishlist
+            // updates properties of Add To Wishlist Button to disables
+            TempData["BookInWishlist"] = wishlist.Books.Any(b => b.BookId == id) || WishlistInDB() != null;
 
             return View(book);
         }
@@ -247,7 +251,7 @@ namespace Open_Library_Kashmir.Controllers
                     }
 
                     //need to add wishlist to recipeint which first needs to add books
-                    var recipient = CreateRecipient(user);
+                    var recipient = CreateRecipient(userId);
 
                     var wishlist = Session["Wishlist"] as Wishlist;
 
@@ -256,6 +260,7 @@ namespace Open_Library_Kashmir.Controllers
                         // Set recipient ID in wishlist
                         wishlist.RecipientId = recipient.RecipientId;
 
+                        recipient.RequestStatus = RequestStatus.Pending;
                         // Add wishlist to recipient's collection
                         //recipient.Wishlists.Add(wishlist);
                         wishlist.Recipient = recipient;
@@ -264,9 +269,14 @@ namespace Open_Library_Kashmir.Controllers
                         //_context.Recipients.AddOrUpdate(recipient);
 
                         // Save changes to the database
-                        _context.SaveChanges();
+                        var finalresult = _context.SaveChanges();
 
-                    // ... (Distribution Logic for actual distribution
+                        if (finalresult > 0)
+                        {
+                            wishlist = null;
+                        }
+
+                    // ... (Distribution Logic for actual distribution...see if you only need wishlist table
 
                     //foreach (var books in wishlist.Books)
                     //{
@@ -282,13 +292,13 @@ namespace Open_Library_Kashmir.Controllers
                     //Final save
 
                     //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
-                    return RedirectToAction("SummaryPage", new { Message = DonationMessageId.SuccessMessage });
+                    return RedirectToAction("RequestSummary", new { Message = DonationMessageId.SuccessMessage });
 
                     }
                     else
                     {
                         //TempData["ErrorMessage"] = "Wishlist not found for current user.";
-                        return RedirectToAction("SummaryPage", new { Message = DonationMessageId.ErrorMessage });
+                        return RedirectToAction("RequestSummary", new { Message = DonationMessageId.ErrorMessage });
 
                     }
                 }
@@ -302,7 +312,7 @@ namespace Open_Library_Kashmir.Controllers
                     //    TempData["WishlistData"] = wishlist; // Store wishlist for later
                     //}
                     //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("SummaryPage", new { Message = DonationMessageId.NotImplemented});
+                    return RedirectToAction("RequestSummary", new { Message = DonationMessageId.NotImplemented});
 
                 }
 
@@ -311,22 +321,159 @@ namespace Open_Library_Kashmir.Controllers
         }
 
         [NonAction]
-        private Recipient CreateRecipient(ApplicationUser user)
+        private Recipient CreateRecipient(string userId)
         {
-            var recipient = _context.Recipients.FirstOrDefault(r => r.RecipientId == user.Id) ??
-                                          new Recipient { RecipientId = user.Id };
+            var recipient = _context.Recipients.FirstOrDefault(r => r.RecipientId == userId) ??
+                                          new Recipient { RecipientId = userId };
             return recipient;
         }
 
-        public ActionResult SummaryPage(DonationMessageId message)
+        public async Task<ActionResult> RequestSummary(DonationMessageId message)
         {
-            ViewBag.StatusMessage =
+            //////need to add wishlist to recipeint which first needs to add books
+            ////        var recipient = CreateRecipient(userId);
+
+            ////        var wishlist = Session["Wishlist"] as Wishlist;
+
+            ////        if (wishlist != null && recipient != null)
+            ////        {
+            ////            // Set recipient ID in wishlist
+            ////            wishlist.RecipientId = recipient.RecipientId;
+
+            ////            recipient.RequestStatus = RequestStatus.Pending;
+            ////            // Add wishlist to recipient's collection
+            ////            //recipient.Wishlists.Add(wishlist);
+            ////            wishlist.Recipient = recipient;
+            ////            // Add or update wishlist and recipient in the database
+            ////            _context.Wishlists.AddOrUpdate(wishlist);
+            ////            //_context.Recipients.AddOrUpdate(recipient);
+
+            ////            // Save changes to the database
+            ////            var finalresult = _context.SaveChanges();
+
+            ////            if (finalresult > 0)
+            ////            {
+            ////                wishlist = null;
+            ////            }
+
+            ////        // ... (Distribution Logic for actual distribution...see if you only need wishlist table
+
+            ////        //foreach (var books in wishlist.Books)
+            ////        //{
+            ////        //    var recipientBook = new RecipientBook
+            ////        //    {
+            ////        //        RecipientId = recipient.RecipientId,
+            ////        //        BookId = books.BookId,
+            ////        //        DateRecieved = DateTime.Now
+            ////        //    };
+            ////        //_context.RecipientBooks.AddOrUpdate(recipientBook);
+            ////        //}
+
+            ////        //Final save
+
+            ////        //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
+            ////        return RedirectToAction("RequestSummary", new { Message = DonationMessageId.SuccessMessage });
+
+            ////        }
+            ////        else
+            ////        {
+            ////            //TempData["ErrorMessage"] = "Wishlist not found for current user.";
+            ////            return RedirectToAction("RequestSummary", new { Message = DonationMessageId.ErrorMessage });
+
+            ////        }
+            ///
+            //if (message == DonationMessageId.SuccessMessage)
+            //{
+            //    // Send an email with this link
+            //    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            //    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            //    string emailBody = @"
+            //            <p>Dear " + model.FirstName + @",</p>
+            //            <p>Thank you for registering with Open Library Kashmir (OLK)!</p>
+            //            <p>To complete the registration process and access your account, please confirm your email address by clicking the link below:</p>
+            //            <p><a href=""" + callbackUrl + @""">Confirm Email</a></p>
+            //            <p>If you did not register with OLK or believe you received this email in error, please disregard it.</p>
+            //            <p>Thank you,</p>
+            //            <p>Open Library Kashmir (OLK) Team</p>";
+
+            //    //SMS Test
+
+            //    //await UserManager.SendSmsAsync(user.PhoneNumber, callbackUrl);
+
+            //    //SendGrid Implementation...see IdentityConfig.cs EmailService
+
+            //    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            //    //Smtp...Gmail Implementation
+            //    bool IsSendEmail = Helpers.Helpers.EmailSend(model.Email, "Confirm Email", emailBody, true);
+
+            //    if (IsSendEmail)
+            //    {
+            //        return RedirectToAction("ConfirmEmailConfirmation");
+            //    }
+
+                ViewBag.StatusMessage =
                 message == DonationMessageId.SuccessMessage ? "Success"
                 : message == DonationMessageId.ErrorMessage ? "Error"
                 : message == DonationMessageId.NotImplemented ? "NotImplemented"
                 : "";
+
             return View();
         }
+
+        [ActionName("RequestStatus")]
+        public ActionResult RequestStatusPage()
+        {
+            if (Request.IsAuthenticated)
+            {
+                    
+                    var wishlist = WishlistInDB();
+
+                    if (wishlist != null) 
+                    {
+                         var BooksInWishlist = wishlist.Books.ToList();
+                    if (ViewBag.StatusMessage != null)
+                    {
+                        ViewBag.StatusMessage =
+                                wishlist?.Recipient?.RequestStatus == RequestStatus.Pending ? "Pending...Wait for us to contact you."
+                              : wishlist?.Recipient?.RequestStatus == RequestStatus.Approved ? "Approved...You will be informed about the order soon."
+                              : wishlist?.Recipient?.RequestStatus == RequestStatus.Rejected ? "Rejected...Kindly check with us to know why."
+                              : "";
+                        return View(BooksInWishlist);
+                    }
+                }
+
+            }
+
+            ViewBag.StatusMessage = "No books requested yet.";
+
+            return View();
+
+        }
+
+        public Wishlist WishlistInDB()
+        {
+            if (Request.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+
+                Recipient recipient = _context.Recipients.FirstOrDefault(r => r.RecipientId == userId);
+
+                if (recipient != null)
+                {
+                    var wishlist = _context.Wishlists.FirstOrDefault(w => w.RecipientId == userId);
+
+                    if (wishlist != null)
+                    {
+                        return wishlist;
+                    }
+                }
+            }
+
+            return new Wishlist();
+
+        }
+
         #region Helpers
         public enum DonationMessageId
         {
