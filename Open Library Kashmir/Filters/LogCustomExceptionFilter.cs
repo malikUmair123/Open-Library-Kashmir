@@ -18,30 +18,36 @@ namespace Open_Library_Kashmir.Models
                 var controllerName = filterContext.RouteData.Values["controller"].ToString();
                 var actionName = filterContext.RouteData.Values["action"].ToString();
 
-                string Message = "Date :" + DateTime.Now.ToString() + ", Controller: " + controllerName + ", Action:" + actionName +
-                                 "Error Message : " + exceptionMessage
-                                + Environment.NewLine + "Stack Trace : " + stackTrace;
+                string message = $"Date: {DateTime.Now}" + Environment.NewLine +
+                 $"Controller: {controllerName}" + Environment.NewLine +
+                 $"Action: {actionName}" + Environment.NewLine +
+                 $"Error Message: {exceptionMessage}" + Environment.NewLine +
+                 $"Stack Trace: {stackTrace}" + Environment.NewLine + Environment.NewLine + Environment.NewLine;
 
-                //saving the data in a text file called Log.txt
-                // Path to the log file
+                // Define the path to your log file
                 string logFilePath = HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt");
 
-                // Check if the file exists
-                if (!File.Exists(logFilePath))
-                {
-                    // If the file doesn't exist, create it
-                    using (FileStream fs = File.Create(logFilePath))
+                try
+                {                    
+                    // Check if the file exists
+                    if (!File.Exists(logFilePath))
                     {
-                        // File created, close the stream
-                        fs.Close();
+                        // If the file doesn't exist, create it
+                        using (FileStream fs = File.Create(logFilePath))
+                        {
+                            // File created, close the stream
+                            fs.Close();
+                        }
                     }
+
+                    // Append text to the log file
+                    File.AppendAllText(logFilePath, message);
                 }
-
-                // Append text to the log file
-                File.AppendAllText(logFilePath, Message);
-
-               //this doesn't check if the file exists
-               //File.AppendAllText(HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt"), Message);
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that occur while writing to the log file
+                    Console.WriteLine($"Error writing to log file: {ex.Message}");
+                }
 
                 filterContext.ExceptionHandled = true;
                 filterContext.Result = new ViewResult()
