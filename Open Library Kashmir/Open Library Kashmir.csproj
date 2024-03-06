@@ -325,7 +325,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Recipient.cs" />
     <Compile Include="Models\RecipientBook.cs" />
-    <Compile Include="Models\SessionWishlist.cs" />
     <Compile Include="Models\Wishlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -437,7 +436,8 @@
     <Content Include="Views\Account\UpdateUser.cshtml" />
     <Content Include="Views\Account\UserDetails.cshtml" />
     <Content Include="Views\Donation\EditRecipient.cshtml" />
-    <Content Include="Views\Donation\SummaryPage.cshtml" />
+    <Content Include="Views\Donation\RequestSummary.cshtml" />
+    <Content Include="Views\Donation\RequestStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
