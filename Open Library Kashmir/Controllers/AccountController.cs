@@ -1,22 +1,18 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
-using Open_Library_Kashmir.Helpers;
-using System.Web.Http.Results;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Unity;
 
 namespace Open_Library_Kashmir.Controllers
 {
     [Authorize]
     [RequireHttps]
+    [LogCustomExceptionFilter]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -28,8 +24,10 @@ namespace Open_Library_Kashmir.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        //[InjectionConstructor]
+        public AccountController(ApplicationDbContext context, ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
+            _context = context ?? new ApplicationDbContext();
             UserManager = userManager;
             SignInManager = signInManager;
         }
