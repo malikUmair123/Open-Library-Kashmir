@@ -62,12 +62,12 @@
             console.log("Countries data:", data);
             var items = "<option value=''>Select Country</option>";
             $.each(data.geonames, function (index, country) {
-                items += "<option value='" + country.geonameId + "'>" + country.countryName + "</option>";
+                items += "<option value='" + country.countryCode + "'>" + country.countryName + "</option>";
             });
             $("#country-dropdown").html(items);
 
             // Set default country to India
-            $("#country-dropdown").val(1269750).trigger("change"); // Trigger change event
+            $("#country-dropdown").val("IN").trigger("change"); // Trigger change event
         })
         .fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
@@ -80,25 +80,27 @@
             console.log("States data:", data);
             var items = "<option value=''>Select State</option>";
             $.each(data.geonames, function (index, state) {
-                items += "<option value='" + state.geonameId + "'>" + state.name + "</option>";
+                items += "<option value='" + state.name + "'>" + state.name + "</option>";
             });
             $("#state-dropdown").html(items);
 
             // Set default state to Jammu and Kashmir
-            $("#state-dropdown").val(1269320).trigger("change"); // Trigger change event
+            $("#state-dropdown").val("Jammu and Kashmir").trigger("change"); // Trigger change event
         })
         .fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
             console.error("Request Failed: " + err);
         });
 
-    // Load states for India on page load
-    $.getJSON("https://secure.geonames.org/childrenJSON", { geonameId: 1269320, username: "olkorg" })
-        .done(function (data) {
-            console.log("States data:", data);
-            var items = "<option value=''>Select State</option>";
-            $.each(data.geonames, function (index, state) {
-                items += "<option value='" + state.geonameId + "'>" + state.name + "</option>";
+    // Load cities/district for India on page load
+
+       $.getJSON("https://secure.geonames.org/childrenJSON", { geonameId: 1269320, username: "olkorg" })
+           .done(function (data) {
+
+               console.log("Cities data:", data);
+               var items = "<option value=''>Select City/District</option>";
+          $.each(data.geonames, function (index, city) {
+                items += "<option value='" + city.name + "' data-geonameid='" + city.geonameId +  "'>" + city.name + "</option>";
             });
             $("#city-dropdown").html(items);
         })
@@ -108,15 +110,15 @@
         });
 
 
-
+    // Load tehsils
     $("#city-dropdown").change(function () {
-        var districtId = $(this).val();
+        var districtId = $(this).find("option:selected").data("geonameid"); // Retrieve the geoname ID from the selected option
         $.getJSON("https://secure.geonames.org/childrenJSON", { geonameId: districtId, username: "olkorg" })
             .done(function (data) {
                 console.log("District locations data:", data);
-                var items = "<option value=''>Select Child Location</option>";
+                var items = "<option value=''>Select Block/Tehsil</option>";
                 $.each(data.geonames, function (index, location) {
-                    items += "<option value='" + location.geonameId + "'>" + location.name + "</option>";
+                    items += "<option value='" + location.name + "' data-geonameid='" + location.geonameId + "'>" + location.name + "</option>";
                 });
                 $("#child-location-dropdown").html(items);
             })
@@ -126,15 +128,16 @@
             });
     });
 
+    // Load villages
     $("#child-location-dropdown").change(function () {
-        var tehsilId = $(this).val();
+        var tehsilId = $(this).find("option:selected").data("geonameid"); // Retrieve the geoname ID from the selected option
         $.getJSON("https://secure.geonames.org/childrenJSON", { geonameId: tehsilId, username: "olkorg" })
             .done(function (data) {
-                console.log("Tehsil locations data:", data);
+                console.log("Villages locations data:", data);
 
-                var items = "<option value=''>Select SubChild Location</option>";
+                var items = "<option value=''>Select Street/Village</option>";
                 $.each(data.geonames, function (index, location) {
-                    items += "<option value='" + location.geonameId + "'>" + location.name + "</option>";
+                    items += "<option value='" + location.name + "' data-geonameid='" + location.geonameId +  "'>" + location.name + "</option>";
                 });
                 $("#subchild-location-dropdown").html(items);
 
@@ -154,9 +157,9 @@
                         $.getJSON("https://secure.geonames.org/findNearbyPostalCodesJSON", { lat: latitude, lng: longitude, username: "olkorg" })
                             .done(function (postalData) {
                                 console.log("Postal code data:", postalData);
-                                var items = "<option value=''>Select Postal Code</option>";
+                                var items = "<option value=''>Select Pin Code</option>";
                                 $.each(postalData.postalCodes, function (index, location) {
-                                    items += "<option value='" + location.postalCode + "'>" + location.placeName + "</option>";
+                                    items += "<option value='" + location.postalCode + "'>" + location.postalCode /*location.placeName*/ + "</option>";
                                 });
                                 $("#postal-code-dropdown").html(items);
                             })

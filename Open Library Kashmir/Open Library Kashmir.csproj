@@ -318,6 +318,10 @@
     <Compile Include="Migrations\202403060939355_AddRequestStatusEnumToRecipient.designer.cs">
       <DependentUpon>202403060939355_AddRequestStatusEnumToRecipient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.cs" />
+    <Compile Include="Migrations\202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.designer.cs">
+      <DependentUpon>202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -491,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202403060939355_AddRequestStatusEnumToRecipient.resx">
       <DependentUpon>202403060939355_AddRequestStatusEnumToRecipient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.resx">
+      <DependentUpon>202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

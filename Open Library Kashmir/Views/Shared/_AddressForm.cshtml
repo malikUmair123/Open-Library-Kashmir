@@ -11,39 +11,43 @@
 <div class="form-group row">
     @Html.LabelFor(model => model.Address.State, htmlAttributes: new { @class = "col-md-2 col-form-label" })
     <div class="col-md-10">
-        @Html.DropDownListFor(model => model.Address.State, new SelectList(new List<string>()), "Select State", new { @class = "form-control", id = "state-dropdown" })
+        @Html.DropDownListFor(model => model.Address.State, new SelectList(new List<string>()), "Select State/Province", new { @class = "form-control", id = "state-dropdown" })
         @Html.ValidationMessageFor(model => model.Address.State, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group row">
-    @Html.LabelFor(model => model.Address.City, htmlAttributes: new { @class = "col-md-2 col-form-label" })
+    @Html.LabelFor(model => model.Address.State, htmlAttributes: new { @class = "col-md-2 col-form-label" })
     <div class="col-md-10">
-        @Html.DropDownListFor(model => model.Address.City, new SelectList(new List<string>()), "Select City", new { @class = "form-control", id = "city-dropdown" })
-        @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
+        @Html.DropDownListFor(model => model.Address.City, new SelectList(new List<string>()), new { @class = "form-control", id = "city-dropdown" })
+        @*@Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })*@
+        @*<a href="#" id="other-city" class="btn btn-outline-secondary">Other</a>*@
+    </div>
+
+</div>
+
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.Address.AddressLine2, htmlAttributes: new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(model => model.Address.AddressLine2, new SelectList(new List<string>()), "Select Tehsil/Block", new { @class = "form-control", id = "child-location-dropdown" })
+        @Html.ValidationMessageFor(model => model.Address.AddressLine2, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group row">
     @Html.LabelFor(model => model.Address.AddressLine1, htmlAttributes: new { @class = "col-md-2 col-form-label" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.Address.AddressLine1, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.DropDownListFor(model => model.Address.AddressLine1, new SelectList(new List<string>()), "Select Village/Area", new { @class = "form-control", id = "subchild-location-dropdown" })
         @Html.ValidationMessageFor(model => model.Address.AddressLine1, "", new { @class = "text-danger" })
     </div>
 </div>
 
-<div class="form-group row">
-    @Html.LabelFor(model => model.Address.AddressLine2, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-    <div class="col-md-10">
-        @Html.DropDownListFor(model => model.Address.AddressLine2, new SelectList(new List<string>()), "Select Address Line 2", new { @class = "form-control", id = "child-location-dropdown" })
-        @Html.ValidationMessageFor(model => model.Address.AddressLine2, "", new { @class = "text-danger" })
-    </div>
-</div>
 
 <div class="form-group row">
     @Html.LabelFor(model => model.Address.PostalCode, htmlAttributes: new { @class = "col-md-2 col-form-label" })
     <div class="col-md-10">
-        @Html.DropDownListFor(model => model.Address.PostalCode, new SelectList(new List<string>()), "Select Postal Code", new { @class = "form-control", id = "postal-code-dropdown" })
+        @Html.DropDownListFor(model => model.Address.PostalCode, new SelectList(new List<string>()), "Select Pin Code", new { @class = "form-control", id = "postal-code-dropdown" })
         @Html.ValidationMessageFor(model => model.Address.PostalCode, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -51,3 +55,5 @@
 @section Scripts {
     <script src="~/Scripts/CountriesInfoAPI.js"></script>
 }
+
+
