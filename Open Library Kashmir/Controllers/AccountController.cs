@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Open_Library_Kashmir.Models;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -243,99 +244,44 @@ namespace Open_Library_Kashmir.Controllers
             return View(model);
         }
 
-            // GET: /Home/UpdateUser
-            [HttpGet]
-        public ActionResult UpdateUser(string UserId)
+        private HttpClient httpClient = new HttpClient();
+
+        public async Task<ActionResult> AddAddress()
         {
-            //Creating an Instance of EditUserViewModel
-            EditUserViewModel model = new EditUserViewModel();
-
-            //Fetch the User Details by UserId using the FindById method
-            ApplicationUser UserToEdit = UserManager.FindById(UserId);
-
-            //If the user exists then map the data to EditUserViewModel properties
-            if (UserToEdit != null)
-            {
-                model.UserId = UserToEdit.Id;
-                model.FirstName = UserToEdit.FirstName;
-                model.LastName = UserToEdit.LastName;
-                model.Email = UserToEdit.Email;
-                model.PhoneNumber = UserToEdit.PhoneNumber;
-            }
-            return View(model);
+            Address address = new Address();
+            var countries = await GetCountries();
+            ViewBag.Countries = countries;
+            return View(address);
         }
 
-        [HttpPost]
-        public ActionResult UpdateUser(EditUserViewModel model)
+        public async Task<JsonResult> GetStates(int geonameId)
         {
-            if (ModelState.IsValid)
-            {
-                //Create an instance of ApplicationUserManager class as we want to fetch the user details
-                //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-                //Fetch the User Details by UserId using the FindById method
-                ApplicationUser UserToEdit = UserManager.FindById(model.UserId);
-
-                if (UserToEdit.UserName != model.Email)
-                    UserToEdit.UserName = model.Email;
-
-                if (UserToEdit.FirstName != model.FirstName)
-                    UserToEdit.FirstName = model.FirstName;
-
-                if (UserToEdit.LastName != model.LastName)
-                    UserToEdit.LastName = model.LastName;
-
-                if (UserToEdit.Email != model.Email)
-                    UserToEdit.Email = model.Email;
-
-                if (UserToEdit.PhoneNumber != model.PhoneNumber)
-                    UserToEdit.PhoneNumber = model.PhoneNumber;
-
-                //Call the Update method to Update the User data
-                IdentityResult result = UserManager.Update(UserToEdit);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (string error in result.Errors)
-                    ModelState.AddModelError("", error);
-            }
-
-            return View(model);
+            string url = $"http://api.geonames.org/childrenJSON?geonameId={geonameId}&username=olkorg";
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+            var data = await response.Content.ReadAsAsync<dynamic>();
+            return Json(data["geonames"], JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult DeleteUser(string UserId)
+        public async Task<JsonResult> GetCities(int geonameId)
         {
-            //Create an Instance of ApplicationUserManager who is responsible for doing user-related operations
-            //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            //Find the user to Delete by using FindById Method
-            ApplicationUser UserToDelete = UserManager.FindById(UserId);
-
-            //If the User Exists Then Delete the User
-            if (UserToDelete != null)
-            {
-                //Delete the User by using Delete method of ApplicationUserManager Insance
-                IdentityResult result = UserManager.Delete(UserToDelete);
-                if (result.Succeeded)
-                {
-                    return LogOff();
-                }
-
-                foreach (string error in result.Errors)
-                    ModelState.AddModelError("", error);
-
-                return View(UserId);
-            }
-
-            return HttpNotFound();
+            string url = $"http://api.geonames.org/childrenJSON?geonameId={geonameId}&username=olkorg";
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+            var data = await response.Content.ReadAsAsync<dynamic>();
+            return Json(data["geonames"], JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
+        private async Task<dynamic> GetCountries()
+        {
+            string url = "http://api.geonames.org/countryInfoJSON?formatted=true&lang=en&username=olkorg&style=full";
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+            var data = await response.Content.ReadAsAsync<dynamic>();
+            return data["geonames"];
+        }
+
+
+    //
+    // GET: /Account/ConfirmEmail
+    [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)

@@ -1,0 +1,51 @@
+﻿@model Open_Library_Kashmir.Models.Address
+@{
+    ViewBag.Title = "Address Form";
+}
+
+<h2>Address Form</h2>
+
+@using (Html.BeginForm("SubmitAddress", "Address", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.CountryCode)
+        <select id="country-dropdown" name="CountryCode">
+            <option value="">Select Country</option>
+        </select>
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.State)
+        <select id="state-dropdown" name="StateProvince"></select>
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.City)
+        <select id="city-dropdown" name="City"></select>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.AddressLine2)
+        <select id="child-location-dropdown" name="ChildLocation"></select>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.AddressLine1)
+        <select id="subchild-location-dropdown" name="SubChildLocation"></select>
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.PostalCode)
+        <select id="postal-code-dropdown" name="PostalCode"></select>
+        @*@Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode" })*@
+    </div>
+
+
+    <button type="submit">Submit</button>
+}
+
+@section Scripts {
+    <script src="~/Scripts/CountriesInfoAPI.js"></script>
+    @*<script>*@
+
+    @*</script>*@
+}
+
