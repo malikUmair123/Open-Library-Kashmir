@@ -100,6 +100,12 @@
     <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="SendGrid, Version=9.29.2.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <HintPath>..\packages\SendGrid.9.29.2\lib\net452\SendGrid.dll</HintPath>
     </Reference>
@@ -351,6 +357,7 @@
     <Content Include="Content\Images\profile-user-color.png" />
     <Content Include="Content\Images\profile-user.png" />
     <Content Include="Content\Images\wishlist.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\wishlist.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -365,6 +372,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\OpenLibraryKashmir20240303135803 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\CountriesInfoAPI.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
@@ -433,11 +441,15 @@
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\Donation\Wishlist.cshtml" />
-    <Content Include="Views\Account\UpdateUser.cshtml" />
     <Content Include="Views\Account\UserDetails.cshtml" />
     <Content Include="Views\Donation\EditRecipient.cshtml" />
     <Content Include="Views\Donation\RequestSummary.cshtml" />
     <Content Include="Views\Donation\RequestStatus.cshtml" />
+    <Content Include="Views\Manage\DeleteUser.cshtml" />
+    <Content Include="Views\Manage\UpdateUser.cshtml" />
+    <Content Include="Views\Manage\DetailsUser.cshtml" />
+    <Content Include="Views\Account\AddAddress.cshtml" />
+    <Content Include="Views\Shared\_AddressForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

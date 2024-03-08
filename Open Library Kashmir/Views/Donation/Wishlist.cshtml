@@ -19,8 +19,7 @@
 
 @if (Model.Books?.Any() ?? false)
 {
-    <table>
-        <thead>
+    <<table class="table">
             <tr>
                 <th class="title-col">
                     @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Title)
@@ -38,9 +37,7 @@
                     @Html.DisplayNameFor(model => model.Books.FirstOrDefault().AvailableAt)
                 </th>
             </tr>
-
-        </thead>
-        <tbody>
+       
             @foreach (var item in Model.Books)
             {
                 <tr>
@@ -62,18 +59,18 @@
                     </td>
                 </tr>
             }
-        </tbody>
+       
     </table>
 
     if (Request.IsAuthenticated)
     {
-        <h4>You need to fill in additional details to reqeust books:</h4>
+        @*<h4>You need to fill in additional details to reqeust books:</h4>*@
 
         @*using (Html.BeginForm("CreateRecipient", "Donation", FormMethod.Post))
             {
                 <button type="submit" class="btn btn-primary">Fill Additional Details</button>
             }*@
-        @Html.ActionLink("Fill Additional Details »", "EditRecipient", "Donation", routeValues: null@*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary btn-md" })
+        @Html.ActionLink("Proceed With Request »", "EditRecipient", "Donation", routeValues: null@*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary" })
 
     }
     else
@@ -87,53 +84,3 @@ else
 {
     <h4>Your wishlist is empty.</h4>
 }
-
-@*//model javascript and jquery on this*@
-@*<script>
-        $(document).ready(function () {
-            // Function to update wishlist count badge
-            function updateWishlistCount() {
-                $.ajax({
-                    url: '/Donation/GetWishlistCount',
-                    type: 'GET',
-                    success: function (data) {
-                        var count = data.Count;
-                        $('#wishlist-count-badge').text(count);
-                        // Show badge
-                        $('#wishlist-count-badge').show();
-                    },
-                    error: function () {
-                        console.log('Error fetching wishlist count.');
-                    }
-                });
-            }
-
-            // Call updateWishlistCount initially
-            updateWishlistCount();
-
-            // Event handler for adding book to wishlist
-            $('#add-to-wishlist-btn').click(function (e) {
-                e.preventDefault(); // Prevent default form submission behavior
-                var form = $(this).closest('form');
-                $.ajax({
-                    url: form.attr('action'),
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function () {
-                        updateWishlistCount(); // Update wishlist count after adding book
-                        $('#add-to-wishlist-btn').prop('disabled', true);
-
-                        // Change the button text to "Added to Wishlist"
-                        $('#add-to-wishlist-btn').text('Added to Wishlist');
-
-                        // Change the button color to represent it has been added to wishlist
-                        $('#add-to-wishlist-btn').removeClass('btn-primary').addClass('btn-success');
-                    },
-                    error: function () {
-                        console.log('Error adding book to wishlist.');
-                    }
-                });
-            });
-        });
-
-    </script>*@

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Open_Library_Kashmir.Models.Book>
+﻿@model PagedList.IPagedList<Open_Library_Kashmir.Models.Book>
+@using PagedList.Mvc;
+
 <head>
     <style>
         /* Always show these columns */
@@ -14,21 +16,26 @@
         }
     </style>
 </head>
-<h2>Books avialable for donation: </h2>
+<div class="align-content-center text-center align-items-center">
+    @using (Html.BeginForm("Index", "Donation", FormMethod.Get))
+    {
+        <p>
+            @Html.TextBox("searchString", null, htmlAttributes: new { placeholder = "Search by author or title" })
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<table>
+</table>
+
+@*<h2>Books avialable for donation: </h2>*@
+
 <table class="table">
     <tr>
-        <th class="title-col">
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th class="author-col">
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th class="class-col">
-            @Html.DisplayNameFor(model => model.@Class)
-        </th>
-        <th class="status-col">
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
+        <th class="title-col">Title</th>
+        <th class="author-col">Author</th>
+        <th class="class-col">Class</th>
+        <th class="status-col">Status</th>
     </tr>
 
     @foreach (var item in Model)
@@ -50,7 +57,7 @@
             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BookId }) | 
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BookId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.BookId })
                 </td>
             }
@@ -58,3 +65,61 @@
         </tr>
     }
 </table>
+
+@*<div class="pagination-container text-center">
+        <div class="row justify-content-center mb-3">
+            <div class="col-12">
+                <p class="mb-0">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                {
+                    page,
+                    searchString = ViewBag.CurrentFilter
+                }),
+                new PagedListRenderOptions()
+                {
+                    MaximumPageNumbersToDisplay = 5,
+                    Display = PagedListDisplayMode.IfNeeded,
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                    LiElementClasses = new[] { "page-item" }, // Added for styling
+                    UlElementClasses = new[] { "pagination" } // Added for styling
+                })
+            </div>
+        </div>
+    </div>*@
+
+<div class="pagination-container text-center">
+    <div class="row justify-content-center mb-3">
+        <div class="col-12">
+            <p class="mb-0">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new
+                    {
+                        page,
+                        searchString = ViewBag.CurrentFilter
+                    }),
+                    new PagedListRenderOptions()
+                    {
+                        MaximumPageNumbersToDisplay = 5,
+                        Display = PagedListDisplayMode.IfNeeded,
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        LiElementClasses = new[] { "page-item", "mx-2" }, // Added for styling
+                        UlElementClasses = new[] { "pagination" } // Added for styling
+                    })
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+

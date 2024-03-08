@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Open_Library_Kashmir.Models;
+using PagedList;
 using System;
 using System.CodeDom;
 using System.Collections;
@@ -59,11 +60,32 @@ namespace Open_Library_Kashmir.Controllers
 
         //[OutputCache(CacheProfile = "1MinuteCache", Location = System.Web.UI.OutputCacheLocation.Client)]
         //[OutputCache(Duration = 60, Location = System.Web.UI.OutputCacheLocation.Client)]
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var books = _context.Books.ToList();
+        //    return View(books);
+        //}
+
+        public ActionResult Index(string searchString, int? page)
         {
-            var books = _context.Books.ToList();
-            return View(books);
+            var books = from b in _context.Books select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(b => b.Title.Contains(searchString)
+                                         || b.Author.Contains(searchString));
+            }
+
+            // Add Ordering here
+            books = books.OrderBy(b => b.Title); // Order by Title
+
+            int pageSize = 20;  // Display 3 items per page
+            int pageNumber = (page ?? 1); // Default to page 1
+
+            return View(books.ToPagedList(pageNumber, pageSize));
         }
+
+
 
         // GET: BookDetails
 
@@ -71,6 +93,12 @@ namespace Open_Library_Kashmir.Controllers
         public ActionResult BookDetails(int id)
         {
             Book book = _context.Books.FirstOrDefault(x => x.BookId == id);
+
+            //Books in request pipeline
+       
+            TempData["BooksInWishlistDB"] = WishlistInDB() != null;
+          
+
             // Retrieve wishlist from the session
             var wishlist = Session["Wishlist"] as Wishlist;
             if (wishlist == null)
@@ -83,7 +111,7 @@ namespace Open_Library_Kashmir.Controllers
             // or if wishlist already exists in database
             // don't allow the user to add to wishlist
             // updates properties of Add To Wishlist Button to disables
-            TempData["BookInWishlist"] = wishlist.Books.Any(b => b.BookId == id) || WishlistInDB() != null;
+            TempData["BookInWishlist"] = wishlist.Books.Any(b => b.BookId == id) /*|| WishlistInDB() != null*/;
 
             return View(book);
         }
@@ -328,7 +356,7 @@ namespace Open_Library_Kashmir.Controllers
             return recipient;
         }
 
-        public async Task<ActionResult> RequestSummary(DonationMessageId message)
+        public ActionResult RequestSummary(DonationMessageId message)
         {
             //////need to add wishlist to recipeint which first needs to add books
             ////        var recipient = CreateRecipient(userId);
@@ -432,16 +460,13 @@ namespace Open_Library_Kashmir.Controllers
                     if (wishlist != null) 
                     {
                          var BooksInWishlist = wishlist.Books.ToList();
-                    if (ViewBag.StatusMessage != null)
-                    {
-                        ViewBag.StatusMessage =
-                                wishlist?.Recipient?.RequestStatus == RequestStatus.Pending ? "Pending...Wait for us to contact you."
-                              : wishlist?.Recipient?.RequestStatus == RequestStatus.Approved ? "Approved...You will be informed about the order soon."
-                              : wishlist?.Recipient?.RequestStatus == RequestStatus.Rejected ? "Rejected...Kindly check with us to know why."
-                              : "";
-                        return View(BooksInWishlist);
+                         ViewBag.StatusMessage =
+                               wishlist?.Recipient?.RequestStatus == RequestStatus.Pending ? "Pending...Wait for us to contact you."
+                             : wishlist?.Recipient?.RequestStatus == RequestStatus.Approved ? "Approved...You will be informed about the order soon."
+                             : wishlist?.Recipient?.RequestStatus == RequestStatus.Rejected ? "Rejected...Kindly check with us to know why."
+                             : "";
+                         return View(BooksInWishlist);
                     }
-                }
 
             }
 
@@ -461,17 +486,12 @@ namespace Open_Library_Kashmir.Controllers
 
                 if (recipient != null)
                 {
-                    var wishlist = _context.Wishlists.FirstOrDefault(w => w.RecipientId == userId);
-
-                    if (wishlist != null)
-                    {
-                        return wishlist;
-                    }
+                    return _context.Wishlists.FirstOrDefault(w => w.RecipientId == userId);
+                    // Return wishlist directly if found
                 }
             }
 
-            return new Wishlist();
-
+            return null; // Return null if no wishlist is associated with the user
         }
 
         #region Helpers
