@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace Open_Library_Kashmir.Models
     public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
-        public string LastName { get; set; }      
+        public string LastName { get; set; }
+
+        // Foreign key to Address
+        public int AddressId { get; set; }
+        [ForeignKey("AddressId")]
         public virtual Address Address { get; set; }
-
         public string AadharImageUrl { get; set; }
-
         public string Remarks { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
