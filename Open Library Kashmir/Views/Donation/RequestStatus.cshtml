@@ -25,7 +25,6 @@
 @if (Model != null && Model.Any())
 {
     <table class="table">
-        <tr>
             <tr>
                 <th class="title-col">
                     @Html.DisplayNameFor(model => model.Title)
@@ -43,8 +42,6 @@
                     @Html.DisplayNameFor(model => model.AvailableAt)
                 </th>
             </tr>
-
-        </tr>
 
         @foreach (var item in Model)
         {

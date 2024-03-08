@@ -14,27 +14,28 @@ namespace Open_Library_Kashmir.Models
     public class RecipientViewModel
     {
         [Required]
-        [MaxLength]
+        [MaxLength(128)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength]
+        [MaxLength(128)]
         public string LastName { get; set; }
 
         [Required]
         [EmailAddress]
+        [MaxLength(256)]
         public string Email { get; set; }
 
         [Required]
-        [MaxLength]
+        [MaxLength(128)]
         public string PhoneNumber { get; set; }
 
-        [Required]
         public Address Address { get; set; }
 
-        [MaxLength]
+        //[MaxLength(500)] // No need to specify max length as it's already set to max
         public string Remarks { get; set; }
     }
+
 
 
 }
