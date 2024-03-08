@@ -1,85 +1,74 @@
-﻿﻿@model Open_Library_Kashmir.Models.ApplicationUser
+﻿@model Open_Library_Kashmir.Models.ApplicationUser
 @using Microsoft.AspNet.Identity
 
+@{ ViewBag.Title = "User Details"; }
 
-@{
-    ViewBag.Title = "User Details";
-}
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
+    <section class="row" aria-labelledby="title">
         <h1 id="title">Profile</h1>
     </section>
     <hr>
+
     <section>
         @if (Request.IsAuthenticated)
         {
-            <section class="row" aria-labelledby="aspnetTitle">
+            <section class="row" aria-labelledby="title">
                 <h4>Hello @Model.FirstName! </h4>
             </section>
-            //<p>Roles: @string.Join(", ", ((System.Security.Claims.ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value))</p>
 
-            @*var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
-                if (claimsIdentity != null)
-                {
-                foreach (var claim in claimsIdentity.Claims) // Access the Claims property
-                {
-                @:<p>@claim.Type - @claim.Value</p>
-                }
-                }*@
-            <ul>
-                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                {
-                    @Html.AntiForgeryToken()
+            <section class="col">
+                <ul>
+
+                    @if (!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin"))
+                    {
+                        <li>
+                            @Html.ActionLink("Profile Details", "DetailsUser", "Manage", new { }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
+                        </li>
+                    }
+
                     <li>
-                        <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        @Html.ActionLink("Manage Account", "Index", "Manage", null, new { id = "mamagelink", title = "Manage Settings", @class = "btn btn-outline-dark" })
                     </li>
-                }
-                <li>
-                    @Html.ActionLink("Profile Details", "Details", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-                </li>
-                <li>
-                    @Html.ActionLink("Update Your Details", "UpdateUser", "Account", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-                </li>
-                @using (Html.BeginForm("Delete Your Account", "Account", FormMethod.Post, new { id = "deleteUser" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("UserId", Model.Id)
                     <li>
-                        <a class="btn btn-outline-dark" href="javascript:document.getElementById('deleteUser').submit()">Delete Your Account</a>
+                        @Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", null, new { id = "mamagelink", title = "Manage Wishlist", @class = "btn btn-outline-dark" })
                     </li>
-                }
-                <li>
-                    @Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage Settings", @class = "btn btn-outline-dark" })
-                </li>
-                <li>
-                    @Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", routeValues: null, htmlAttributes: new { id = "mamagelink", title = "Manage Wishlist", @class = "btn btn-outline-dark" })
-                </li>
-                <li>
-                    @Html.ActionLink("Status of Request", "RequestStatus", "Donation", routeValues: null, htmlAttributes: new { id = "orderstatus", title = "Order Status", @class = "btn btn-outline-dark" })
-                </li>
-                <
-            </ul>
-            <h4 id="admin">Admin Privileges:</h4>
-            <ul>
+                    <li>
+                        @Html.ActionLink("Request Status", "RequestStatus", "Donation", null, new { id = "orderstatus", title = "Order Status", @class = "btn btn-outline-dark" })
+                    </li>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <li>
+                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        </li>
+                    }
+                </ul>
+            </section>
+
+            <section class="col">
                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                 {
-                    <li>
-                        @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Manage Users", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })
-                    </li>
+                    <h4>Admin Privileges:</h4>
+                    <ul>
+                        <li>
+                            @Html.ActionLink("Profile Details", "Details", "UsersAdmin", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", null, new { title = "Update", @class = "btn btn-outline-dark" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Manage Users", "Index", "UsersAdmin", null, new { title = "Update", @class = "btn btn-outline-dark" })
+                        </li>
+                    </ul>
                 }
-            </ul>
+            </section>
         }
         else
         {
             <ul>
-                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", title = "Update", @class = "btn btn-outline-dark" })</li>
-                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", title = "Login", @class = "btn btn-outline-dark" })</li>
+                <li> @Html.ActionLink("Register", "Register", "Account", null, new { title = "Update", @class = "btn btn-outline-dark" }) </li>
+                <li> @Html.ActionLink("Log in", "Login", "Account", null, new { title = "Login", @class = "btn btn-outline-dark" }) </li>
             </ul>
-
-
         }
     </section>
 </main>

@@ -1,13 +1,13 @@
 ﻿@model Open_Library_Kashmir.Models.EditUserViewModel
 
 @{
-    ViewBag.Title = "UpdateUser";
+    ViewBag.Title = "UpdateProfile";
 }
 <main aria-labelledby="title">
 
-    <h1>UpdateUser</h1>
+    <h1>Update Profile</h1>
     <hr>
-    @using (Html.BeginForm("UpdateUser", "Account", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm(@*"UpdateUser", "Manage", FormMethod.Post, new { role = "form" }*@))
     {
         @Html.AntiForgeryToken()
 
@@ -48,7 +48,7 @@
 
         <div class="row">
             <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Update User" class="btn btn-outline-dark" />
+                <input type="submit" value="Update Profile" class="btn btn-outline-dark" />
             </div>
         </div>
     }

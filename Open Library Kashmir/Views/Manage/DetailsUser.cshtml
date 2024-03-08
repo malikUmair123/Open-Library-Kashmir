@@ -7,7 +7,7 @@
 <h2>Profile</h2>
 
 <div>
-    <h4>User Details</h4>
+    <h4>Your Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,7 +50,7 @@
     {
         <tr>
             <td>
-                <h6>You have Admin priveleges!<h6>
+                <h6>You have Admin priveleges!</h6>
             </td>
         </tr>
 
@@ -87,6 +87,6 @@
 </table>
 
 <p>
-    @Html.ActionLink("Edit User", "Edit", new { id = Model.User.Id }) |
-    @Html.ActionLink("Back to Users", "Index")
+    @Html.ActionLink("Update Profile", "UpdateUser") |
+    @Html.ActionLink("Manage Account", "Index")
 </p>
