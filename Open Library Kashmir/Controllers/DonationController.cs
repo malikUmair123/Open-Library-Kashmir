@@ -179,7 +179,7 @@ namespace Open_Library_Kashmir.Controllers
             {
                 string userId = User.Identity.GetUserId();
                 ApplicationUser user = UserManager.FindById(userId);
-                if (user.Address == null)
+                if (user?.Address == null)
                 { 
                     user.Address = _context.Addresses.Create();
                 }

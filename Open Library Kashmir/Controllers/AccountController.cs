@@ -176,9 +176,11 @@ namespace Open_Library_Kashmir.Controllers
                     LastName = model.LastName,
                     UserName = model.Email, 
                     Email = model.Email,
-                    PhoneNumber = model.PhoneNumber
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                    PhoneNumber = model.PhoneNumber,
+                    Address = _context.Addresses.Create()
+            };
+                
+            var result = await UserManager.CreateAsync(user, model.Password);
                 
 
                 if (result.Succeeded)

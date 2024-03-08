@@ -26,7 +26,6 @@ namespace Open_Library_Kashmir.Models
         [MaxLength(256)]
         public string Email { get; set; }
 
-        [Required]
         [MaxLength(128)]
         public string PhoneNumber { get; set; }
 

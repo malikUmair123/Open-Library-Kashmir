@@ -67,5 +67,15 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CountriesInfoAPI.js"></script>
+    @*<script>
+        $(document).ready(function () {
+            $("#other-city").click(function (e) {
+                e.preventDefault();
+                $(this).prevAll("#city-dropdown").hide();
+                $(this).prev().show().focus();
+            });
+        });
+
+    </script>*@
 }
 
