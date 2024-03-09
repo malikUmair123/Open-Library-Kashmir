@@ -1,5 +1,5 @@
-﻿using Autofac.Integration.Mvc;
-using Autofac;
+﻿//using Autofac.Integration.Mvc;
+//using Autofac;
 using Open_Library_Kashmir.Models;
 using System;
 using System.Collections.Generic;
@@ -14,27 +14,27 @@ namespace Open_Library_Kashmir.App_Start
     {
         public static void RegisterDependencies()
         {
-            var builder = new ContainerBuilder();
+            //var builder = new ContainerBuilder();
 
-            // Register controllers
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //// Register controllers
+            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            // Register other dependencies
-            builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
+            //// Register other dependencies
+            //builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
 
-            // Register UserManager and SignInManager
-            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
-            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
-            builder.RegisterType<ApplicationRoleManager>().AsSelf().InstancePerRequest();
+            //// Register UserManager and SignInManager
+            //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            //builder.RegisterType<ApplicationRoleManager>().AsSelf().InstancePerRequest();
 
-            // Register AutoMapper
-            builder.Register(ctx => AutoMapperConfig.Initialize()).As<IMapper>().SingleInstance();
+            //// Register AutoMapper
+            //builder.Register(ctx => AutoMapperConfig.Initialize()).As<IMapper>().SingleInstance();
 
-            // Build container
-            var container = builder.Build();
+            //// Build container
+            //var container = builder.Build();
 
-            // Set dependency resolver
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //// Set dependency resolver
+            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     
     }
