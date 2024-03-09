@@ -63,6 +63,12 @@
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.Base, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.Base.2.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.UserSecrets, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.2.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
@@ -319,6 +325,10 @@
     <Compile Include="Migrations\202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.designer.cs">
       <DependentUpon>202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403092028337_TestAzureDatabaseMigration.cs" />
+    <Compile Include="Migrations\202403092028337_TestAzureDatabaseMigration.designer.cs">
+      <DependentUpon>202403092028337_TestAzureDatabaseMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -371,7 +381,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Properties\PublishProfiles\OpenLibraryKashmir20240303135803 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\OpenLibraryKashmir - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\CountriesInfoAPI.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
@@ -495,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.resx">
       <DependentUpon>202403081656035_RemoveDistrictFromAddressAndAddAddressIdToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403092028337_TestAzureDatabaseMigration.resx">
+      <DependentUpon>202403092028337_TestAzureDatabaseMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
