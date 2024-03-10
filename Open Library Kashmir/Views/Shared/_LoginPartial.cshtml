@@ -1,4 +1,4 @@
-﻿@if (Request.IsAuthenticated)
+﻿@*@if (Request.IsAuthenticated)
 {
     <a href="@Url.Action("UserDetails", "Account")" class="navbar-brand">
         <img src="~/Content/Images/profile-user-color.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
@@ -7,7 +7,32 @@
 else
 {
     <a href="@Url.Action("Login", "Account")" class="navbar-brand">
-        <img src="~/Content/Images/profile-user.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
+        <img src="~/Content/Images/user-black.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
     </a>
 
 }
+
+@if (Request.IsAuthenticated)
+{
+    <a id="wishlist-icon" class="navbar-brand" href="/Donation/Wishlist">
+        <img src="~/Content/Images/wishlist-blue.png" alt="Heart Icon" class="heart-icon">
+        <span id="wishlist-count-badge" class="wishlist-count"></span>
+    </a>
+}
+else
+{
+    <a id="wishlist-icon" class="navbar-brand" href="/Donation/Wishlist">
+        <img src="~/Content/Images/wishlist-black.png" alt="Heart Icon" class="heart-icon">
+        <span id="wishlist-count-badge" class="wishlist-count"></span>
+    </a>
+
+}*@
+
+<a href="@Url.Action("UserDetails", "Account")" class="navbar-brand">
+    <img src="~/Content/Images/user-blue.png" title="User Details" alt="User Details" style="max-width: 32px; height: auto;" />
+</a>
+
+<a id="wishlist-icon" class="navbar-brand" href="/Donation/Wishlist">
+    <img src="~/Content/Images/wishlist-bd-blue.png" alt="Heart Icon" class="heart-icon">
+    <span id="wishlist-count-badge" class="wishlist-count"></span>
+</a>
