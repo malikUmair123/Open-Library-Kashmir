@@ -44,14 +44,6 @@
             </div>
         </div>
 
-        <div class="row">
-            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         @Html.Partial("_AddressForm", Model.Address)
 
         <div class="row">
