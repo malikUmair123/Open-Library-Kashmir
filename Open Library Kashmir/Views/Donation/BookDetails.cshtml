@@ -33,7 +33,7 @@
             </div>
             <div class="d-md-none mt-4"></div> <!-- Add spacing on smaller screens -->
             <div class="col-md-8">
-                <h2>@Model.Title</h2>
+                <h3>@Model.Title</h3>
                 @if (!string.IsNullOrEmpty(Model.Author))
                 {
                     <p>@Html.DisplayNameFor(model => model.Author): @Html.DisplayFor(model => model.Author, new { @class = "text-muted" })</p>

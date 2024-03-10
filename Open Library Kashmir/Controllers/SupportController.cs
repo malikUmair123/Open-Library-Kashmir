@@ -10,9 +10,9 @@ namespace Open_Library_Kashmir.Controllers
     {
         // GET: Support
 
-        [Route("Support")]
+        //[Route("Support")]
 
-        public ActionResult Support()
+        public ActionResult Index()
         {
             return View();
         }

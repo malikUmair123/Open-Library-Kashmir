@@ -1,5 +1,5 @@
 ﻿@{
-        ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home Page";
 }
 
 <html>
@@ -8,37 +8,69 @@
 </head>
 <body>
     <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="title">ASP.NET</h1>
+        <section class="row text-center mt-5" aria-labelledby="aspnetTitle">
+            <h1 id="title">Welcome to OLK!</h1>
         </section>
 
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="title">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-            <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+        <section class="row text-center" aria-labelledby="aspnetTitle">
+            @*<h1 id="title">Who We Are?</h1>*@
+            <p class="lead">
+                Give a Book, Get a Book: Your Book Exchange Community
+            </p>
+            <p><a href="@Url.Action("Index", "About")" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
         </section>
 
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and gives you full control over markup
-                    for enjoyable, agile development.
-                </p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-            </section>
-        </div>
+        <section class="container mt-5">
+            <div class="row">
+                <section class="col-md-6" aria-labelledby="DonateTitle">
+                    <h2 id="DonateTitle">Donate Books</h2>
+                    <p>
+                        Want to make a difference in the lives of young readers?
+                        Your book donations have the power to inspire and change lives.
+                        Click here to support our mission and donate books today!
+                    </p>
+                    <p><a class="btn btn-outline-dark" href="@Url.Action("GiftBooks", "Donation")">Donate &raquo;</a></p>
+                </section>
+                <section class="col-md-6" aria-labelledby="RecieveTitle">
+                    <h2 id="RecieveTitle">Recieve Books</h2>
+                    <p>
+                        Give books a new life and support reading in our community.
+                        Browse our selection of donated books and discover books you actually want to read.
+                        Click here to access our book listings.
+                    </p>
+                    <p><a class="btn btn-outline-dark" href="@Url.Action("Index", "Donation")">Recieve &raquo;</a></p>
+                </section>
+            </div>
+        </section>
+
+        <section class="container mt-5 py-4" aria-labelledby="DonateTitle" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #ddd;">
+            <h2 class="text-center" id="DonateTitle">Book Of The Month</h2>
+            <div class="row mt-3 align-items-center">
+                <div class="col-md-3">
+                    <img src="https://cdn.penguin.co.uk/dam-assets/books/9781846046384/9781846046384-jacket-large.jpg" alt="Book Of The Month" style="max-width: 200px; margin: 0 auto; display: block;" class="img-fluid">
+                </div>
+                <div class="col-md-9 mt-3">
+                    <h2>Man’s Search for Meaning <small class="text-muted">by Viktor Frankl</small></h2>
+                    <p>
+                        Psychiatrist Viktor Frankl's memoir has riveted generations
+                        of readers with its descriptions of life in Nazi death camps
+                        and its lessons for spiritual survival. Based on his own
+                        experience and the stories of his patients, Frankl argues
+                        that we cannot avoid suffering but we can choose how to
+                        cope with it, find meaning in it, and move forward with
+                        renewed purpose. At the heart of his theory, known as
+                        logotherapy, is a conviction that the primary human drive
+                        is not pleasure but the pursuit of what we find meaningful.
+                        Man's Search for Meaning has become one of the most influential
+                        books in America; it continues to inspire us all to find
+                        significance in the very act of living.
+                    </p>
+                    <p class="text-muted mt-2">
+                        &copy; goodreads
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 </body>
 </html>

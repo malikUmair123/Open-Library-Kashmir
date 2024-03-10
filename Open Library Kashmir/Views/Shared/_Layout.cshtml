@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -31,9 +30,9 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Donation", "Index", "Donation", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Support", "Support", "Support", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "About", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Contact", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Support", "Index", "Support", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("About", "Index", "About", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Contact", "Index", "Contact", new { area = "" }, new { @class = "nav-link" })</li>
                     @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                     {
                         <li>@Html.ActionLink("Books", "Import", "Books", new { area = "" }, new { @class = "nav-link" })</li>
@@ -49,8 +48,7 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
+        <footer class="text-center mt-4">
             <p>&copy; @DateTime.Now.Year - OLK Foundation</p>
         </footer>
     </div>

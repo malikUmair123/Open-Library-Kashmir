@@ -1,10 +1,11 @@
-﻿@model Open_Library_Kashmir.Models.RecipientViewModel
+﻿@model Open_Library_Kashmir.Models.ApplicationUser
+
 @{
-    ViewBag.Title = "CreateRecipient";
+    ViewBag.Title = "GiftBooks";
 }
 
 <main aria-labelledby="title">
-    <h2 id="title">Fill in your details</h2>
+    <h2 id="title">Fill in your details to let us contact you</h2>
     <hr />
 
     @using (Html.BeginForm())
@@ -54,28 +55,24 @@
         @Html.Partial("_AddressForm", Model.Address)
 
         <div class="row">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
             <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Proceed With Request »" class="btn btn-outline-dark" />
+                <input type="submit" value="Submit Form »" class="btn btn-outline-dark" />
             </div>
         </div>
     }
     <div class="row">
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to Home", "Index", "Home")
     </div>
 </main>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CountriesInfoAPI.js"></script>
-    @*<script>
-        $(document).ready(function () {
-            $("#other-city").click(function (e) {
-                e.preventDefault();
-                $(this).prevAll("#city-dropdown").hide();
-                $(this).prev().show().focus();
-            });
-        });
-
-    </script>*@
 }
-
