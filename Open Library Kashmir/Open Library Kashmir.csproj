@@ -428,10 +428,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\About\About.cshtml" />
-    <Content Include="Views\Contact\Contact.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Donation\Index.cshtml" />
-    <Content Include="Views\Support\Support.cshtml" />
+    <Content Include="Views\Support\Index.cshtml" />
     <Content Include="Views\Books\Import.cshtml" />
     <Content Include="Views\Donation\BookDetails.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\OpenInNewWindow.cshtml" />
@@ -461,6 +461,7 @@
     <Content Include="Views\Manage\DetailsUser.cshtml" />
     <Content Include="Views\Account\AddAddress.cshtml" />
     <Content Include="Views\Shared\_AddressForm.cshtml" />
+    <Content Include="Views\Donation\GiftBooks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

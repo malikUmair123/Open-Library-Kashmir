@@ -159,7 +159,7 @@
                                 console.log("Postal code data:", postalData);
                                 var items = "<option value=''>Select Pin Code</option>";
                                 $.each(postalData.postalCodes, function (index, location) {
-                                    items += "<option value='" + location.postalCode + "'>" + location.postalCode /*location.placeName*/ + "</option>";
+                                    items += "<option value='" + location.postalCode + "'>" + location.placeName + " - " + location.postalCode  + "</option>";
                                 });
                                 $("#postal-code-dropdown").html(items);
                             })

@@ -10,9 +10,9 @@ namespace Open_Library_Kashmir.Controllers
     {
         // GET: Contact
 
-        [Route("Contact")]
+        //[Route("Contact")]
 
-        public ActionResult Contact()
+        public ActionResult Index()
         {
             return View();
         }

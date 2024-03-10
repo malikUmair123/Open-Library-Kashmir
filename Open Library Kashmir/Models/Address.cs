@@ -30,6 +30,7 @@ namespace Open_Library_Kashmir.Models
         [StringLength(100)]
         public string State { get; set; }
 
+        [DisplayName("Country")]
         [StringLength(2)]
         public string CountryCode { get; set; }
 

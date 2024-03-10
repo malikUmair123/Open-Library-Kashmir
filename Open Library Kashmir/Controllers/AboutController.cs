@@ -10,9 +10,9 @@ namespace Open_Library_Kashmir.Controllers
     {
         // GET: About
 
-        [Route("About")]
+        //[Route("About")]
 
-        public ActionResult About()
+        public ActionResult Index()
         {
             return View();
         }

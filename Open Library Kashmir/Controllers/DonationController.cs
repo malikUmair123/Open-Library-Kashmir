@@ -215,7 +215,7 @@ namespace Open_Library_Kashmir.Controllers
                 }
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
 
         }
 
@@ -345,7 +345,7 @@ namespace Open_Library_Kashmir.Controllers
                 }
 
             }
-            return RedirectToAction("Index", "Home");
+            return View("Error");
         }
 
         [NonAction]
@@ -442,6 +442,7 @@ namespace Open_Library_Kashmir.Controllers
 
                 ViewBag.StatusMessage =
                 message == DonationMessageId.SuccessMessage ? "Success"
+                : message == DonationMessageId.GiftBooksSuccess ? "Your request has been recieved, We will contact on on your given contact details"
                 : message == DonationMessageId.ErrorMessage ? "Error"
                 : message == DonationMessageId.NotImplemented ? "NotImplemented"
                 : "";
@@ -476,6 +477,47 @@ namespace Open_Library_Kashmir.Controllers
 
         }
 
+        public ActionResult GiftBooks()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.Identity.GetUserId();
+                ApplicationUser user = UserManager.FindById(userId);
+                if (user?.Address == null)
+                {
+                    user.Address = _context.Addresses.Create();
+                }
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GiftBooks(ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    // Save changes to the database
+                    var result = await UserManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("RequestSummary", new { Message = DonationMessageId.GiftBooksSuccess });
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
+                }
+            }
+                    return View();
+        }
         public Wishlist WishlistInDB()
         {
             if (Request.IsAuthenticated)
@@ -498,6 +540,7 @@ namespace Open_Library_Kashmir.Controllers
         public enum DonationMessageId
         {
             SuccessMessage,
+            GiftBooksSuccess,
             ErrorMessage,
             NotImplemented,
         }
