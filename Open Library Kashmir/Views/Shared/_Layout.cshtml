@@ -17,7 +17,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-light">
         <div class="container">
             <a href="@Url.Action("Index", "Home")" class="navbar-brand">
                 <img src="~/Content/Images/logo.png" title="OLK" alt="OLK" style="max-width: 35px; height: auto;" />
@@ -39,10 +39,6 @@
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
-                <a id="wishlist-icon" class="navbar-brand" href="/Donation/Wishlist">
-                    <img src="~/Content/Images/wishlist.png" alt="Heart Icon" class="heart-icon">
-                    <span id="wishlist-count-badge" class="wishlist-count"></span>
-                </a>
             </div>
         </div>  
     </nav>

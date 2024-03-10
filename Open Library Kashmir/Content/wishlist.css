@@ -5,7 +5,7 @@
 }
 
 .heart-icon {
-    max-width: 36px; /* Adjust the width of the heart icon */
+    max-width: 32px; /* Adjust the width of the heart icon */
     height: auto; /* Maintain aspect ratio */
 }
 
@@ -15,7 +15,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /*background-color: white;*/
-    color: white;
+    color: #187bcd;
     /*        border-radius: 50%;
         padding: 6px 6px;*/
     font-size: 12px; /* Adjust as needed */

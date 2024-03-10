@@ -367,7 +367,11 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\profile-user-color.png" />
     <Content Include="Content\Images\profile-user.png" />
-    <Content Include="Content\Images\wishlist.png" />
+    <Content Include="Content\Images\user-black.png" />
+    <Content Include="Content\Images\user-blue.png" />
+    <Content Include="Content\Images\wishlist-bd-blue.png" />
+    <Content Include="Content\Images\wishlist-black.png" />
+    <Content Include="Content\Images\wishlist-blue.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\wishlist.css" />
     <Content Include="favicon.ico" />
