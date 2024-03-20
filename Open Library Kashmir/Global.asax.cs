@@ -19,10 +19,9 @@ namespace Open_Library_Kashmir
             // Register Autofac DI Container
             //AutofacConfig.RegisterDependencies();
 
-            // Register Autofac DI Container
-            //UnityConfig.RegisterComponents();
-
             AreaRegistration.RegisterAllAreas();
+            // Register Unity DI Container
+            //UnityConfig.RegisterComponents();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
