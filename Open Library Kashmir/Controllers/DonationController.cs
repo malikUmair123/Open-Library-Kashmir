@@ -30,7 +30,7 @@ namespace Open_Library_Kashmir.Controllers
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         private IMapper _mapper;
-
+       
         public DonationController()
         {
             _context = new ApplicationDbContext();
@@ -38,9 +38,8 @@ namespace Open_Library_Kashmir.Controllers
         public DonationController(IMapper mapper, ApplicationDbContext context, ApplicationUserManager userManager)
         {
             _mapper = mapper;
-            _context = context;
+            _context = context ?? new ApplicationDbContext();
             _userManager = userManager;
-            //_context = new ApplicationDbContext();
         }
 
         public ApplicationUserManager UserManager
@@ -257,7 +256,11 @@ namespace Open_Library_Kashmir.Controllers
                     user.Email = recipientViewModel.Email;
                     user.PhoneNumber = recipientViewModel.PhoneNumber;
                     user.Remarks = recipientViewModel.Remarks;
-                    user.Address = recipientViewModel.Address;
+                    user.AddressId = recipientViewModel.Address.AddressId;
+
+                    _context.Addresses.AddOrUpdate(recipientViewModel.Address);
+                    _context.SaveChanges(); // Save changes to the database
+
 
                     //if (user != null)
                     //{
@@ -441,8 +444,8 @@ namespace Open_Library_Kashmir.Controllers
             //    }
 
                 ViewBag.StatusMessage =
-                message == DonationMessageId.SuccessMessage ? "Success"
-                : message == DonationMessageId.GiftBooksSuccess ? "Your request has been recieved, We will contact on on your given contact details"
+                message == DonationMessageId.SuccessMessage ? "Thank you for placing the request for books. We will contact you on your email/phone. Check Status of your request on Request Status page"
+                : message == DonationMessageId.GiftBooksSuccess ? "Your request has been recieved, We will contact on on your given contact details. Please check your email."
                 : message == DonationMessageId.ErrorMessage ? "Error"
                 : message == DonationMessageId.NotImplemented ? "NotImplemented"
                 : "";
@@ -487,37 +490,91 @@ namespace Open_Library_Kashmir.Controllers
                 {
                     user.Address = _context.Addresses.Create();
                 }
-                return View(user);
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
+                // Create a new MapperConfiguration
+                var config = new MapperConfiguration(cfg =>
+                {
+                    // Configure mappings here
+                    cfg.CreateMap<ApplicationUser, RecipientViewModel>()
+                            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                            .ForMember(dest => dest.Remarks, opt => opt.MapFrom(src => src.Remarks))
+                            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address));
+                });
 
+                // Create a new IMapper instance from the MapperConfiguration
+                _mapper = config.CreateMapper();
+
+                if (user != null)
+                {
+                    RecipientViewModel recipientViewModel = _mapper.Map<ApplicationUser, RecipientViewModel>(user);
+                    return View(recipientViewModel);
+                }
+                return RedirectToAction("Index", "Home");
             }
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
-        public async Task<ActionResult> GiftBooks(ApplicationUser user)
+        public async Task<ActionResult> GiftBooks(RecipientViewModel recipientViewModel)
         {
             if (ModelState.IsValid)
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    // Save changes to the database
+                    string userId = User.Identity.GetUserId();
+                    ApplicationUser user = UserManager.FindById(userId);
+
+                    //Mapper doesn't update user but ovverides it, user manual mapping as of now
+                    user.FirstName = recipientViewModel.FirstName;
+                    user.LastName = recipientViewModel.LastName;
+                    user.Email = recipientViewModel.Email;
+                    user.PhoneNumber = recipientViewModel.PhoneNumber;
+                    user.Remarks = recipientViewModel.Remarks;
+                    user.AddressId = recipientViewModel.Address.AddressId;  
+                    
+                   _context.Addresses.AddOrUpdate(recipientViewModel.Address);
+                    _context.SaveChanges(); // Save changes to the database
+
+                    // Save changes to the database...internally calls save changes
                     var result = await UserManager.UpdateAsync(user);
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("RequestSummary", new { Message = DonationMessageId.GiftBooksSuccess });
+                        // Send an email with this link
+                        string code = null;
+                        var callbackUrl = Url.Action("Home", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        string emailBody = @"
+                                           <p>Dear " + user.FirstName + @",</p>
+                                           <p>Thank you for your interest in donating books to Open Library Kashmir (OLK)!</p>
+                                           <p>We have received your request, and our team will contact you soon to discuss the donation process further.</p>
+                                           <p>If you have any questions or need assistance, please feel free to reach out to us.</p>
+                                           <p>Thank you for your generosity!</p>
+                                           <p>Best regards,</p>
+                                           <p>Open Library Kashmir (OLK) Team</p>";
+
+
+                        //Smtp...Gmail Implementation
+                        bool IsSendEmail = Helpers.Helpers.EmailSend(user.Email, "Book Donation Email", emailBody, true);
+                        if (IsSendEmail)
+                        {
+                            return RedirectToAction("RequestSummary", new { Message = DonationMessageId.GiftBooksSuccess });
+
+                        }
+
                     }
-                    else
-                    {
-                        return View("Error");
-                    }
+
+                    return View("Error");
+
                 }
+
+                return RedirectToAction("Login", "Account");
             }
-                    return View();
+
+            return View("Error");
         }
+
         public Wishlist WishlistInDB()
         {
             if (Request.IsAuthenticated)
