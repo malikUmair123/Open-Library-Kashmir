@@ -1,4 +1,4 @@
-﻿@model Open_Library_Kashmir.Models.ApplicationUser
+﻿@model Open_Library_Kashmir.Models.RecipientViewModel
 
 @{
     ViewBag.Title = "GiftBooks";
@@ -44,18 +44,22 @@
             </div>
         </div>
 
-        @Html.Partial("_AddressForm", Model.Address)
+        <!-- Hidden field for AddressId -->
+        @Html.HiddenFor(model => model.Address.AddressId)
+
+        @Html.Partial("_AddressForm", Model)
 
         <div class="row">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @rows = "4", @cols = "10" })
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="row">
             <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Submit Form »" class="btn btn-outline-dark" />
+                <input type="submit" value="Submit Request »" class="btn btn-outline-dark" />
             </div>
         </div>
     }
