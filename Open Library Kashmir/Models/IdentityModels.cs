@@ -56,11 +56,11 @@ namespace Open_Library_Kashmir.Models
             modelBuilder.HasDefaultSchema("dbo");
 
             //Now Comment the below Statements
-            modelBuilder.Entity<ApplicationUser>().ToTable("User", "dbo");
-            modelBuilder.Entity<IdentityRole>().ToTable("Role", "dbo");
-            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "dbo");
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("Claim", "dbo");
-            modelBuilder.Entity<IdentityUserLogin>().ToTable("Login", "dbo");
+            //modelBuilder.Entity<ApplicationUser>().ToTable("User", "dbo");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Role", "dbo");
+            //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "dbo");
+            //modelBuilder.Entity<IdentityUserClaim>().ToTable("Claim", "dbo");
+            //modelBuilder.Entity<IdentityUserLogin>().ToTable("Login", "dbo");
 
             //Use the below Statements
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
