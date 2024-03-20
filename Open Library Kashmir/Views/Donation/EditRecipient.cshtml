@@ -1,10 +1,11 @@
 ﻿@model Open_Library_Kashmir.Models.RecipientViewModel
+
 @{
-    ViewBag.Title = "CreateRecipient";
+    ViewBag.Title = "EditRecipient";
 }
 
 <main aria-labelledby="title">
-    <h2 id="title">Fill in your details</h2>
+    <h2 id="title">Edit your details</h2>
     <hr />
 
     @using (Html.BeginForm())
@@ -43,39 +44,31 @@
             </div>
         </div>
 
+        <!-- Hidden field for AddressId -->
+        @Html.HiddenFor(model => model.Address.AddressId)
+
+        @Html.Partial("_AddressForm", Model)
+
         <div class="row">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @rows = "4", @cols = "10" })
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @Html.Partial("_AddressForm", Model.Address)
-
         <div class="row">
             <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Proceed With Request »" class="btn btn-outline-dark" />
+                <input type="submit" value="Submit Request »" class="btn btn-outline-dark" />
             </div>
         </div>
     }
     <div class="row">
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to Home", "Index", "Home")
     </div>
 </main>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CountriesInfoAPI.js"></script>
-    @*<script>
-        $(document).ready(function () {
-            $("#other-city").click(function (e) {
-                e.preventDefault();
-                $(this).prevAll("#city-dropdown").hide();
-                $(this).prev().show().focus();
-            });
-        });
-
-    </script>*@
 }
-
