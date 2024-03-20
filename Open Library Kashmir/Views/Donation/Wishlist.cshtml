@@ -20,58 +20,59 @@
 @if (Model.Books?.Any() ?? false)
 {
     <<table class="table">
-            <tr>
-                <th class="title-col">
-                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Title)
-                </th>
-                <th class="author-col">
-                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Author)
-                </th>
-                <th class="class-col">
-                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Class)
-                </th>
-                <th class="publisher-col">
-                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Publisher)
-                </th>
-                <th class="avail-at-col">
-                    @Html.DisplayNameFor(model => model.Books.FirstOrDefault().AvailableAt)
-                </th>
-            </tr>
-       
-            @foreach (var item in Model.Books)
-            {
-                <tr>
+        <tr>
+            <th class="title-col">
+                @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Title)
+            </th>
+            <th class="author-col">
+                @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Author)
+            </th>
+            <th class="class-col">
+                @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Class)
+            </th>
+            <th class="publisher-col">
+                @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Publisher)
+            </th>
+            <th class="avail-at-col">
+                @Html.DisplayNameFor(model => model.Books.FirstOrDefault().AvailableAt)
+            </th>
+        </tr>
 
-                    <td class="title-col">
-                        @Html.ActionLink(item.Title, "BookDetails", new { id = item.BookId })
-                    </td>
-                    <td class="author-col">
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    <td class="class-col">
-                        @Html.DisplayFor(modelItem => item.@Class)
-                    </td>
-                    <td class="publisher-col">
-                        @Html.DisplayFor(modelItem => item.Publisher)
-                    </td>
-                    <td class="avail-at-col">
-                        @Html.DisplayFor(modelItem => item.AvailableAt)
-                    </td>
-                </tr>
-            }
-       
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+
+                <td class="title-col">
+                    @Html.ActionLink(item.Title, "BookDetails", new { id = item.BookId })
+                </td>
+                <td class="author-col">
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td class="class-col">
+                    @Html.DisplayFor(modelItem => item.@Class)
+                </td>
+                <td class="publisher-col">
+                    @Html.DisplayFor(modelItem => item.Publisher)
+                </td>
+                <td class="avail-at-col">
+                    @Html.DisplayFor(modelItem => item.AvailableAt)
+                </td>
+            </tr>
+        }
+
     </table>
 
     if (Request.IsAuthenticated)
     {
         @*<h4>You need to fill in additional details to reqeust books:</h4>*@
 
-        @*using (Html.BeginForm("CreateRecipient", "Donation", FormMethod.Post))
-            {
-                <button type="submit" class="btn btn-primary">Fill Additional Details</button>
-            }*@
-        @Html.ActionLink("Proceed With Request »", "EditRecipient", "Donation", routeValues: null@*new {model = Model}*@, htmlAttributes: new { id = "mamagelink", title = "Manage", @class = "btn btn-primary" })
-
+        using (Html.BeginForm("EditRecipient", "Donation", FormMethod.Post))
+        {
+            <button type="submit" id="managebookslink" class="btn btn-primary">Proceed With Request »</button>
+        }
+        <div class="mt-2"></div>
+        <div class="row alert alert-danger" id="message-area"></div> <!-- messaging area -->
+        <div class="mt-2"></div>
     }
     else
     {
@@ -84,3 +85,27 @@ else
 {
     <h4>Your wishlist is empty.</h4>
 }
+
+<script>
+$(document).ready(function () {
+    // Retrieve TempData values
+    var booksInWishlistDB = '@TempData["BooksInWishlistDB"]' === 'True';
+
+    // Update "Add to Wishlist" button
+    var manageBooksButton = $('#managebookslink');
+
+    if (booksInWishlistDB) {
+        manageBooksButton.prop('disabled', true);
+        manageBooksButton.text('Books Requested');
+        manageBooksButton.removeClass('btn-primary').addClass('btn-success');
+    }
+
+    if (booksInWishlistDB) {
+        $('#message-area').text("You have requested some books, thus new ones can't be requested as of now.");
+    } else {
+        $('#message-area').hide();
+    }
+
+});
+</script>
+

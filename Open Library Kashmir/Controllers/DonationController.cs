@@ -139,6 +139,12 @@ namespace Open_Library_Kashmir.Controllers
         public JsonResult GetWishlistCount()
         {
             var wishlist = Session["Wishlist"] as Wishlist;
+
+            if (wishlist == null || wishlist.Books.Count == 0)
+            {
+                wishlist = WishlistInDB();
+            }
+
             int count = wishlist != null ? wishlist.Books.Count : 0;
             return Json(new { Count = count }, JsonRequestBehavior.AllowGet);
         }
@@ -147,26 +153,34 @@ namespace Open_Library_Kashmir.Controllers
         // Wishlist View 
         public ActionResult Wishlist()
         {
+            //Books in request pipeline
+
+            TempData["BooksInWishlistDB"] = false;
+
             var wishlist = Session["Wishlist"] as Wishlist;
 
-            if (wishlist == null)
+            var wishlistViewModel = new WishlistViewModel();
+
+            if (wishlist != null && wishlist.Books.Count != 0)
             {
-                return View(new WishlistViewModel());
+                // Fetch books from wishlist Session
+                wishlistViewModel.Books = wishlist.Books.ToList();
+
+            } 
+            else
+            {
+                wishlist = WishlistInDB();
+
+                if (wishlist != null)
+                {
+                    TempData["BooksInWishlistDB"] = true;
+                    // Fetch books from wishlist DB
+                    wishlistViewModel.Books = wishlist.Books.ToList();
+                }
+               
             }
 
-            // Fetch books from wishlist
-            var wishlistViewModel = new WishlistViewModel
-            {
-                Books = wishlist.Books.ToList()
-            };
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    Session["returnToRequestWishlist"] = false;
-            //}
-            //else
-            //{
-            //}
-            //Session["returnToRequestWishlist"] = true;
+
             
             return View(wishlistViewModel);
 
@@ -304,26 +318,26 @@ namespace Open_Library_Kashmir.Controllers
 
                         if (finalresult > 0)
                         {
-                            wishlist = null;
+                            Session["Wishlist"] = null;
                         }
 
-                    // ... (Distribution Logic for actual distribution...see if you only need wishlist table
+                        // ... (Distribution Logic for actual distribution...see if you only need wishlist table
 
-                    //foreach (var books in wishlist.Books)
-                    //{
-                    //    var recipientBook = new RecipientBook
-                    //    {
-                    //        RecipientId = recipient.RecipientId,
-                    //        BookId = books.BookId,
-                    //        DateRecieved = DateTime.Now
-                    //    };
-                    //_context.RecipientBooks.AddOrUpdate(recipientBook);
-                    //}
+                        //foreach (var books in wishlist.Books)
+                        //{
+                        //    var recipientBook = new RecipientBook
+                        //    {
+                        //        RecipientId = recipient.RecipientId,
+                        //        BookId = books.BookId,
+                        //        DateRecieved = DateTime.Now
+                        //    };
+                        //_context.RecipientBooks.AddOrUpdate(recipientBook);
+                        //}
 
-                    //Final save
+                        //Final save
 
-                    //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
-                    return RedirectToAction("RequestSummary", new { Message = DonationMessageId.SuccessMessage });
+                        //TempData["SuccessMessage"] = "Your wishlist request has been processed!";
+                        return RedirectToAction("RequestSummary", new { Message = DonationMessageId.SuccessMessage });
 
                     }
                     else
