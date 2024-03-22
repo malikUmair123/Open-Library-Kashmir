@@ -1,8 +1,13 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A free online library based in Kashmir and a platform to donate books and receive ones gifted by others.">
+    <meta name="keywords" content="book donation, library, Kashmir, open library, donate books, recieve free books, gift books, read books, open library, Kashmir library">
+    <meta name="author" content="Open Library Kashmir">
+    <meta name="robots" content="index, follow">
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -19,40 +24,47 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-light">
-        <div class="container">
-            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
-                <img src="~/Content/Images/logo.png" title="OLK" alt="OLK" style="max-width: 35px; height: auto;" />
-            </a>
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Donation", "Index", "Donation", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Support", "Index", "Support", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "Index", "About", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Index", "Contact", new { area = "" }, new { @class = "nav-link" })</li>
-                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-                    {
-                        <li>@Html.ActionLink("Books", "Import", "Books", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                </ul>
-                @Html.Partial("_LoginPartial")
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-light">
+            <div class="container">
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                    <img src="~/Content/Images/logo.png" title="OLK" alt="OLK Foundation Logo" style="max-width: 35px; height: auto;" />
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Donation", "Index", "Donation", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Support", "Index", "Support", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("About", "Index", "About", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Contact", "Index", "Contact", new { area = "" }, new { @class = "nav-link" })</li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        {
+                            <li>@Html.ActionLink("Books", "Import", "Books", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>  
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <footer class="text-center mt-4">
-            <p>&copy; @DateTime.Now.Year - OLK Foundation</p>
-        </footer>
-    </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="text-center mt-4">
+        <p>&copy; @DateTime.Now.Year - OLK Foundation</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
