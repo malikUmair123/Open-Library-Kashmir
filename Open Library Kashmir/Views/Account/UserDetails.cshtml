@@ -5,74 +5,74 @@
 
 <main>
     <section class="row" aria-labelledby="title">
-        <h1 id="title">Profile</h1>
+        <h4 id="title">Profile</h1>
     </section>
     <hr>
 
     <section>
         @if (Request.IsAuthenticated)
         {
-            <section class="row" aria-labelledby="title">
-                <h4>Hello @Model.FirstName! </h4>
-            </section>
 
-            <section class="col">
-                <ul>
+            <section class="col-md-6">
+                <dl>
+                    <dt>Hello @Model.FirstName! </dt>
 
                     @if (!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin"))
                     {
-                        <li>
-                            @Html.ActionLink("Profile Details", "DetailsUser", "Manage", new { }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-                        </li>
+                    <dd>
+                        [@Html.ActionLink("Profile Details", "DetailsUser", "Manage", new { }, htmlAttributes: new { title = "Update" })]
+                    </dd>
                     }
 
-                    <li>
-                        @Html.ActionLink("Manage Account", "Index", "Manage", null, new { id = "mamagelink", title = "Manage Settings", @class = "btn btn-outline-dark" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", null, new { id = "mamagelink", title = "Manage Wishlist", @class = "btn btn-outline-dark" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Request Status", "RequestStatus", "Donation", null, new { id = "orderstatus", title = "Order Status", @class = "btn btn-outline-dark" })
-                    </li>
+                    <dd>
+                        [@Html.ActionLink("Manage Account", "Index", "Manage", null, new { id = "mamagelink", title = "Manage Settings" })]
+                    </dd>
+                    <dd>
+                        [@Html.ActionLink("Manage Wishlist", "Wishlist", "Donation", null, new { id = "mamagelink", title = "Manage Wishlist" })]
+                    </dd>
+                    <dd>
+                        [@Html.ActionLink("Request Status", "RequestStatus", "Donation", null, new { id = "orderstatus", title = "Order Status" })]
+                    </dd>
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
-                        @Html.AntiForgeryToken()
-                        <li>
-                            <a class="btn btn-outline-dark" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-                        </li>
+                    @Html.AntiForgeryToken()
+                    <dd>
+                        [<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>]
+                    </dd>
                     }
-                </ul>
+                </dl>
             </section>
 
-            <section class="col">
+            <section class="col-md-6">
                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                 {
-                    <h4>Admin Privileges:</h4>
-                    <ul>
-                        <li>
-                            @Html.ActionLink("Profile Details", "Details", "UsersAdmin", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update", @class = "btn btn-outline-dark" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Manage Roles", "Index", "RolesAdmin", null, new { title = "Update", @class = "btn btn-outline-dark" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Manage Users", "Index", "UsersAdmin", null, new { title = "Update", @class = "btn btn-outline-dark" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Manage Books", "Index", "Books", null, new { title = "Manage Books", @class = "btn btn-outline-dark" })
-                        </li>
-                    </ul>
+                <dl>
+                    
+                    <dt>Admin Privileges:</dt>
+
+                    <dd>
+                        [@Html.ActionLink("Profile Details", "Details", "UsersAdmin", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update" })]
+                    </dd>
+                    <dd>
+                        [@Html.ActionLink("Manage Roles", "Index", "RolesAdmin", null, new { title = "Update" })]
+                    </dd>
+                    <dd>
+                        [@Html.ActionLink("Manage Users", "Index", "UsersAdmin", null, new { title = "Update" })]
+                    </dd>
+                    <dd>
+                        [@Html.ActionLink("Manage Books", "Index", "Books", null, new { title = "Manage Books" })]
+                    </dd>
+                </dl>
                 }
 
             </section>
         }
         else
         {
-            <ul>
-                <li> @Html.ActionLink("Register", "Register", "Account", null, new { title = "Update", @class = "btn btn-outline-dark" }) </li>
-                <li> @Html.ActionLink("Log in", "Login", "Account", null, new { title = "Login", @class = "btn btn-outline-dark" }) </li>
-            </ul>
+            <dl>
+                <dd> @Html.ActionLink("Register", "Register", "Account", null, new { title = "Update"}) </dd>
+                <dd> @Html.ActionLink("Log in", "Login", "Account", null, new { title = "Login" }) </dd>
+            </dl>
         }
     </section>
 </main>
