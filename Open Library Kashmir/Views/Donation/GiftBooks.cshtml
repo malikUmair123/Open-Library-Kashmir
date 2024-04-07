@@ -5,14 +5,14 @@
 }
 
 <main aria-labelledby="title">
-    <h2 id="title">Fill in your details to let us contact you</h2>
+    <h4 id="title">Fill in your details. We us contact you.</h4>
     <hr />
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <div class="row">
+        <div class="row mb-3">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
@@ -49,7 +49,7 @@
 
         @Html.Partial("_AddressForm", Model)
 
-        <div class="row">
+        <div class="row mb-3">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @rows = "4", @cols = "10" })
@@ -57,13 +57,13 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Submit Request »" class="btn btn-outline-dark" />
+                <input type="submit" value="Submit Request »" class="btn btn-dark" />
             </div>
         </div>
     }
-    <div class="row">
+    <div class="row mb-3">
         @Html.ActionLink("Back to Home", "Index", "Home")
     </div>
 </main>
