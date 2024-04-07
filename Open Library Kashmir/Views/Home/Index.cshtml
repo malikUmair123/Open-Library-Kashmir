@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Open_Library_Kashmir.Models.BookOfTheMonth
+
+@{
     ViewBag.Title = "Open Library Kashmir";
 }
 
@@ -20,9 +22,27 @@
             <p>
                 <a href="@Url.Action("Index", "About")" class="btn btn-primary btn-md"
                    style="background-color: #187bcd;border-color: #187bcd;transition: background-color 0.3s ease;"
-                          onmouseover="this.style.backgroundColor='#0e5a9c'"
-                          onmouseout="this.style.backgroundColor='#187bcd'">Learn more &raquo;</a>
+                   onmouseover="this.style.backgroundColor='#0e5a9c'"
+                   onmouseout="this.style.backgroundColor='#187bcd'">Learn more &raquo;</a>
             </p>
+        </section>
+
+        <section class="container mt-5 py-4" aria-labelledby="DonateTitle" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #ddd;">
+            <h2 class="text-center" id="DonateTitle">Book Of The Month</h2>
+            <div class="row mt-3 align-items-center">
+                <div class="col-md-3">
+                    <img src="@Model.ImageUrl" alt="Image Not Available" style="max-width: 200px; margin: 0 auto; display: block;" class="img-fluid">
+                </div>
+                <div class="col-md-9 mt-3">
+                    <h2>@Model.Title <small class="text-muted">by @Model.Author</small></h2>
+                    <p>
+                        @Model.ShortDescription
+                    </p>
+                    @*<p class="text-muted mt-2">
+                        &copy; goodreads
+                    </p>*@
+                </div>
+            </div>
         </section>
 
         <section class="container mt-5">
@@ -45,35 +65,6 @@
                     </p>
                     <p><a class="btn btn-outline-dark" href="@Url.Action("Index", "Donation")">Recieve &raquo;</a></p>
                 </section>
-            </div>
-        </section>
-
-        <section class="container mt-5 py-4" aria-labelledby="DonateTitle" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #ddd;">
-            <h2 class="text-center" id="DonateTitle">Book Of The Month</h2>
-            <div class="row mt-3 align-items-center">
-                <div class="col-md-3">
-                    <img src="https://cdn.penguin.co.uk/dam-assets/books/9781846046384/9781846046384-jacket-large.jpg" alt="Book Of The Month" style="max-width: 200px; margin: 0 auto; display: block;" class="img-fluid">
-                </div>
-                <div class="col-md-9 mt-3">
-                    <h2>Man’s Search for Meaning <small class="text-muted">by Viktor Frankl</small></h2>
-                    <p>
-                        Psychiatrist Viktor Frankl's memoir has riveted generations
-                        of readers with its descriptions of life in Nazi death camps
-                        and its lessons for spiritual survival. Based on his own
-                        experience and the stories of his patients, Frankl argues
-                        that we cannot avoid suffering but we can choose how to
-                        cope with it, find meaning in it, and move forward with
-                        renewed purpose. At the heart of his theory, known as
-                        logotherapy, is a conviction that the primary human drive
-                        is not pleasure but the pursuit of what we find meaningful.
-                        Man's Search for Meaning has become one of the most influential
-                        books in America; it continues to inspire us all to find
-                        significance in the very act of living.
-                    </p>
-                    <p class="text-muted mt-2">
-                        &copy; goodreads
-                    </p>
-                </div>
             </div>
         </section>
     </main>
