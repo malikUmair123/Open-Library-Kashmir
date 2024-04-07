@@ -6,6 +6,8 @@ using System.Net.Mail;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Open_Library_Kashmir.Models;
 
 namespace Open_Library_Kashmir.Helpers
 {
@@ -66,6 +68,16 @@ namespace Open_Library_Kashmir.Helpers
             {
                 return status;
             }
+        }
+
+        public static IMapper GetMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, RecipientViewModel>();
+            });
+
+            return config.CreateMapper();
         }
 
     }
