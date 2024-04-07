@@ -341,6 +341,7 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookDonationViewModels.cs" />
+    <Compile Include="Models\BookOfTheMonth.cs" />
     <Compile Include="Models\Donor.cs" />
     <Compile Include="Models\DonorBook.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -474,9 +475,14 @@
     <Content Include="Views\Account\AddAddress.cshtml" />
     <Content Include="Views\Shared\_AddressForm.cshtml" />
     <Content Include="Views\Donation\GiftBooks.cshtml" />
+    <Content Include="Views\Books\AddBookOfTheMonth.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\GetBooksOfTheMonth.cshtml" />
+    <Content Include="Views\Books\EditBookOfTheMonth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\BookOfTheMonth\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
