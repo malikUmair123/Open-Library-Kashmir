@@ -17,26 +17,26 @@ namespace Open_Library_Kashmir.Models
         public int BookId { get; set; }
 
         [Required]
-        [DisplayName("Book Title:")]
+        [DisplayName("Title")]
         [StringLength(255)]
         public string Title { get; set; }
 
-        [DisplayName("Book Author:")]
+        [DisplayName("Author")]
 
         [StringLength(255)]
         public string Author { get; set; }
 
-        [DisplayName("For Month:")]
+        [DisplayName("Month")]
         public DateTime MonthYear { get; set; }
 
-        [DisplayName("Book Image:")]
+        [DisplayName("Image")]
         public string ImageUrl { get; set; }
 
         [NotMapped] // ImageFile is for temporary upload only
-        [DisplayName("Upload Image:")]
+        [DisplayName("Upload Image")]
         public HttpPostedFileBase ImageFile { get; set; }
 
-        [DisplayName("Short Description:")]
+        [DisplayName("Description")]
         public string ShortDescription { get; set; }
 
     }
