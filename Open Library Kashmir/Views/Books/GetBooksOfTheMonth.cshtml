@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Open_Library_Kashmir.Models.BookOfTheMonth>
+
+@using Open_Library_Kashmir.Helpers
+
+
+@{
+    ViewBag.Title = "GetBooksOfTheMonth";
+}
+
+<h2>Books Of The Month List</h2>
+
+<p>
+    @Html.ActionLink("Add Book Of The Month", "AddBookOfTheMonth")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthYear)
+            </td>
+            <td>
+                @*@Html.Image(item.ImageUrl, "Book Image Not Available")*@
+                <img src="@item.ImageUrl" alt="Image Not Available" style="max-width: 75px; margin: 0 auto; display: block;" class="img-fluid">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortDescription)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditBookOfTheMonth", new { id = item.BookId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.BookId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BookId })
+            </td>
+        </tr>
+    }
+
+</table>

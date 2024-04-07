@@ -1,12 +1,16 @@
 ﻿using CsvHelper;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
 using Open_Library_Kashmir.Filters;
 using Open_Library_Kashmir.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,7 +20,7 @@ namespace Open_Library_Kashmir.Controllers
 {
     //[CustomAuthenticationFilter]
     //[CustomAuthorizationFilter]
-
+    [LogCustomExceptionFilter]
     [Authorize(Roles = "Admin, SuperAdmin")]
     public class BooksController : Controller
     {
@@ -27,8 +31,11 @@ namespace Open_Library_Kashmir.Controllers
             _context = new ApplicationDbContext();
         }
 
-        
-        
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         [Route("Books/Import")]
         //[OverrideAuthentication]
@@ -99,6 +106,103 @@ namespace Open_Library_Kashmir.Controllers
             return View("Error");
         }
 
+        public ActionResult GetBooksOfTheMonth()
+        {
+            return View(_context.BookOfTheMonths.ToList());
+        }
+        public ActionResult AddBookOfTheMonth()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddBookOfTheMonth(BookOfTheMonth book)
+        {
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    var supportedTypes = new[] { "jpg", "jpeg", "png" };
+                    var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
+
+                    if (!supportedTypes.Contains(fileExt.ToLower()))
+                    {
+                        ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG and PNG are allowed.");
+                    }
+                    else
+                    {
+                        var fileName = Guid.NewGuid().ToString() + "." + fileExt;
+                        var uploadPath = Server.MapPath("~/Content/Images/BookOfTheMonth"); // Adjusted path
+                        Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
+                        var path = Path.Combine(uploadPath, fileName);
+
+                        try
+                        {
+                            book.ImageFile.SaveAs(path);
+                            book.ImageUrl = "/Content/Images/BookOfTheMonth/" + fileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
+                        }
+                    }
+                    // Add the book to the database
+                    _context.BookOfTheMonths.Add(book);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult EditBookOfTheMonth(int id)
+        {
+           return View(_context.BookOfTheMonths.FirstOrDefault(book => book.BookId == id));
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBookOfTheMonth(BookOfTheMonth book)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    var supportedTypes = new[] { "jpg", "jpeg", "png" };
+                    var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
+
+                    if (!supportedTypes.Contains(fileExt.ToLower()))
+                    {
+                        ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG and PNG are allowed.");
+                    }
+                    else
+                    {
+                        var fileName = Guid.NewGuid().ToString() + "." + fileExt;
+                        var uploadPath = Server.MapPath("~/Content/Images/BookOfTheMonth"); // Adjusted path
+                        Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
+                        var path = Path.Combine(uploadPath, fileName);
+
+                        try
+                        {
+                            book.ImageFile.SaveAs(path);
+                            book.ImageUrl = "/Content/Images/BookOfTheMonth/" + fileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
+                        }
+                    }
+
+                    _context.BookOfTheMonths.AddOrUpdate(book);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return View("Error");
+        }
 
     }
 }
