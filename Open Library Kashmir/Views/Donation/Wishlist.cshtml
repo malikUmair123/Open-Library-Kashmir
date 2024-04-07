@@ -19,7 +19,7 @@
 
 @if (Model.Books?.Any() ?? false)
 {
-    <<table class="table">
+    <table class="table">
         <tr>
             <th class="title-col">
                 @Html.DisplayNameFor(model => model.Books.FirstOrDefault().Title)
