@@ -34,7 +34,7 @@ namespace Open_Library_Kashmir.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("MyAzureDbConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
             //database initializer in the context class to MigrateDatabaseToLatestVersion automatically 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
@@ -47,20 +47,14 @@ namespace Open_Library_Kashmir.Models
         public virtual DbSet<Recipient> Recipients { get; set; }
         public virtual DbSet<RecipientBook> RecipientBooks { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+        public virtual DbSet<BookOfTheMonth> BookOfTheMonths { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //Instead of Writing the Schema in Each ToTable Method we can configure the same
+            
             //Configure default schema as dbo
             modelBuilder.HasDefaultSchema("dbo");
-
-            //Now Comment the below Statements
-            //modelBuilder.Entity<ApplicationUser>().ToTable("User", "dbo");
-            //modelBuilder.Entity<IdentityRole>().ToTable("Role", "dbo");
-            //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "dbo");
-            //modelBuilder.Entity<IdentityUserClaim>().ToTable("Claim", "dbo");
-            //modelBuilder.Entity<IdentityUserLogin>().ToTable("Login", "dbo");
 
             //Use the below Statements
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
