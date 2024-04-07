@@ -1,6 +1,6 @@
 ﻿    @model Open_Library_Kashmir.Models.RecipientViewModel
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.CountryCode, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.CountryCode, new SelectList(new List<string>(), Model.Address.CountryCode), "Select Country", new { @class = "form-control", id = "country-dropdown" })
@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.State, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.State, new SelectList(new List<string>(), Model.Address.State), "Select State/Province", new { @class = "form-control", id = "state-dropdown" })
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.City, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.City, new SelectList(new List<string>(), Model.Address.City), new { @class = "form-control", id = "city-dropdown" })
@@ -31,7 +31,7 @@
     </div>
 
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.AddressLine2, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.AddressLine2, new SelectList(new List<string>(), Model.Address.AddressLine2), "Select Tehsil/Block", new { @class = "form-control", id = "child-location-dropdown" })
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.AddressLine1, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.AddressLine1, new SelectList(new List<string>(), Model.Address.AddressLine1), "Select Village/Area", new { @class = "form-control", id = "subchild-location-dropdown" })
@@ -51,7 +51,7 @@
     </div>
 
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         @Html.LabelFor(model => model.Address.PostalCode, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.PostalCode, new SelectList(new List<string>(), Model.Address.PostalCode), "Select Pin Code", new { @class = "form-control", id = "postal-code-dropdown" })
