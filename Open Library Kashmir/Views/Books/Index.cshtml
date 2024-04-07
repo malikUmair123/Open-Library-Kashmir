@@ -8,10 +8,22 @@
         <h4>Update Book Details</h4>
         <hr />
         <dl class="dl-horizontal">
-            <dt>Books:</dt>
+            <dt>Book(s):</dt>
             <dd>
                 [
-                @Html.ActionLink("Import Books", "Import")
+                @Html.ActionLink("Import Book(s)", "Import")
+                ]
+            </dd>
+            <dd>
+                [
+                @Html.ActionLink("Add Book(s)", "AddBooks")
+                ]
+            </dd>
+
+            <dt>Book(s) Of The Month:</dt>
+            <dd>
+                [
+                @Html.ActionLink("Books Of The Month List", "GetBooksOfTheMonth")
                 ]
             </dd>
             <dd>
@@ -19,13 +31,6 @@
                 @Html.ActionLink("Add Book Of The Month", "AddBookOfTheMonth")
                 ]
             </dd>
-
-            <dd>
-                [
-                @Html.ActionLink("Books Of The Month List", "GetBooksOfTheMonth")
-                ]
-            </dd>
-
 
         </dl>
     </div>

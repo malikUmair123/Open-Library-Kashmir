@@ -89,10 +89,16 @@ namespace Open_Library_Kashmir.Controllers
             };
         }
 
-        // POST: Books/Import
+        [Route("Books/AddBooks")]
+        public ActionResult AddBooks()
+        {
+            return View();
+        }
+
+        // POST: Books/AddBooks
         [HttpPost]
-        [Route("Books/AddBooksThroughForms")]
-        public ActionResult AddBooksThroughForms(Book book)
+        [Route("Books/AddBooks")]
+        public ActionResult AddBooks(Book book)
         {
             if (ModelState.IsValid)
             {
