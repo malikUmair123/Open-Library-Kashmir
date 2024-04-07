@@ -479,6 +479,7 @@
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\GetBooksOfTheMonth.cshtml" />
     <Content Include="Views\Books\EditBookOfTheMonth.cshtml" />
+    <Content Include="Views\Books\AddBooks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
