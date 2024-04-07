@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Manage Books";
+}
+
+<main aria-labelledby="title">
+    <div>
+        <h4>Update Book Details</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Books:</dt>
+            <dd>
+                [
+                @Html.ActionLink("Import Books", "Import")
+                ]
+            </dd>
+            <dd>
+                [
+                @Html.ActionLink("Add Book Of The Month", "AddBookOfTheMonth")
+                ]
+            </dd>
+
+            <dd>
+                [
+                @Html.ActionLink("Books Of The Month List", "GetBooksOfTheMonth")
+                ]
+            </dd>
+
+
+        </dl>
+    </div>
+</main>
