@@ -1,4 +1,6 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
+@model Open_Library_Kashmir.Models.ApplicationUser
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Error";
@@ -6,9 +8,17 @@
 
 <hgroup>
     <h1 class="text-danger">Error! An error occurred while processing your request. Please Contact Administrator.</h1>
-    @*<h2 class="text-danger">Some Details: </h2>*@
-    @*<h3>Controller Name: @Model.ControllerName</h3>
+    @*
+    <h2 class="text-danger">Some Details: </h2>*@
+    @*
+    <h3>Controller Name: @Model.ControllerName</h3>
     <h3>Action Name:  @Model.ActionName</h3>
     <h3>Exception Details: @Model.Exception</h3>*@
 </hgroup>
+
+@if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+{
+<a href="~/Log/LogExceptions.txt"> Check Error Log Here</a>
+}
+
 
