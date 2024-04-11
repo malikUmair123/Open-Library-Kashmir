@@ -77,16 +77,28 @@ namespace Open_Library_Kashmir.Controllers
         [NonAction]
         private Book CreateBookFromCsvLine(string[] values)
         {
-            return new Book
+            var book = new Book
             {
-                BookId = int.Parse(values[0] != null ? values[0] : "99999"),
+                BookId = int.Parse(values[0]),
                 Title = values[1] != null ? values[1] : "Deleted",
                 Author = values[2],
                 Publisher = values[3],
                 @Class = values[4],
                 Subject = values[5],
-                Status = values[6],
+                //Status = (BookStatus)Enum.Parse(typeof(BookStatus), values[6]),
             };
+
+            // Check if the value should be parsed as enum
+            if (Enum.TryParse<BookStatus>(values[6], out var status))
+            {
+                book.Status = status;
+            }
+            else
+            {
+                book.Status = BookStatus.Donated;
+            }
+
+            return book;
         }
 
         [Route("Books/AddBooks")]
@@ -186,14 +198,14 @@ namespace Open_Library_Kashmir.Controllers
                     else
                     {
                         var fileName = Guid.NewGuid().ToString() + "." + fileExt;
-                        var uploadPath = Server.MapPath("~/Content/Images/BookOfTheMonth"); // Adjusted path
+                        var uploadPath = Server.MapPath("~/Content/Images/BooksOfTheMonth"); // Adjusted path
                         Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
                         var path = Path.Combine(uploadPath, fileName);
 
                         try
                         {
                             book.ImageFile.SaveAs(path);
-                            book.ImageUrl = "/Content/Images/BookOfTheMonth/" + fileName;
+                            book.ImageUrl = "/Content/Images/BooksOfTheMonth/" + fileName;
                         }
                         catch (Exception ex)
                         {

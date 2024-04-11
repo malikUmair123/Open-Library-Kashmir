@@ -66,7 +66,7 @@
     {
         @*<h4>You need to fill in additional details to reqeust books:</h4>*@
 
-        using (Html.BeginForm("EditRecipient", "Donation", FormMethod.Post))
+        using (Html.BeginForm("EditRecipient", "Donation", FormMethod.Get))
         {
             <button type="submit" id="managebookslink" class="btn btn-primary">Proceed With Request »</button>
         }
