@@ -397,6 +397,7 @@
     <None Include="Properties\PublishProfiles\OpenLibraryKashmir - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\CountriesInfoAPI.js" />
+    <Content Include="Scripts\DeleteBookPopup.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
@@ -480,10 +481,12 @@
     <Content Include="Views\Books\GetBooksOfTheMonth.cshtml" />
     <Content Include="Views\Books\EditBookOfTheMonth.cshtml" />
     <Content Include="Views\Books\AddBooks.cshtml" />
+    <Content Include="Views\Donation\EditBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\BookOfTheMonth\" />
+    <Folder Include="Content\Images\BooksOfTheMonth\" />
+    <Folder Include="Content\Images\Books\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +532,9 @@
     <EmbeddedResource Include="Migrations\202403092028337_TestAzureDatabaseMigration.resx">
       <DependentUpon>202403092028337_TestAzureDatabaseMigration.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

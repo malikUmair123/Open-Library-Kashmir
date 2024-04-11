@@ -82,10 +82,41 @@ namespace Open_Library_Kashmir.Helpers
 
     }
 
+    public static class EnumExtensions
+    {
+        public static string ToDisplayString(this BookStatus status)
+        {
+            switch (status)
+            {
+                case BookStatus.Available:
+                    return "available";
+                case BookStatus.Donated:
+                    return "donated";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        public static string ToColor(this BookStatus status)
+        {
+            switch (status)
+            {
+                case BookStatus.Available:
+                    return "green";
+                case BookStatus.Donated:
+                    return "red";
+                default:
+                    return "inherit";
+            }
+        }
+    }
+
     public enum Role
     {
         SUPERADMIN = 1,
         ADMIN = 2,
         USER = 3,
     }
+
+
 }
