@@ -20,6 +20,8 @@ using System.Web.Services.Description;
 using Twilio.TwiML.Messaging;
 using static Open_Library_Kashmir.Controllers.ManageController;
 using Open_Library_Kashmir.Helpers;
+using System.Net;
+using System.IO;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -32,7 +34,7 @@ namespace Open_Library_Kashmir.Controllers
         private ApplicationUserManager _userManager;
         private IMapper _mapper;
         private Wishlist _wishlistInDB;
-       
+
         public DonationController()
         {
             _context = new ApplicationDbContext();
@@ -116,7 +118,7 @@ namespace Open_Library_Kashmir.Controllers
             }
 
             var wishlist = Session["Wishlist"] as Wishlist;
-            
+
             if (wishlist == null)
             {
                 wishlist = WishListInDB ?? new Wishlist();
@@ -134,7 +136,7 @@ namespace Open_Library_Kashmir.Controllers
         {
             // Retrieve wishlist from the session
             var wishlist = Session["Wishlist"] as Wishlist;
-            
+
             if (wishlist == null)
             {
                 wishlist = WishListInDB ?? new Wishlist();
@@ -159,7 +161,7 @@ namespace Open_Library_Kashmir.Controllers
 
         // Wishlist View 
         public ActionResult Wishlist()
-        {            
+        {
 
             // Retrieve wishlist from the session
             var wishlist = Session["Wishlist"] as Wishlist ?? WishListInDB;
@@ -186,7 +188,7 @@ namespace Open_Library_Kashmir.Controllers
                 string userId = User.Identity.GetUserId();
                 ApplicationUser user = UserManager.FindById(userId);
                 if (user?.Address == null)
-                { 
+                {
                     user.Address = _context.Addresses.Create();
                 }
 
@@ -290,7 +292,7 @@ namespace Open_Library_Kashmir.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("RequestSummary", new { Message = DonationMessageId.NotImplemented});
+                    return RedirectToAction("RequestSummary", new { Message = DonationMessageId.NotImplemented });
 
                 }
 
@@ -309,12 +311,12 @@ namespace Open_Library_Kashmir.Controllers
         public ActionResult RequestSummary(DonationMessageId message)
         {
 
-                ViewBag.StatusMessage =
-                message == DonationMessageId.SuccessMessage ? "Thank you for placing the request for books. We will contact you on your email/phone. Check Status of your request on Request Status page"
-                : message == DonationMessageId.GiftBooksSuccess ? "Your request has been recieved, We will contact on on your given contact details. Please check your email."
-                : message == DonationMessageId.ErrorMessage ? "Error"
-                : message == DonationMessageId.NotImplemented ? "NotImplemented"
-                : "";
+            ViewBag.StatusMessage =
+            message == DonationMessageId.SuccessMessage ? "Thank you for placing the request for books. We will contact you on your email/phone. Check Status of your request on Request Status page"
+            : message == DonationMessageId.GiftBooksSuccess ? "Your request has been recieved, We will contact on on your given contact details. Please check your email."
+            : message == DonationMessageId.ErrorMessage ? "Error"
+            : message == DonationMessageId.NotImplemented ? "NotImplemented"
+            : "";
 
             return View();
         }
@@ -324,19 +326,19 @@ namespace Open_Library_Kashmir.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                    
-                    var wishlist = WishListInDB;
 
-                    if (wishlist != null) 
-                    {
-                         var BooksInWishlist = wishlist.Books.ToList();
-                         ViewBag.StatusMessage =
-                               wishlist?.Recipient?.RequestStatus == RequestStatus.Pending ? "Pending...Wait for us to contact you."
-                             : wishlist?.Recipient?.RequestStatus == RequestStatus.Approved ? "Approved...You will be informed about the order soon."
-                             : wishlist?.Recipient?.RequestStatus == RequestStatus.Rejected ? "Rejected...Kindly check with us to know why."
-                             : "";
-                         return View(BooksInWishlist);
-                    }
+                var wishlist = WishListInDB;
+
+                if (wishlist != null)
+                {
+                    var BooksInWishlist = wishlist.Books.ToList();
+                    ViewBag.StatusMessage =
+                          wishlist?.Recipient?.RequestStatus == RequestStatus.Pending ? "Pending...Wait for us to contact you."
+                        : wishlist?.Recipient?.RequestStatus == RequestStatus.Approved ? "Approved...You will be informed about the order soon."
+                        : wishlist?.Recipient?.RequestStatus == RequestStatus.Rejected ? "Rejected...Kindly check with us to know why."
+                        : "";
+                    return View(BooksInWishlist);
+                }
 
             }
 
@@ -386,9 +388,9 @@ namespace Open_Library_Kashmir.Controllers
                     user.Email = recipientViewModel.Email;
                     user.PhoneNumber = recipientViewModel.PhoneNumber;
                     user.Remarks = recipientViewModel.Remarks;
-                    user.AddressId = recipientViewModel.Address.AddressId;  
-                    
-                   _context.Addresses.AddOrUpdate(recipientViewModel.Address);
+                    user.AddressId = recipientViewModel.Address.AddressId;
+
+                    _context.Addresses.AddOrUpdate(recipientViewModel.Address);
                     _context.SaveChanges(); // Save changes to the database
 
                     // Save changes to the database...internally calls save changes
@@ -447,8 +449,85 @@ namespace Open_Library_Kashmir.Controllers
             return null; // Return null if no wishlist is associated with the user
         }
 
-        #region Helpers
-        public enum DonationMessageId
+        [HttpPost]
+        public ActionResult DeleteBook(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Book book = _context.Books.Find(id);
+                if (book == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
+
+                _context.Books.Remove(book);
+                _context.SaveChanges();
+                return Json(new { success = true });
+                //return View();
+            }
+            return View("Error");
+        }
+
+        public ActionResult EditBook(int id)
+        {
+            return View(_context.Books.Find(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBook(Book book)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    var supportedTypes = new[] { "jpg", "jpeg", "png" };
+                    var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
+
+                    if (!supportedTypes.Contains(fileExt.ToLower()))
+                    {
+                        ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG and PNG are allowed.");
+                    }
+                    else
+                    {
+                        var fileName = Guid.NewGuid().ToString() + "." + fileExt;
+                        var uploadPath = Server.MapPath("~/Content/Images/Books"); // Adjusted path
+                        Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
+                        var path = Path.Combine(uploadPath, fileName);
+
+                        try
+                        {
+                            book.ImageFile.SaveAs(path);
+                            book.ImageUrl = "/Content/Images/Books/" + fileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
+                        }
+                    }
+
+                } else
+                {
+                    book.ImageUrl = "/Content/Images/" + "book_cover_na.jpeg";
+                }
+
+                _context.Books.AddOrUpdate(book);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View("Error");
+        }
+
+
+    #region Helpers
+    public enum DonationMessageId
         {
             SuccessMessage,
             GiftBooksSuccess,
