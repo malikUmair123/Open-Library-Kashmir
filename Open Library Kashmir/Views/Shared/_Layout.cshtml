@@ -8,13 +8,13 @@
     <meta name="author" content="Open Library Kashmir">
     <meta name="robots" content="index, follow">
 
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
     <link rel="icon" type="image/x-icon" href="~/Content/Images/favicon.ico">
 
     @*style sheet for wishlist*@
     <link rel="stylesheet" href="~/Content/wishlist.css">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
     @*//include jquery from online for wishlist.js*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -23,9 +23,9 @@
     <script src="~/Scripts/wishlist.js"></script>
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+    
     <header>
-
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-light">
             <div class="container">
                 <a href="@Url.Action("Index", "Home")" class="navbar-brand">
@@ -48,13 +48,14 @@
             </div>
         </nav>
     </header>
-    <main>
+
+    <main class="flex-grow-1">
         <div class="container body-content">
             @RenderBody()
         </div>
     </main>
 
-    <footer class="text-center py-3 bg-light">
+    <footer class="text-center footer mt-auto py-3 bg-light">
         <p>&copy; @DateTime.Now.Year - OLK Foundation</p>
     </footer>
 
