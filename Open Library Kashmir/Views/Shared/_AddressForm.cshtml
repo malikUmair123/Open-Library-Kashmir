@@ -1,11 +1,12 @@
 ﻿    @model Open_Library_Kashmir.Models.RecipientViewModel
 
     <div class="form-group row mb-3">
-        @Html.LabelFor(model => model.Address.CountryCode, htmlAttributes: new { @class = "col-md-2 col-form-label" })
+        @Html.LabelFor(model => model.Address.Country, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Address.CountryCode, new SelectList(new List<string>(), Model.Address.CountryCode), "Select Country", new { @class = "form-control", id = "country-dropdown" })
-            @Html.ValidationMessageFor(model => model.Address.CountryCode, "", new { @class = "text-danger" })
-            <input type="hidden" id="countrydefault" value="@Model.Address.CountryCode" />
+            @Html.DropDownListFor(model => model.Address.Country, new SelectList(new List<string>(), Model.Address.Country), "Select Country", new { @class = "form-control", id = "country-dropdown" })
+            @Html.TextBoxFor(model => model.Address.CountryOther, new { id = "country-textbox", @class = "form-control", @style = "display:none;" })
+            @Html.ValidationMessageFor(model => model.Address.Country, "", new { @class = "text-danger" })
+            <input type="hidden" id="countrydefault" value="@Model.Address.Country" />
         </div>
     </div>
 
@@ -13,6 +14,7 @@
         @Html.LabelFor(model => model.Address.State, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.State, new SelectList(new List<string>(), Model.Address.State), "Select State/Province", new { @class = "form-control", id = "state-dropdown" })
+            @Html.TextBoxFor(model => model.Address.StateOther, new { id = "state-textbox", @class = "form-control", @style = "display:none;" })
             @Html.ValidationMessageFor(model => model.Address.State, "", new { @class = "text-danger" })
             <input type="hidden" id="statedefault" value="@Model.Address.State" />
         </div>
@@ -22,10 +24,9 @@
         @Html.LabelFor(model => model.Address.City, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.City, new SelectList(new List<string>(), Model.Address.City), new { @class = "form-control", id = "city-dropdown" })
+            @Html.TextBoxFor(model => model.Address.CityOther, new { id = "city-textbox", @class = "form-control", @style = "display:none;" })
             @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
             <input type="hidden" id="citydefault" value="@Model.Address.City" />
-            @*@Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })*@
-            @*<a href="#" id="other-city" class="btn btn-outline-secondary">Other</a>*@
         </div>
 
     </div>
@@ -35,6 +36,7 @@
         @Html.LabelFor(model => model.Address.AddressLine2, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.AddressLine2, new SelectList(new List<string>(), Model.Address.AddressLine2), "Select Tehsil/Block", new { @class = "form-control", id = "child-location-dropdown" })
+            @Html.TextBoxFor(model => model.Address.AddressLine2Other, new { id = "child-location-textbox", @class = "form-control", @style = "display:none;" })
             @Html.ValidationMessageFor(model => model.Address.AddressLine2, "", new { @class = "text-danger" })
             <input type="hidden" id="tehsildefault" value="@Model.Address.AddressLine2" />
 
@@ -45,6 +47,7 @@
         @Html.LabelFor(model => model.Address.AddressLine1, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.AddressLine1, new SelectList(new List<string>(), Model.Address.AddressLine1), "Select Village/Area", new { @class = "form-control", id = "subchild-location-dropdown" })
+            @Html.TextBoxFor(model => model.Address.AddressLine1Other, new { id = "subchild-location-textbox", @class = "form-control", @style = "display:none;" })
             @Html.ValidationMessageFor(model => model.Address.AddressLine1, "", new { @class = "text-danger" })
             <input type="hidden" id="villagedefault" value="@Model.Address.AddressLine1" />
         </div>
@@ -55,6 +58,7 @@
         @Html.LabelFor(model => model.Address.PostalCode, htmlAttributes: new { @class = "col-md-2 col-form-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.Address.PostalCode, new SelectList(new List<string>(), Model.Address.PostalCode), "Select Pin Code", new { @class = "form-control", id = "postal-code-dropdown" })
+            @Html.TextBoxFor(model => model.Address.PostalCodeOther, new { id = "postal-code-textbox", @class = "form-control", @style = "display:none;" })
             @Html.ValidationMessageFor(model => model.Address.PostalCode, "", new { @class = "text-danger" })
             <input type="hidden" id="pindefault" value="@Model.Address.PostalCode" />
         </div>
