@@ -16,9 +16,19 @@ namespace Open_Library_Kashmir.Models
         [StringLength(100)]
         public string AddressLine1 { get; set; }
 
+        [DisplayName("Address Line 1 Other")]
+        [StringLength(100)]
+        public string AddressLine1Other { get; set; }
+
+
         [DisplayName("Tehsil")]
         [StringLength(100)]
         public string AddressLine2 { get; set; }
+
+        [DisplayName("Tehsil Other")]
+        [StringLength(100)]
+        public string AddressLine2Other { get; set; }
+
 
         [StringLength(100)]
         public string Locality { get; set; }
@@ -27,15 +37,34 @@ namespace Open_Library_Kashmir.Models
         [StringLength(100)]
         public string City { get; set; }
 
+        [DisplayName("District Other")]
+        [StringLength(100)]
+        public string CityOther { get; set; }
+
+
         [StringLength(100)]
         public string State { get; set; }
 
+        [DisplayName("State Other")]
+        [StringLength(100)]
+        public string StateOther { get; set; }
+
+
         [DisplayName("Country")]
-        [StringLength(2)]
-        public string CountryCode { get; set; }
+        [StringLength(100)]
+        public string Country { get; set; }
+
+        [DisplayName("Country Other")]
+        [StringLength(100)]
+        public string CountryOther { get; set; }
+
 
         [DisplayName("Pin Code")]
         [StringLength(20)]
         public string PostalCode { get; set; }
+
+        [DisplayName("Pin Code Other")]
+        [StringLength(20)]
+        public string PostalCodeOther { get; set; }
     }
 }
