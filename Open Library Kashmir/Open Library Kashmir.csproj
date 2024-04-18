@@ -394,6 +394,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\olk - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\OpenLibraryKashmir - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\CountriesInfoAPI.js" />
