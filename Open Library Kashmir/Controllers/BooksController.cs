@@ -188,7 +188,7 @@ namespace Open_Library_Kashmir.Controllers
             {
                 if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
                 {
-                    var supportedTypes = new[] { "jpg", "jpeg", "png" };
+                    var supportedTypes = new[] { "jpg", "jpeg", "png", "webp" };
                     var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
 
                     if (!supportedTypes.Contains(fileExt.ToLower()))
