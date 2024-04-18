@@ -34,7 +34,7 @@ namespace Open_Library_Kashmir.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("AzureDbConnection", throwIfV1Schema: false)
         {
             //database initializer in the context class to MigrateDatabaseToLatestVersion automatically 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
