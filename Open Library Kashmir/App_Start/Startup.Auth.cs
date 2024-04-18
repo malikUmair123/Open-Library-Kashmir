@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Open_Library_Kashmir.Models;
+using System.Configuration;
 
 namespace Open_Library_Kashmir
 {
@@ -65,8 +66,8 @@ namespace Open_Library_Kashmir
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "1050014707727-1ut89l2kqdu73sdf3gi4vhjvuupqiq3u.apps.googleusercontent.com",
-                ClientSecret = "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"
+                ClientId = ConfigurationManager.AppSettings["GoogleAuthenticationClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleAuthenticationClientSecret"]
             });
         }
     }
