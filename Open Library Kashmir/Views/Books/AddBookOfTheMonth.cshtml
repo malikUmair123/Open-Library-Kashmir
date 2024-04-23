@@ -6,7 +6,7 @@
 
 
 <main aria-labelledby="title">
-    <h4 id="title">Add Book for coming month (@DateTime.Today.AddMonths(1).ToString("MMMM"))</h4>
+    <h4 id="title">Book of the month</h4>
     <hr>
     @using (Html.BeginForm("AddBookOfTheMonth", "Books", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
     {
@@ -57,9 +57,17 @@
         </div>
 
         <div class="form-group row mb-3">
-            <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Add Book" class="btn btn-dark" />
+            @{
+                var returnUrl = Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home");
+            }
+            <div class="offset-md-2 col-md-auto">
+                <a href="@returnUrl" class="btn btn-outline-dark">&laquo; Cancel</a>
             </div>
+
+            <div class="col-md-auto">
+                <input type="submit" value="Add Book »" class="btn btn-dark" />
+            </div>
+
         </div>
     }
 
