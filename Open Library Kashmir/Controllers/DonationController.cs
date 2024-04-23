@@ -192,7 +192,7 @@ namespace Open_Library_Kashmir.Controllers
                     user.Address = _context.Addresses.Create();
                 }
 
-                _mapper = Helpers.Helpers.GetMapper();
+                _mapper = AutoMapperConfig.Initialize();
 
                 if (user != null)
                 {
@@ -360,7 +360,7 @@ namespace Open_Library_Kashmir.Controllers
                 }
 
                 // Create a new IMapper instance from the MapperConfiguration
-                _mapper = Helpers.Helpers.GetMapper();
+                _mapper = AutoMapperConfig.Initialize();
 
                 if (user != null)
                 {
@@ -512,7 +512,8 @@ namespace Open_Library_Kashmir.Controllers
                         }
                     }
 
-                } else
+                }
+                else
                 {
                     book.ImageUrl = "/Content/Images/" + "book_cover_na.jpeg";
                 }
@@ -526,8 +527,8 @@ namespace Open_Library_Kashmir.Controllers
         }
 
 
-    #region Helpers
-    public enum DonationMessageId
+        #region Helpers
+        public enum DonationMessageId
         {
             SuccessMessage,
             GiftBooksSuccess,
