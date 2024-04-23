@@ -31,7 +31,7 @@
             <h2 class="text-center text-bg-light py-3" style="border-radius: 7.5px" id="DonateTitle">Book Of The Month</h2>
             <div class="row mt-3 align-items-center">
                 <div class="col-md-3">
-                    <img src="@Model.ImageUrl" alt="Image Not Available" style="max-width: 200px; margin: 0 auto; display: block;" class="img-fluid">
+                    <img src="@Model.ImageUrl" alt="Image Not Available" style="max-width: 200px; margin: 0 auto; display: block;" class="img-fluid" loading="lazy">
                 </div>
                 <div class="col-md-9 mt-3">
                     <h2>@Model.Title <small class="text-muted">by @Model.Author</small></h2>
@@ -39,8 +39,8 @@
                         @Model.ShortDescription
                     </p>
                     @*<p class="text-muted mt-2">
-                        &copy; goodreads
-                    </p>*@
+                            &copy; goodreads
+                        </p>*@
                 </div>
             </div>
         </section>
