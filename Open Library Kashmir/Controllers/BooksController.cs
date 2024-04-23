@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,6 +17,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace Open_Library_Kashmir.Controllers
 {
@@ -74,6 +77,92 @@ namespace Open_Library_Kashmir.Controllers
             return RedirectToAction("Index", "Donation");
         }
 
+        [Route("Books/AddBooks")]
+        public ActionResult AddBooks()
+        {
+            return View();
+        }
+
+        // POST: Books/AddBooks
+        [HttpPost]
+        [Route("Books/AddBooks")]
+        public ActionResult AddBooks(Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    if (OptimiseAndSaveImage(book))
+                    {
+                        // Add the book to the database
+                        _context.Books.Add(book);
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult GetBooksOfTheMonth()
+        {
+            return View(_context.BookOfTheMonths.ToList());
+        }
+        public ActionResult AddBookOfTheMonth()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddBookOfTheMonth(BookOfTheMonth book)
+        {
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    if (OptimiseAndSaveImage(book))
+                    {
+                        // Add the book to the database
+                        _context.BookOfTheMonths.Add(book);
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult EditBookOfTheMonth(int id)
+        {
+            return View(_context.BookOfTheMonths.FirstOrDefault(book => book.BookId == id));
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBookOfTheMonth(BookOfTheMonth book)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                {
+                    if (OptimiseAndSaveImage(book))
+                    {
+                        _context.BookOfTheMonths.AddOrUpdate(book);
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+            return View("Error");
+        }
+
+        #region Helpers
+
         [NonAction]
         private Book CreateBookFromCsvLine(string[] values)
         {
@@ -101,126 +190,179 @@ namespace Open_Library_Kashmir.Controllers
             return book;
         }
 
-        [Route("Books/AddBooks")]
-        public ActionResult AddBooks()
+        public bool OptimiseAndSaveImage(BookOfTheMonth book)
         {
-            return View();
-        }
+            var supportedTypes = new[] { "jpg", "jpeg", "png", "webp" };
+            var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
 
-        // POST: Books/AddBooks
-        [HttpPost]
-        [Route("Books/AddBooks")]
-        public ActionResult AddBooks(Book book)
-        {
-            if (ModelState.IsValid)
+            if (!supportedTypes.Contains(fileExt.ToLower()))
             {
-                // Add the book to the database
-                _context.Books.Add(book);
-                _context.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG, PNG and WebP images are allowed.");
             }
-
-            // Handle invalid model state
-            return View("Error");
-        }
-
-        public ActionResult GetBooksOfTheMonth()
-        {
-            return View(_context.BookOfTheMonths.ToList());
-        }
-        public ActionResult AddBookOfTheMonth()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddBookOfTheMonth(BookOfTheMonth book)
-        {
-            if (ModelState.IsValid)
+            else
             {
-                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                var fileName = Guid.NewGuid().ToString() + "." + fileExt;
+                var uploadPath = Server.MapPath("~/" + ConfigurationManager.AppSettings["BooksOfTheMonthPath"]); // Adjusted path
+                Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
+                var fullPath = Path.Combine(uploadPath, fileName);
+
+                try
                 {
-                    var supportedTypes = new[] { "jpg", "jpeg", "png" };
-                    var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
-
-                    if (!supportedTypes.Contains(fileExt.ToLower()))
+                    // Resize and compress the image before saving
+                    using (var image = Image.FromStream(book.ImageFile.InputStream))
                     {
-                        ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG and PNG are allowed.");
-                    }
-                    else
-                    {
-                        var fileName = Guid.NewGuid().ToString() + "." + fileExt;
-                        var uploadPath = Server.MapPath("~/Content/Images/BookOfTheMonth"); // Adjusted path
-                        Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
-                        var path = Path.Combine(uploadPath, fileName);
+                        // Define the maximum dimensions for the resized image
+                        int maxWidth = 500;
+                        int maxHeight = 750;
 
-                        try
+                        // Calculate the new dimensions while maintaining aspect ratio
+                        int newWidth, newHeight;
+                        if (image.Width > image.Height)
                         {
-                            book.ImageFile.SaveAs(path);
-                            book.ImageUrl = "/Content/Images/BookOfTheMonth/" + fileName;
+                            newWidth = maxWidth;
+                            newHeight = (int)(((float)image.Height / image.Width) * maxWidth);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
+                            newWidth = (int)(((float)image.Width / image.Height) * maxHeight);
+                            newHeight = maxHeight;
                         }
+
+                        // Create a new bitmap with the new dimensions
+                        using (var resizedImage = new Bitmap(newWidth, newHeight))
+                        using (var graphics = Graphics.FromImage(resizedImage))
+                        {
+                            // Draw the original image onto the new bitmap with the new dimensions
+                            graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+
+                            if (fileExt.ToLower() == "webp")
+                            {
+                                resizedImage.Save(fullPath);
+                            }
+                            else
+                            {
+                                ImageCodecInfo webpEncoder = GetWebPEncoder();
+
+                                if (webpEncoder != null)
+                                {
+                                    // Apply WebP encoding
+                                    EncoderParameters webpEncoderParams = new EncoderParameters();
+                                    webpEncoderParams.Param[0] = new EncoderParameter(Encoder.Quality, 75L); // Adjust quality as needed
+                                    resizedImage.Save(fullPath, webpEncoder, webpEncoderParams);
+                                }
+                                else
+                                {
+                                    // Apply progressive JPEG encoding
+                                    var jpegEncoder = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                                    var jpegEncoderParams = new EncoderParameters();
+                                    jpegEncoderParams.Param[0] = new EncoderParameter(Encoder.ScanMethod, (int)EncoderValue.ScanMethodInterlaced);
+                                    resizedImage.Save(fullPath, jpegEncoder, jpegEncoderParams);
+                                }
+                            }
+                        }
+
                     }
-                    // Add the book to the database
-                    _context.BookOfTheMonths.Add(book);
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    book.ImageUrl = "/" + ConfigurationManager.AppSettings["BooksOfTheMonthPath"] + "/" + fileName;
+                    return true;
                 }
-            }
-            return View("Error");
-        }
-
-        public ActionResult EditBookOfTheMonth(int id)
-        {
-           return View(_context.BookOfTheMonths.FirstOrDefault(book => book.BookId == id));
-        }
-
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditBookOfTheMonth(BookOfTheMonth book)
-        {
-
-            if (ModelState.IsValid)
-            {
-                if (book.ImageFile != null && book.ImageFile.ContentLength > 0)
+                catch (Exception)
                 {
-                    var supportedTypes = new[] { "jpg", "jpeg", "png", "webp" };
-                    var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
-
-                    if (!supportedTypes.Contains(fileExt.ToLower()))
-                    {
-                        ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG and PNG are allowed.");
-                    }
-                    else
-                    {
-                        var fileName = Guid.NewGuid().ToString() + "." + fileExt;
-                        var uploadPath = Server.MapPath("~/Content/Images/BooksOfTheMonth"); // Adjusted path
-                        Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
-                        var path = Path.Combine(uploadPath, fileName);
-
-                        try
-                        {
-                            book.ImageFile.SaveAs(path);
-                            book.ImageUrl = "/Content/Images/BooksOfTheMonth/" + fileName;
-                        }
-                        catch (Exception ex)
-                        {
-                            ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
-                        }
-                    }
-
-                    _context.BookOfTheMonths.AddOrUpdate(book);
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
                 }
             }
 
-            return View("Error");
+            return false;
+
         }
+
+        public bool OptimiseAndSaveImage(Book book)
+        {
+            var supportedTypes = new[] { "jpg", "jpeg", "png", "webp" };
+            var fileExt = Path.GetExtension(book.ImageFile.FileName).Substring(1);
+
+            if (!supportedTypes.Contains(fileExt.ToLower()))
+            {
+                ModelState.AddModelError("ImageFile", "Invalid file type. Only JPG, PNG and WebP images are allowed.");
+            }
+            else
+            {
+                var fileName = Guid.NewGuid().ToString() + "." + fileExt;
+                var uploadPath = Server.MapPath(ConfigurationManager.AppSettings["BooksPath"]); // Adjusted path
+                Directory.CreateDirectory(uploadPath); // Create directory if it doesn't exist
+                var path = Path.Combine(uploadPath, fileName);
+
+                try
+                {
+                    // Resize and compress the image before saving
+                    using (var image = Image.FromStream(book.ImageFile.InputStream))
+                    {
+                        // Define the maximum dimensions for the resized image
+                        int maxWidth = 500;
+                        int maxHeight = 750;
+
+                        // Calculate the new dimensions while maintaining aspect ratio
+                        int newWidth, newHeight;
+                        if (image.Width > image.Height)
+                        {
+                            newWidth = maxWidth;
+                            newHeight = (int)(((float)image.Height / image.Width) * maxWidth);
+                        }
+                        else
+                        {
+                            newWidth = (int)(((float)image.Width / image.Height) * maxHeight);
+                            newHeight = maxHeight;
+                        }
+
+                        // Create a new bitmap with the new dimensions
+                        using (var resizedImage = new Bitmap(newWidth, newHeight))
+                        using (var graphics = Graphics.FromImage(resizedImage))
+                        {
+                            // Draw the original image onto the new bitmap with the new dimensions
+                            graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+
+
+                            ImageCodecInfo webpEncoder = GetWebPEncoder();
+                            if (webpEncoder != null)
+                            {
+                                // Apply WebP encoding
+                                EncoderParameters webpEncoderParams = new EncoderParameters();
+                                webpEncoderParams.Param[0] = new EncoderParameter(Encoder.Quality, 75L); // Adjust quality as needed
+                                image.Save(path, webpEncoder, webpEncoderParams);
+                            }
+                            else
+                            {
+                                // Apply progressive JPEG encoding
+                                var jpegEncoder = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                                var jpegEncoderParams = new EncoderParameters();
+                                jpegEncoderParams.Param[0] = new EncoderParameter(Encoder.ScanMethod, (int)EncoderValue.ScanMethodInterlaced);
+                                resizedImage.Save(path, jpegEncoder, jpegEncoderParams);
+                            }
+                        }
+
+                    }
+
+                    book.ImageUrl = ConfigurationManager.AppSettings["BooksUrl"] + fileName;
+                    return true;
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("ImageFile", "Error saving file. Try again.");
+                }
+            }
+
+            return false;
+
+        }
+
+
+        private ImageCodecInfo GetWebPEncoder()
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            return codecs.FirstOrDefault(codec => codec.FormatDescription.Equals("WebP", StringComparison.OrdinalIgnoreCase));
+        }
+
+        #endregion
 
     }
 }
