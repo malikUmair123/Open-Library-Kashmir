@@ -12,9 +12,9 @@ namespace Open_Library_Kashmir.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public HomeController()
+        public HomeController(ApplicationDbContext context)
         {
-            _context = new ApplicationDbContext();
+            _context = context ?? new ApplicationDbContext();
         }
 
         [OutputCache(CacheProfile = "1MinuteCache", Location = System.Web.UI.OutputCacheLocation.Client)]

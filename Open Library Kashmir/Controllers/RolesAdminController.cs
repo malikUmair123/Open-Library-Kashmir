@@ -21,6 +21,13 @@ namespace Open_Library_Kashmir.Controllers
     {
         private ApplicationRoleManager _roleManager;
         private ApplicationUserManager _userManager;
+
+        public RolesAdminController (ApplicationUserManager userManager, ApplicationRoleManager RoleManager)
+        {
+            _userManager = userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _roleManager = RoleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+
+        }
         public ApplicationRoleManager RoleManager
         {
             get
@@ -43,22 +50,6 @@ namespace Open_Library_Kashmir.Controllers
             {
                 _userManager = value;
             }
-        }
-
-        //No need of this, use DI method through following parametrised contructor
-        private readonly ApplicationDbContext _context;
-
-        public RolesAdminController()
-        {
-            _context = new ApplicationDbContext();
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
-            RoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(_context));
-        }
-
-        public RolesAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
-        {
-            UserManager = userManager;
-            RoleManager = roleManager;
         }
 
         // GET: /Roles/

@@ -27,23 +27,17 @@ namespace Open_Library_Kashmir.Controllers
 {
     [RequireHttps]
     [LogCustomExceptionFilter]
-    //HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReference")]
     public class DonationController : Controller
     {
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         private IMapper _mapper;
         private Wishlist _wishlistInDB;
-
-        public DonationController()
-        {
-            _context = new ApplicationDbContext();
-        }
         public DonationController(IMapper mapper, ApplicationDbContext context, ApplicationUserManager userManager)
         {
-            _mapper = mapper;
+            _mapper = mapper ?? AutoMapperConfig.Initialize();
             _context = context ?? new ApplicationDbContext();
-            _userManager = userManager;
+            _userManager = userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 
         public ApplicationUserManager UserManager
@@ -191,8 +185,6 @@ namespace Open_Library_Kashmir.Controllers
                 {
                     user.Address = _context.Addresses.Create();
                 }
-
-                _mapper = AutoMapperConfig.Initialize();
 
                 if (user != null)
                 {
@@ -359,9 +351,7 @@ namespace Open_Library_Kashmir.Controllers
                     user.Address = _context.Addresses.Create();
                 }
 
-                // Create a new IMapper instance from the MapperConfiguration
-                _mapper = AutoMapperConfig.Initialize();
-
+                
                 if (user != null)
                 {
                     RecipientViewModel recipientViewModel = _mapper.Map<ApplicationUser, RecipientViewModel>(user);

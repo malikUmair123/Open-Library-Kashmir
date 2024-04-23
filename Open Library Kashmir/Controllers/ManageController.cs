@@ -17,15 +17,10 @@ namespace Open_Library_Kashmir.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        public ManageController()
-        {
-        }
-
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _userManager = userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _signInManager = signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); ;
         }
 
         public ApplicationSignInManager SignInManager
@@ -324,16 +319,16 @@ namespace Open_Library_Kashmir.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _userManager != null)
-            {
-                _userManager.Dispose();
-                _userManager = null;
-            }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing && _userManager != null)
+        //    {
+        //        _userManager.Dispose();
+        //        _userManager = null;
+        //    }
 
-            base.Dispose(disposing);
-        }
+        //    base.Dispose(disposing);
+        //}
 
         //
         // GET: /Logged In User

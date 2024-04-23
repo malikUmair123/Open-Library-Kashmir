@@ -20,17 +20,11 @@ namespace Open_Library_Kashmir.Controllers
         private ApplicationUserManager _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AccountController()
-        {
-            _context = new ApplicationDbContext();
-        }
-
-        //[InjectionConstructor]
         public AccountController(ApplicationDbContext context, ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             _context = context ?? new ApplicationDbContext();
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _userManager = userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _signInManager = signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); ;
         }
 
         public ApplicationSignInManager SignInManager
@@ -534,25 +528,25 @@ namespace Open_Library_Kashmir.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        if (_userManager != null)
+        //        {
+        //            _userManager.Dispose();
+        //            _userManager = null;
+        //        }
 
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
+        //        if (_signInManager != null)
+        //        {
+        //            _signInManager.Dispose();
+        //            _signInManager = null;
+        //        }
+        //    }
 
-            base.Dispose(disposing);
-        }
+        //    base.Dispose(disposing);
+        //}
 
         #region Helpers
         // Used for XSRF protection when adding external logins

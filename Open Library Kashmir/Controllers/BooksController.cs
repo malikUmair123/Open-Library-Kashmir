@@ -29,9 +29,9 @@ namespace Open_Library_Kashmir.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public BooksController()
+        public BooksController(ApplicationDbContext context)
         {
-            _context = new ApplicationDbContext();
+            _context = context ?? new ApplicationDbContext();
         }
 
         public ActionResult Index()

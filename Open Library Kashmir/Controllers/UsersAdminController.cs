@@ -17,9 +17,19 @@ namespace Open_Library_Kashmir.Controllers
     [LogCustomExceptionFilter]
     public class UsersAdminController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private ApplicationRoleManager _roleManager;
         private ApplicationUserManager _userManager;
         //private ApplicationSignInManager _signInManager;
+
+        public UsersAdminController(ApplicationDbContext context,ApplicationUserManager userManager, ApplicationRoleManager RoleManager)
+        {
+            _context = context ?? new ApplicationDbContext();
+            _userManager = userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _roleManager = RoleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            //_signInManager = SignInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+        }
         public ApplicationRoleManager RoleManager
         {
             get
@@ -55,25 +65,6 @@ namespace Open_Library_Kashmir.Controllers
         //        _signInManager = value;
         //    }
         //}
-
-        //No need of this, use DI method through following parametrised contructor
-        private readonly ApplicationDbContext _context;
-
-        public UsersAdminController()
-        {
-            _context = new ApplicationDbContext();
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
-            RoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(_context));
-            //SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-
-
-        }
-
-        public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
-        {
-            UserManager = userManager;
-            RoleManager = roleManager;
-        }
 
         //
         // GET: /Users/

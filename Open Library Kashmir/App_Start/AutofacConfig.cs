@@ -1,40 +1,62 @@
 ﻿//using Autofac.Integration.Mvc;
 //using Autofac;
 using Open_Library_Kashmir.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Autofac.Integration.Mvc;
+using Autofac;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using System.Web;
+using Microsoft.Owin.Security.DataProtection;
+using Owin;
 
 namespace Open_Library_Kashmir.App_Start
 {
     public class AutofacConfig
     {
-        public static void RegisterDependencies()
+        public static IContainer RegisterDependencies(IAppBuilder app)
         {
-            //var builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
 
-            //// Register controllers
-            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            // Register your MVC controllers. (MvcApplication is the name of the class in Global.asax.)
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            //// Register other dependencies
-            //builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
+            //// OPTIONAL: Register model binders that require DI.
+            //builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
+            //builder.RegisterModelBinderProvider();
 
-            //// Register UserManager and SignInManager
-            //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
-            //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
-            //builder.RegisterType<ApplicationRoleManager>().AsSelf().InstancePerRequest();
+            //// OPTIONAL: Register web abstractions like HttpContextBase.
+            //builder.RegisterModule<AutofacWebTypesModule>();
 
-            //// Register AutoMapper
-            //builder.Register(ctx => AutoMapperConfig.Initialize()).As<IMapper>().SingleInstance();
+            //// OPTIONAL: Enable property injection in view pages.
+            //builder.RegisterSource(new ViewRegistrationSource());
 
-            //// Build container
-            //var container = builder.Build();
+            //// OPTIONAL: Enable property injection into action filters.
+            //builder.RegisterFilterProvider();
 
-            //// Set dependency resolver
-            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //// OPTIONAL: Enable action method parameter injection (RARE).
+            ////builder.InjectActionInvoker();
+
+            // Register other dependencies
+            // REGISTER DEPENDENCIES
+            builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<RoleStore<IdentityRole>>().As<IRoleStore<IdentityRole, string>>().InstancePerRequest();
+            builder.RegisterType<ApplicationRoleManager>().AsSelf().InstancePerRequest();
+            builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
+            builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerRequest();
+
+            // Register AutoMapper
+            builder.Register(ctx => AutoMapperConfig.Initialize()).As<IMapper>().SingleInstance();
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            return container;
         }
     
     }
