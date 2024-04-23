@@ -9,8 +9,8 @@ public static class AutoMapperConfig
         var config = new MapperConfiguration(cfg =>
         {
             // Configure mappings here
-            cfg.CreateMap<RecipientViewModel, ApplicationUser>();
-            cfg.CreateMap<ApplicationUser, RecipientViewModel>();
+            cfg.CreateMap<RecipientViewModel, ApplicationUser>()
+                  .ReverseMap(); //Making the Mapping Bi-Directional
 
         });
 
@@ -20,7 +20,7 @@ public static class AutoMapperConfig
     //Use like follows
 
     //ApplicationUser user = mapper.Map<RecipientViewModel, ApplicationUser>(recipientViewModel)
-    
+
     //map properties
     //var config = new MapperConfiguration(cfg =>
     //{

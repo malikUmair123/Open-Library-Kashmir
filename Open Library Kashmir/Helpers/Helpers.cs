@@ -74,7 +74,8 @@ namespace Open_Library_Kashmir.Helpers
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ApplicationUser, RecipientViewModel>();
+                cfg.CreateMap<ApplicationUser, RecipientViewModel>()
+                .ReverseMap(); //Making the Mapping Bi-Directional
             });
 
             return config.CreateMapper();
