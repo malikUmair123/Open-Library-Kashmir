@@ -40,7 +40,6 @@ namespace Open_Library_Kashmir.App_Start
             ////builder.InjectActionInvoker();
 
             // Register other dependencies
-            // REGISTER DEPENDENCIES
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
             builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();

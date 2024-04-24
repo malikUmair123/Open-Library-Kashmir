@@ -9,74 +9,79 @@ using System.Web.Mvc;
 
 namespace Open_Library_Kashmir.Models
 {
-    public class LogCustomExceptionFilter : FilterAttribute, IExceptionFilter
+    public interface ILog
     {
-        public void OnException(ExceptionContext filterContext)
+        void LogException(ExceptionContext filterContext);
+    }
+
+    public sealed class Log : ILog
+    {
+        //Private Constructor to Restrict Class Instantiation from outside the Log class
+        private Log()
         {
-            if (!filterContext.ExceptionHandled)
+        }
+        //Creating Log Instance using Eager Loading
+        private static readonly Log LogInstance = new Log();
+        //Returning the Singleton LogInstance
+        //This Method is Thread Safe as it uses Eager Loading
+        public static Log GetInstance()
+        {
+            return LogInstance;
+        }
+        //This Method Log the Exception Details in a Log File
+        public void LogException(ExceptionContext filterContext)
+        {
+            if (filterContext.Exception is ValidationException validationException)
             {
-                if (filterContext.Exception is ValidationException validationException)
+                // Define the path to your log file
+                string logFilePath = HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt");
+
+                try
                 {
-                    // Define the path to your log file
-                    string logFilePath = HttpContext.Current.Server.MapPath("~/Log/LogExceptions.txt");
-
-                    try
+                    // Check if the file exists
+                    if (!File.Exists(logFilePath))
                     {
-                        // Check if the file exists
-                        if (!File.Exists(logFilePath))
+                        // If the file doesn't exist, create it
+                        using (FileStream fs = File.Create(logFilePath))
                         {
-                            // If the file doesn't exist, create it
-                            using (FileStream fs = File.Create(logFilePath))
-                            {
-                                // File created, close the stream
-                                fs.Close();
-                            }
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any exceptions that occur while writing to the log file
-                        Console.WriteLine($"Error creating log file: {ex.Message}");
-                    }
-
-                    filterContext.ExceptionHandled = true;
-                    filterContext.Result = new ViewResult()
-                    {
-                        ViewName = "Error"
-                    };
-
-                    // Log validation errors
-                    foreach (var modelStateEntry in filterContext.Controller.ViewData.ModelState.Values)
-                    {
-
-                        foreach (var error in modelStateEntry.Errors)
-                        {
-                            // Capture the error message
-                            var errorMessage = error.ErrorMessage;
-
-                            //// Log the validation error message
-                            //LogErrorMessage(errorMessage);
-                            try
-                            {
-                                //Append text to the log file
-                                File.AppendAllText(logFilePath, errorMessage);
-                            }
-                            catch
-                            {
-                               // e any exceptions that occur while writing to the log file
-                                 Console.WriteLine($"Error writing to log file: {errorMessage}");
-                            }
+                            // File created, close the stream
+                            fs.Close();
                         }
                     }
 
-                    filterContext.ExceptionHandled = true;
-                    filterContext.Result = new ViewResult()
-                    {
-                        ViewName = "Error"
-                    };
                 }
-                else {
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that occur while writing to the log file
+                    Console.WriteLine($"Error creating log file: {ex.Message}");
+                }
+
+                // Log validation errors
+                foreach (var modelStateEntry in filterContext.Controller.ViewData.ModelState.Values)
+                {
+
+                    foreach (var error in modelStateEntry.Errors)
+                    {
+                        // Capture the error message
+                        var errorMessage = error.ErrorMessage;
+
+                        //// Log the validation error message
+                        //LogErrorMessage(errorMessage);
+                        try
+                        {
+                            //Append text to the log file
+                            File.AppendAllText(logFilePath, errorMessage);
+                        }
+                        catch
+                        {
+                            // e any exceptions that occur while writing to the log file
+                            Console.WriteLine($"Error writing to log file: {errorMessage}");
+                        }
+                    }
+                }
+            }
+            else
+            {
                 var exceptionMessage = filterContext.Exception.Message;
                 var stackTrace = filterContext.Exception.StackTrace;
                 var controllerName = filterContext.RouteData.Values["controller"].ToString();
@@ -112,13 +117,24 @@ namespace Open_Library_Kashmir.Models
                     // Handle any exceptions that occur while writing to the log file
                     Console.WriteLine($"Error writing to log file: {ex.Message}");
                 }
+            }
 
-                filterContext.ExceptionHandled = true;
+        }
+    }
+    public class LogCustomExceptionFilter : FilterAttribute, IExceptionFilter
+    {
+        public void OnException(ExceptionContext filterContext)
+        {
+            if (!filterContext.ExceptionHandled)
+            {
+                ILog _ILog = Log.GetInstance();
+                _ILog.LogException(filterContext);
+
+               filterContext.ExceptionHandled = true;
                 filterContext.Result = new ViewResult()
                 {
                     ViewName = "Error"
                 };
-            }
             }
         }
     }
